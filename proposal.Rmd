@@ -61,4 +61,4 @@ Data preparation largely follows the Mini-Challenge questions posed:
 2.	**Limited Research On How Errors In Attributes And Locations Influence Both Spatio-Temporal Assessment And Pattern Analysis:** The data extracted from the challenge has its own anomalies and its errors may skew its insights.   (https://www-sciencedirect-com.libproxy.smu.edu.sg/science/article/pii/S1877584510000407)
 
 ## Future Scope  
-ABC  
+1. Test push 
