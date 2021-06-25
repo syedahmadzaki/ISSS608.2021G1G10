@@ -1,0 +1,12 @@
+name: "ISSS608.2021G1G10"
+title: "ISSS608 2021 G1 G10 Project"
+description: |
+  ISSS608 2021 G1 G10 Project
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article

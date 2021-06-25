@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-06-25T23:26:02+08:00"
+    },
+    {
+      "path": "index.html",
+      "title": "ISSS608 2021 G1 G10 Project",
+      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-06-25T23:26:04+08:00"
+    }
+  ],
+  "collections": []
+}
