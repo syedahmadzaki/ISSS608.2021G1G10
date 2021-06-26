@@ -1,7 +1,7 @@
 ---
 title: "Proposal"
 description: |
-  Our project proposal showcases our scope, approach and methodology in tackling Mini-Challenge 2 of VAST Challenge 2021.
+  Our project proposal showcases our scope, approach and methodology in tackling Mini-Challenge 2 of VAST Challenge 2021
 author:
   - name: Kelly Koh Kia Woon
     url: google.com
@@ -38,7 +38,7 @@ Our project is based on Mini-Challenge 2 within VAST Challenge 2021, where it sp
 ### Overview on Previous Works
 ABC
 
-### What R Packages will be used?
+### What R Packages Will Be Used?
 **Shiny:** The use of Shiny allows for greater interaction between the user and the dataset.  
 **tmap** Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized.   
 **ggplot2:** Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for heatmap, timeseries and network graph visualisations.  
@@ -72,8 +72,9 @@ c. **Identifying Movements Through Merging GPS and Transactional Dataset:** Firs
 2.	**POI Locations Are Referenced Only From Map Image, And Not Through Exact Coordinates:** GPS movements through POI locations are visually approximated, after mapping the four corners of the map image onto a coordinate system. No availability of accurate POI coordinates.  
 
 ## Limitations  
-1.	**Data Limited To Two Weeks Prior To Incident:** Having the data on the day of the incident would be crucial in uncovering greater insights into what actually happened.  
-2.	**Limited Research On How Errors In Attributes And Locations Influence Both Spatio-Temporal Assessment And Pattern Analysis:** The data extracted from the challenge has its own anomalies and its errors may skew its insights.   (https://www-sciencedirect-com.libproxy.smu.edu.sg/science/article/pii/S1877584510000407)
+1.	**Data Limited To Two Weeks Prior To Incident:** Apart from having data two weeks prior to the incident, obtaining data on the day of the incident would be equally, if not more, crucial in uncovering greater insights into what actually happened.  
+2.	**[Limited Research](https://www-sciencedirect-com.libproxy.smu.edu.sg/science/article/pii/S1877584510000407) On How Errors In Attributes And Locations Influence Both Spatio-Temporal Assessment And Pattern Analysis:** The data extracted from the challenge has its own anomalies and its errors may skew its insights.   
+3.  **Additional POIs Gleamed From GPS Data Missing From Map:** There are unknown POIs, derived from pauses in GPS data, that differ from the map. Though some POIs can be assumed as their residential points, other POIs would remain a mystery as to its actual nature.  
 
 ## Future Scope  
-1. Test push 
+1. **Use Of Spatio-Temporal Statistics In Identifying Travel Patterns:** Using existing GPS data, we can work a model of how possible a person is likely to be at a particular place at a point in time, given their job position and time of day
