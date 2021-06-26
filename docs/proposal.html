@@ -2260,7 +2260,7 @@ Show code
 <p>Data preparation largely follows the Mini-Challenge questions posed:</p>
 <h3 id="data-cleaning">1. Data Cleaning</h3>
 <ol type="a">
-<li>Check that dates are recognized correctly by R<br />
+<li>Check that dates and time are recognized correctly by R<br />
 </li>
 <li>Check that location names are not mis-spelt that create duplicates redundancies<br />
 </li>
@@ -2268,9 +2268,9 @@ Show code
 </ol>
 <h3 id="merging-data">2. Merging Data</h3>
 <ol type="a">
-<li><strong>Merging Credit Card And Loyalty Data To Form Transactional Dataset:</strong> Transactional dataset formed by merging both the credit card and loyalty data by timestamp, location and amounts spent. To accommodate for possible errors in data inputs, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.</li>
-<li><strong>Location of Owner Using GPS dataset:</strong> Merge GPS dataset with car assignments dataset by ID. This will give an indication of the employees’s location by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects.</li>
-<li><strong>Identifying Movements Through Merging GPS and Transactional Dataset:</strong> First, we’ll identify time pauses within the GPS data. Then we’ll perform a visual inspection of these pauses in time and their respective locations vis-a-vis the map. From there, we can then match it against the transactional dataset to identify the car assignments.</li>
+<li><strong>Merging Credit Card And Loyalty Data To Form Transactional Dataset:</strong> Transactional dataset formed by joining both the credit card and loyalty data on date, location and amounts spent. To accommodate for possible errors in data inputs and difference in spend (e.g. due to mismatch due to cashbacks), we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.</li>
+<li><strong>Location of Owner Using GPS dataset:</strong> Merge GPS dataset with car assignments dataset by ID. This will give an indication of the employees’ locations by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects.</li>
+<li><strong>Identifying Movements By Merging GPS and Transactional Dataset:</strong> First, we will identify time pauses within the GPS data to discover where the employees were spending their time at. Then we can perform a visual inspection of these pauses in and their respective locations vis-a-vis the map. In addition, we can match the coordinates during the gps pauses against the location names in the transactional dataset to match the location on the map. This will help to connect the credit card and loyalty card owners to cars assignments.</li>
 </ol>
 <h2 id="user-takeaways">User Takeaways</h2>
 <ol type="1">
@@ -2282,7 +2282,7 @@ Show code
 <ol type="1">
 <li><strong>Two Weeks Of Data Prior To The Disappearance Contains Valuable Clues:</strong> The challenge only provides these two weeks worth of data and alludes that this dataset showcases suspicious behaviour that are related to the eventual disappearance. It is also possible to suggest that suspicious activities may have occurred outside of these two weeks.<br />
 </li>
-<li><strong>POI Locations Are Referenced Only From Map Image, And Not Through Exact Coordinates:</strong> GPS movements through POI locations are visually approximated, after mapping the four corners of the map image onto a coordinate system. No availability of accurate POI coordinates.</li>
+<li><strong>POI Locations Are Referenced Only From Map Image and Coordinates of Places with Spending:</strong> GPS movements through POI locations are visually approximated, after mapping the four corners of the map image onto a coordinate system. No availability of accurate POI coordinates.</li>
 </ol>
 <h2 id="limitations">Limitations</h2>
 <ol type="1">
