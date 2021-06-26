@@ -55,8 +55,16 @@ Data preparation largely follows the Mini-Challenge questions posed:
 a. Check that location names are not mis-spelt that create duplicates redundancies
 b. For car-assignments data, replace car id blanks with 0 to indicate no car id. 
 
-2. Merging both the credit card and loyalty data to form total transactional data.  
-2.	This transactional data would then be merged with the GPS data.  
+2. Merging data
+a. Transactional dataset formed by merging both the credit card and loyalty data by timestap.
+This would give an indication of the loyalty number - credit card number relationship.
+
+b. Timeseries by transcational dataset formed by merging transactional data with GPS data.
+This would give an indication of the location by credit card number.
+
+c. Car Assignments by GPS data will connect the dots of the employee to location to credit card number. (not sure how?)
+
+
 
 ## User Takeaways  
 1.	**Allowing Users To Ask The Right Questions:** Manipulating the data in a form that can be visualized on an interactive platform would allow the user to explore the data in greater detail. For a visual detective, this is key in uncovering anomalies or trends into what might have happened prior to the disappearances.  
