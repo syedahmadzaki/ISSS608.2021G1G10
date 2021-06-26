@@ -47,7 +47,7 @@ ABC
 **plotly** Used as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.
 **ggraph** Building on ggplot2, ggraph can provide greater detail and understanding of network data
 **timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees.
-
+made change
  
 
 
