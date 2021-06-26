@@ -58,7 +58,7 @@ c. For car-assignments data, replace car id blanks with 0 to indicate no car id.
 
 ### 2. Merging Data
 a. **Merging Credit Card And Loyalty Data To Form Transactional Dataset:** Transactional dataset formed by merging both the credit card and loyalty data by timestamp, location and amounts spent. To accommodate for possible errors in data inputs, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.
-b. **Sub-Title??:** Timeseries by transactional dataset formed by merging transactional data with GPS data. This would give an indication of the location by credit card number. (How do you merge this, and what can be found in this?)
+b. **Location of Owner Using GPS dataset:** Merge GPS dataset with car assignments dataset by ID.  This will give an indication of the employees's location by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects. 
 c. **Identifying Movements Through Merging GPS and Transactional Dataset:** First, we'll identify time pauses within the GPS data. Then we'll perform a visual inspection of these pauses in time and their respective locations vis-a-vis the map. From there, we can then match it against the transactional dataset to identify the car assignments.
 
 
