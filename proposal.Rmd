@@ -103,14 +103,14 @@ c. For car-assignments data, replace car id blanks with 0 to indicate no car id.
 
 ### 2. Merging Data
 a. **Merging Credit Card And Loyalty Data To Form Transactional Dataset:** Transactional dataset formed by merging both the credit card and loyalty data by timestamp, location and amounts spent. To accommodate for possible errors in data inputs, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.
-b. **Sub-Title??:** Timeseries by transactional dataset formed by merging transactional data with GPS data. This would give an indication of the location by credit card number. (How do you merge this, and what can be found in this?)
+b. **Location of Owner Using GPS dataset:** Merge GPS dataset with car assignments dataset by ID.  This will give an indication of the employees's location by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects. 
 c. **Identifying Movements Through Merging GPS and Transactional Dataset:** First, we'll identify time pauses within the GPS data. Then we'll perform a visual inspection of these pauses in time and their respective locations vis-a-vis the map. From there, we can then match it against the transactional dataset to identify the car assignments.
 
 
 
 ## User Takeaways  
 1.	**Allowing Users To Ask The Right Questions:** Manipulating the data in a form that can be visualized on an interactive platform would allow the user to explore the data in greater detail. For a visual detective, this is key in uncovering anomalies or trends into what might have happened prior to the disappearances.  
-2.	**ABC**  
+2.	**Giving Users The Dexterity To Explore A Hypothesis** TBC - For this case, timetk would help with...cross reference network analysis to .. 
 
 ## Assumptions  
 1.	**Two Weeks Of Data Prior To The Disappearance Contains Valuable Clues:** The challenge only provides these two weeks worth of data and alludes that this dataset showcases suspicious behaviour that are related to the eventual disappearance. It is also possible to suggest that suspicious activities may have occurred outside of these two weeks.  
@@ -123,3 +123,4 @@ c. **Identifying Movements Through Merging GPS and Transactional Dataset:** Firs
 
 ## Future Scope  
 1. **Use Of Spatio-Temporal Statistics In Identifying Travel Patterns:** Using existing GPS data, we can work a model of how possible a person is likely to be at a particular place at a point in time, given their job position and time of day
+2. **Time Series Anomaly Detection By Predictive Confidence Interval** Anomalies can be detected using time series modeling. Specifically, building a predictive model using to understand the common trend for each employee. The predictive model could forecast future values with a confidence band. One suggested approach is to use ARIMA for each employee.

@@ -2254,14 +2254,14 @@ Show code
 <h3 id="merging-data">2. Merging Data</h3>
 <ol type="a">
 <li><strong>Merging Credit Card And Loyalty Data To Form Transactional Dataset:</strong> Transactional dataset formed by merging both the credit card and loyalty data by timestamp, location and amounts spent. To accommodate for possible errors in data inputs, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.</li>
-<li><strong>Sub-Title??:</strong> Timeseries by transactional dataset formed by merging transactional data with GPS data. This would give an indication of the location by credit card number. (How do you merge this, and what can be found in this?)</li>
+<li><strong>Location of Owner Using GPS dataset:</strong> Merge GPS dataset with car assignments dataset by ID. This will give an indication of the employees’s location by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects.</li>
 <li><strong>Identifying Movements Through Merging GPS and Transactional Dataset:</strong> First, we’ll identify time pauses within the GPS data. Then we’ll perform a visual inspection of these pauses in time and their respective locations vis-a-vis the map. From there, we can then match it against the transactional dataset to identify the car assignments.</li>
 </ol>
 <h2 id="user-takeaways">User Takeaways</h2>
 <ol type="1">
 <li><strong>Allowing Users To Ask The Right Questions:</strong> Manipulating the data in a form that can be visualized on an interactive platform would allow the user to explore the data in greater detail. For a visual detective, this is key in uncovering anomalies or trends into what might have happened prior to the disappearances.<br />
 </li>
-<li><strong>ABC</strong></li>
+<li><strong>Giving Users The Dexterity To Explore A Hypothesis</strong> TBC - For this case, timetk would help with…cross reference network analysis to ..</li>
 </ol>
 <h2 id="assumptions">Assumptions</h2>
 <ol type="1">
@@ -2280,6 +2280,7 @@ Show code
 <h2 id="future-scope">Future Scope</h2>
 <ol type="1">
 <li><strong>Use Of Spatio-Temporal Statistics In Identifying Travel Patterns:</strong> Using existing GPS data, we can work a model of how possible a person is likely to be at a particular place at a point in time, given their job position and time of day</li>
+<li><strong>Time Series Anomaly Detection By Predictive Confidence Interval</strong> Anomalies can be detected using time series modeling. Specifically, building a predictive model using to understand the common trend for each employee. The predictive model could forecast future values with a confidence band. One suggested approach is to use ARIMA for each employee.</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
