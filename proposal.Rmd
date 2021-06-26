@@ -27,41 +27,39 @@ output:
 ## Project Proposal  
 Our project is based on Mini-Challenge 2 within VAST Challenge 2021, where it specifically deals with an analysis of movement and tracking data.  
 
-Steps Involved:  
-1.	Getting a better sense of the spatio temporal data (credit card, loyalty and GPS)  
-2.	Cleaning the data and choosing the best visualisations (maps or otherwise) for insight gathering  
-3.	Allowing pre-determined inputs to allow flexibility and reactivity of the data and its visualisations  
-4.	Engaging the reader to explore these visualisations on-demand within an RShiny app  
-5.	Drafting poster for an overview of the process from scoping to actual implementation of the RShiny app  
+### Steps Involved   
+1.	Getting a better sense of the spatio temporal data (credit card, loyalty and GPS)
+2.	Cleaning the data and choosing the best visualisations (maps or otherwise) for insight gathering
+3.	Allowing pre-determined inputs to allow flexibility and reactivity of the data and its visualisations
+4.	Engaging the reader to explore these visualisations on-demand within an RShiny app
+5.	Drafting poster for an overview of the process from scoping to actual implementation of the RShiny app
 
 ## Using R to Visualise Spatio Temporal Data
 ### Overview on Previous Works
 ABC
 
 ### What R Packages will be used?
-**Shiny:** The use of Shiny allows for greater interaction between the user and the dataset.
-**tmap* Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized. 
-**ggplot2:** Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for heatmap, timeseries and network graph visualisations. 
-**tidyverse:** Manipulation of the three types of data (credit card, loyalty and GPS) 
-**plotly** Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.
-**ggraph** Building on ggplot2, ggraph can provide greater detail and understanding of network data
-**timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees.
+**Shiny:** The use of Shiny allows for greater interaction between the user and the dataset.  
+**tmap** Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized.   
+**ggplot2:** Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for heatmap, timeseries and network graph visualisations.  
+**tidyverse:** Manipulation of the three types of data (credit card, loyalty and GPS)   
+**plotly** Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.  
+**ggraph** Building on ggplot2, ggraph can provide greater detail and understanding of network data.  
+**timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees.  
 
 
 ## Data Preparation  
 Data preparation largely follows the Mini-Challenge questions posed:  
-1. Data cleaning: 
-a. Check that location names are not mis-spelt that create duplicates redundancies
-b. For car-assignments data, replace car id blanks with 0 to indicate no car id. 
 
-2. Merging data
-a. Transactional dataset formed by merging both the credit card and loyalty data by timestap.
-This would give an indication of the loyalty number - credit card number relationship.
+### 1. Data Cleaning
+a. Check that dates are recognized correctly by R  
+b. Check that location names are not mis-spelt that create duplicates redundancies  
+c. For car-assignments data, replace car id blanks with 0 to indicate no car id.  
 
-b. Timeseries by transcational dataset formed by merging transactional data with GPS data.
-This would give an indication of the location by credit card number.
-
-c. Car Assignments by GPS data will connect the dots of the employee to location to credit card number. (not sure how?)
+### 2. Merging Data
+a. **Merging Credit Card And Loyalty Data To Form Transactional Dataset:** Transactional dataset formed by merging both the credit card and loyalty data by timestamp, location and amounts spent. To accommodate for possible errors in data inputs, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.
+b. **Sub-Title??:** Timeseries by transactional dataset formed by merging transactional data with GPS data. This would give an indication of the location by credit card number. (How do you merge this, and what can be found in this?)
+c. **Identifying Movements Through Merging GPS and Transactional Dataset:** First, we'll identify time pauses within the GPS data. Then we'll perform a visual inspection of these pauses in time and their respective locations vis-a-vis the map. From there, we can then match it against the transactional dataset to identify the car assignments.
 
 
 

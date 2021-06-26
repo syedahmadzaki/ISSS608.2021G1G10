@@ -2103,13 +2103,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#project-proposal">Project Proposal</a></li>
+<li><a href="#project-proposal">Project Proposal</a>
+<ul>
+<li><a href="#steps-involved">Steps Involved</a></li>
+</ul></li>
 <li><a href="#using-r-to-visualise-spatio-temporal-data">Using R to Visualise Spatio Temporal Data</a>
 <ul>
 <li><a href="#overview-on-previous-works">Overview on Previous Works</a></li>
 <li><a href="#what-r-packages-will-be-used">What R Packages will be used?</a></li>
 </ul></li>
-<li><a href="#data-preparation">Data Preparation</a></li>
+<li><a href="#data-preparation">Data Preparation</a>
+<ul>
+<li><a href="#data-cleaning">1. Data Cleaning</a></li>
+<li><a href="#merging-data">2. Merging Data</a></li>
+</ul></li>
 <li><a href="#user-takeaways">User Takeaways</a></li>
 <li><a href="#assumptions">Assumptions</a></li>
 <li><a href="#limitations">Limitations</a></li>
@@ -2119,21 +2126,41 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <h2 id="project-proposal">Project Proposal</h2>
 <p>Our project is based on Mini-Challenge 2 within VAST Challenge 2021, where it specifically deals with an analysis of movement and tracking data.</p>
-<p>Steps Involved:<br />
-1. Getting a better sense of the spatio temporal data (credit card, loyalty and GPS)<br />
-2. Cleaning the data and choosing the best visualisations (maps or otherwise) for insight gathering<br />
-3. Allowing pre-determined inputs to allow flexibility and reactivity of the data and its visualisations<br />
-4. Engaging the reader to explore these visualisations on-demand within an RShiny app<br />
-5. Drafting poster for an overview of the process from scoping to actual implementation of the RShiny app</p>
+<h3 id="steps-involved">Steps Involved</h3>
+<ol type="1">
+<li>Getting a better sense of the spatio temporal data (credit card, loyalty and GPS)</li>
+<li>Cleaning the data and choosing the best visualisations (maps or otherwise) for insight gathering</li>
+<li>Allowing pre-determined inputs to allow flexibility and reactivity of the data and its visualisations</li>
+<li>Engaging the reader to explore these visualisations on-demand within an RShiny app</li>
+<li>Drafting poster for an overview of the process from scoping to actual implementation of the RShiny app</li>
+</ol>
 <h2 id="using-r-to-visualise-spatio-temporal-data">Using R to Visualise Spatio Temporal Data</h2>
 <h3 id="overview-on-previous-works">Overview on Previous Works</h3>
 <p>ABC</p>
 <h3 id="what-r-packages-will-be-used">What R Packages will be used?</h3>
-<p><strong>Shiny:</strong> The use of Shiny allows for greater interaction between the user and the dataset. <strong>ggplot:</strong> Has a wide range of visualisations <strong>tidyverse:</strong> Manipulation of the three types of data (credit card, loyalty and GPS) <strong>added more packages as a test for this</strong>*</p>
+<p><strong>Shiny:</strong> The use of Shiny allows for greater interaction between the user and the dataset.<br />
+<strong>tmap</strong> Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized.<br />
+<strong>ggplot2:</strong> Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for heatmap, timeseries and network graph visualisations.<br />
+<strong>tidyverse:</strong> Manipulation of the three types of data (credit card, loyalty and GPS)<br />
+<strong>plotly</strong> Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.<br />
+<strong>ggraph</strong> Building on ggplot2, ggraph can provide greater detail and understanding of network data.<br />
+<strong>timetk</strong> This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees.</p>
 <h2 id="data-preparation">Data Preparation</h2>
-<p>Data preparation largely follows the Mini-Challenge questions posed:<br />
-1. Merging both the credit card and loyalty data to form total transactional data.<br />
-2. This transactional data would then be merged with the GPS data.</p>
+<p>Data preparation largely follows the Mini-Challenge questions posed:</p>
+<h3 id="data-cleaning">1. Data Cleaning</h3>
+<ol type="a">
+<li>Check that dates are recognized correctly by R<br />
+</li>
+<li>Check that location names are not mis-spelt that create duplicates redundancies<br />
+</li>
+<li>For car-assignments data, replace car id blanks with 0 to indicate no car id.</li>
+</ol>
+<h3 id="merging-data">2. Merging Data</h3>
+<ol type="a">
+<li><strong>Merging Credit Card And Loyalty Data To Form Transactional Dataset:</strong> Transactional dataset formed by merging both the credit card and loyalty data by timestamp, location and amounts spent. To accommodate for possible errors in data inputs, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.</li>
+<li><strong>Sub-Title??:</strong> Timeseries by transactional dataset formed by merging transactional data with GPS data. This would give an indication of the location by credit card number. (How do you merge this, and what can be found in this?)</li>
+<li><strong>Identifying Movements Through Merging GPS and Transactional Dataset:</strong> First, we’ll identify time pauses within the GPS data. Then we’ll perform a visual inspection of these pauses in time and their respective locations vis-a-vis the map. From there, we can then match it against the transactional dataset to identify the car assignments.</li>
+</ol>
 <h2 id="user-takeaways">User Takeaways</h2>
 <ol type="1">
 <li><strong>Allowing Users To Ask The Right Questions:</strong> Manipulating the data in a form that can be visualized on an interactive platform would allow the user to explore the data in greater detail. For a visual detective, this is key in uncovering anomalies or trends into what might have happened prior to the disappearances.<br />
