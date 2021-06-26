@@ -48,15 +48,14 @@ ABC
 **ggraph** Building on ggplot2, ggraph can provide greater detail and understanding of network data
 **timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees.
 
- c
- 
- 
-
-
 
 ## Data Preparation  
 Data preparation largely follows the Mini-Challenge questions posed:  
-1.	Merging both the credit card and loyalty data to form total transactional data.  
+1. Data cleaning: 
+a. Check that location names are not mis-spelt that create duplicates redundancies
+b. For car-assignments data, replace car id blanks with 0 to indicate no car id. 
+
+2. Merging both the credit card and loyalty data to form total transactional data.  
 2.	This transactional data would then be merged with the GPS data.  
 
 ## User Takeaways  
