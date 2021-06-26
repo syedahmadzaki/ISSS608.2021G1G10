@@ -83,14 +83,23 @@ head(cars,5)
 ABC
 
 ### What R Packages Will Be Explored?
-**Shiny:** The use of Shiny allows for greater interaction between the user and the dataset.  
-**tmap** Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized.   
-**ggplot2:** Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for heatmap, timeseries and network graph visualisations.  
-**tidyverse:** Manipulation of the three types of data (credit card, loyalty and GPS)   
-**plotly** Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.
-**ggraph** Building on ggplot2, ggraph can provide greater detail and understanding of network data.  
-**timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees. 
-**geohashTools** Allows lat long to be encoded into a short string of letters and digits to know which area on a map a user is within. 
+**Data Cleaning and Transformation**
+
+- **tidyverse** Manipulation of the three types of data (credit card, loyalty and GPS)   
+- **timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees. 
+- **geohashTools** Allows lat long to be encoded into a short string of letters and digits to know which area on a map a user is within. 
+
+**Interactive Data Visualisations**
+
+- **tmap** Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized.   
+- **ggplot2** Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for scatterplots, heatmap, timeseries and network graph visualisations.  
+- **plotly** Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and animations.
+- **ggiraph** Allows ggplot graphics to be animated using tooltip, hover and on-click to help uncover suspicious activities.
+- **ggraph** Building on ggplot2, ggraph can provide greater detail and understanding of network data. For example, both credit card spending and car movements can be expressed using network graphs.
+
+**Interactive Web App**
+
+- **Shiny** The use of Shiny allows for greater interaction between the user and the dataset.  
 
 
 ## Data Preparation  
