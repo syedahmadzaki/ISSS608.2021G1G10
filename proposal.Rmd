@@ -42,6 +42,8 @@ ABC
 **Shiny:** The use of Shiny allows for greater interaction between the user and the dataset.
 **ggplot:** Has a wide range of visualisations
 **tidyverse:** Manipulation of the three types of data (credit card, loyalty and GPS) 
+**added more packages as a test for this***
+
 
 ## Data Preparation  
 Data preparation largely follows the Mini-Challenge questions posed:  
