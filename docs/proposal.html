@@ -2105,12 +2105,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <ul>
 <li><a href="#project-proposal">Project Proposal</a>
 <ul>
+<li><a href="#datasets">Datasets</a></li>
 <li><a href="#steps-involved">Steps Involved</a></li>
 </ul></li>
 <li><a href="#using-r-to-visualise-spatio-temporal-data">Using R to Visualise Spatio Temporal Data</a>
 <ul>
 <li><a href="#overview-on-previous-works">Overview on Previous Works</a></li>
-<li><a href="#what-r-packages-will-be-used">What R Packages Will Be Used?</a></li>
+<li><a href="#what-r-packages-will-be-explored">What R Packages Will Be Explored?</a></li>
 </ul></li>
 <li><a href="#data-preparation">Data Preparation</a>
 <ul>
@@ -2125,26 +2126,121 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </nav>
 </div>
 <h2 id="project-proposal">Project Proposal</h2>
-<p>Our project is based on Mini-Challenge 2 within VAST Challenge 2021, where it specifically deals with an analysis of movement and tracking data.</p>
+<p>Our project is based on Mini-Challenge 2 within the <a href="https://vast-challenge.github.io/2021/MC2.html">annual IEEE Visual Analytics Science and Technology (VAST) Challenge 2021</a>. In January, 2014, the leaders of GAStech celebrated their new-found fortune from the initial public offering of their very successful company. In the midst of the celebration, several employees of GAStech went missing. Mini-Challenge 2 has provided vehicle tracking data and credit card purchases and preferences as recorded on loyalty cards of the GASTech employees 2 weeks before the disappearance to support the investigation.</p>
+<p>The objective of this challenge is make use of visual analytics to identify which GASTech employees made which purchases and identify suspicious patterns of behavior from the datasets. We will make use of R and its packages, which are open-source and free, to visualize the data to make our findings accessible and replicable.</p>
+<h3 id="datasets">Datasets</h3>
+<p>There are 4 datasets provided:</p>
+<ul>
+<li><strong>Credit card data</strong>: transaction of each credit card with time stamp, price and location</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cc_data</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/cc_data.csv"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>cc_data</span>,<span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 5 x 4
+  timestamp        location            price last4ccnum
+  &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;      &lt;dbl&gt;
+1 01/06/2014 07:28 Brew&#39;ve Been Served 11.3        4795
+2 01/06/2014 07:34 Hallowed Grounds    52.2        7108
+3 01/06/2014 07:35 Brew&#39;ve Been Served  8.33       6816
+4 01/06/2014 07:36 Hallowed Grounds    16.7        9617
+5 01/06/2014 07:37 Brew&#39;ve Been Served  4.24       7384</code></pre>
+</div>
+<ul>
+<li><strong>Loyalty card data</strong>: transaction on loyalty card with date, price and location</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>loyalty_data</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/loyalty_data.csv"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>loyalty_data</span>,<span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 5 x 4
+  timestamp  location            price loyaltynum
+  &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;     
+1 01/06/2014 Brew&#39;ve Been Served  4.17 L2247     
+2 01/06/2014 Brew&#39;ve Been Served  9.6  L9406     
+3 01/06/2014 Hallowed Grounds    16.5  L8328     
+4 01/06/2014 Coffee Shack        11.5  L6417     
+5 01/06/2014 Hallowed Grounds    12.9  L1107     </code></pre>
+</div>
+<ul>
+<li><strong>GPS data</strong>: latitude and longitude of each employee vehicle (ID) when in movement</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>gps</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/gps.csv"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>gps</span>,<span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 5 x 4
+  Timestamp              id   lat  long
+  &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 01/06/2014 06:28:01    35  36.1  24.9
+2 01/06/2014 06:28:01    35  36.1  24.9
+3 01/06/2014 06:28:03    35  36.1  24.9
+4 01/06/2014 06:28:05    35  36.1  24.9
+5 01/06/2014 06:28:06    35  36.1  24.9</code></pre>
+</div>
+<ul>
+<li><strong>Car assignment data</strong>: full name of employee and ID of car assigned</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cars</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"data/car-assignments.csv"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>cars</span>,<span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 5 x 5
+  LastName FirstName CarID CurrentEmploymentType CurrentEmploymentTit~
+  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;                
+1 Calixto  Nils          1 Information Technolo~ IT Helpdesk          
+2 Azada    Lars          2 Engineering           Engineer             
+3 Balas    Felix         3 Engineering           Engineer             
+4 Barranco Ingrid        4 Executive             SVP/CFO              
+5 Baza     Isak          5 Information Technolo~ IT Technician        </code></pre>
+</div>
 <h3 id="steps-involved">Steps Involved</h3>
 <ol type="1">
 <li>Getting a better sense of the spatio temporal data (credit card, loyalty and GPS)</li>
-<li>Cleaning the data and choosing the best visualisations (maps or otherwise) for insight gathering</li>
-<li>Allowing pre-determined inputs to allow flexibility and reactivity of the data and its visualisations</li>
+<li>Cleaning, transforming and merging the data</li>
+<li>Choosing the best visualisations and R packages (maps or otherwise) for insight gathering</li>
+<li>Allowing pre-determined inputs to allow flexibility and interactivity of the data and its visualisations</li>
 <li>Engaging the reader to explore these visualisations on-demand within an RShiny app</li>
 <li>Drafting poster for an overview of the process from scoping to actual implementation of the RShiny app</li>
 </ol>
 <h2 id="using-r-to-visualise-spatio-temporal-data">Using R to Visualise Spatio Temporal Data</h2>
 <h3 id="overview-on-previous-works">Overview on Previous Works</h3>
 <p>ABC</p>
-<h3 id="what-r-packages-will-be-used">What R Packages Will Be Used?</h3>
+<h3 id="what-r-packages-will-be-explored">What R Packages Will Be Explored?</h3>
 <p><strong>Shiny:</strong> The use of Shiny allows for greater interaction between the user and the dataset.<br />
 <strong>tmap</strong> Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized.<br />
 <strong>ggplot2:</strong> Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for heatmap, timeseries and network graph visualisations.<br />
 <strong>tidyverse:</strong> Manipulation of the three types of data (credit card, loyalty and GPS)<br />
-<strong>plotly</strong> Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.<br />
-<strong>ggraph</strong> Building on ggplot2, ggraph can provide greater detail and understanding of network data.<br />
-<strong>timetk</strong> This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees.</p>
+<strong>plotly</strong> Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations. <strong>ggraph</strong> Building on ggplot2, ggraph can provide greater detail and understanding of network data.<br />
+<strong>timetk</strong> This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees. <strong>geohashTools</strong> Allows lat long to be encoded into a short string of letters and digits to know which area on a map a user is within.</p>
 <h2 id="data-preparation">Data Preparation</h2>
 <p>Data preparation largely follows the Mini-Challenge questions posed:</p>
 <h3 id="data-cleaning">1. Data Cleaning</h3>
@@ -2185,7 +2281,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <ol type="1">
 <li><strong>Use Of Spatio-Temporal Statistics In Identifying Travel Patterns:</strong> Using existing GPS data, we can work a model of how possible a person is likely to be at a particular place at a point in time, given their job position and time of day</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

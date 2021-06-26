@@ -25,27 +25,72 @@ output:
 ---
 
 ## Project Proposal  
-Our project is based on Mini-Challenge 2 within VAST Challenge 2021, where it specifically deals with an analysis of movement and tracking data.  
+Our project is based on Mini-Challenge 2 within the [annual IEEE Visual Analytics Science and Technology (VAST) Challenge 2021](https://vast-challenge.github.io/2021/MC2.html). In January, 2014, the leaders of GAStech celebrated their new-found fortune from the initial public offering of their very successful company. In the midst of the celebration, several employees of GAStech went missing. Mini-Challenge 2 has provided vehicle tracking data and credit card purchases and preferences as recorded on loyalty cards of the GASTech employees 2 weeks before the disappearance to support the investigation.  
+
+The objective of this challenge is make use of visual analytics to identify which GASTech employees made which purchases and identify suspicious patterns of behavior from the datasets. We will make use of R and its packages, which are open-source and free, to visualize the data to make our findings accessible and replicable. 
+
+### Datasets
+```{r include = FALSE, warning = FALSE}
+packages = c('tidyverse')
+
+for (p in packages) {
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+There are 4 datasets provided:
+
+- **Credit card data**: transaction of each credit card with time stamp, price and location
+
+```{r include = TRUE, warning = FALSE}
+cc_data <- read_csv("data/cc_data.csv")
+head(cc_data,5)
+```
+
+- **Loyalty card data**: transaction on loyalty card with date, price and location
+
+```{r include = TRUE, warning = FALSE}
+loyalty_data <- read_csv("data/loyalty_data.csv")
+head(loyalty_data,5)
+```
+
+- **GPS data**: latitude and longitude of each employee vehicle (ID) when in movement
+
+```{r include = TRUE, warning = FALSE}
+gps <- read_csv("data/gps.csv")
+head(gps,5)
+```
+
+- **Car assignment data**: full name of employee and ID of car assigned 
+
+```{r include = TRUE, warning = FALSE}
+cars <- read_csv("data/car-assignments.csv")
+head(cars,5)
+```
 
 ### Steps Involved   
 1.	Getting a better sense of the spatio temporal data (credit card, loyalty and GPS)
-2.	Cleaning the data and choosing the best visualisations (maps or otherwise) for insight gathering
-3.	Allowing pre-determined inputs to allow flexibility and reactivity of the data and its visualisations
-4.	Engaging the reader to explore these visualisations on-demand within an RShiny app
-5.	Drafting poster for an overview of the process from scoping to actual implementation of the RShiny app
+2.	Cleaning, transforming and merging the data 
+3.  Choosing the best visualisations and R packages (maps or otherwise) for insight gathering
+4.	Allowing pre-determined inputs to allow flexibility and interactivity of the data and its visualisations
+5.	Engaging the reader to explore these visualisations on-demand within an RShiny app
+6.	Drafting poster for an overview of the process from scoping to actual implementation of the RShiny app
 
 ## Using R to Visualise Spatio Temporal Data
 ### Overview on Previous Works
 ABC
 
-### What R Packages Will Be Used?
+### What R Packages Will Be Explored?
 **Shiny:** The use of Shiny allows for greater interaction between the user and the dataset.  
 **tmap** Use to plot thematic maps. Thematic maps are geographical maps in which spatial data distributions are visualized.   
 **ggplot2:** Has a wide range of visualisations that can aid in analytics to understand the movement of the employees and the usage of credit card and loyalty data. Ggplot2 can be used for heatmap, timeseries and network graph visualisations.  
 **tidyverse:** Manipulation of the three types of data (credit card, loyalty and GPS)   
-**plotly** Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.  
+**plotly** Use as a wrapper for ggplot2. Given the need for interactivity to identify the GASTech employees who made suspicious purchases and displayed abnormal patterns of behavior, plotly could be used for tooltips and annimations.
 **ggraph** Building on ggplot2, ggraph can provide greater detail and understanding of network data.  
-**timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees.  
+**timetk** This package enables time-series visualisation. This includes anomaly detection and seasonality. This could facilitate the analysis to narrow down the suspicious employees. 
+**geohashTools** Allows lat long to be encoded into a short string of letters and digits to know which area on a map a user is within. 
 
 
 ## Data Preparation  
