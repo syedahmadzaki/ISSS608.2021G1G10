@@ -2119,7 +2119,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#merging-data">Merging Data</a></li>
 <li><a href="#data-transformation">Data Transformation</a></li>
 </ul></li>
-<li><a href="#shiny-web-app-design">Shiny Web App Design</a></li>
+<li><a href="#shiny-web-app-design">Shiny Web App Design</a>
+<ul>
+<li><a href="#give-users-dexterity-to-explore-hypotheses">Give Users Dexterity To Explore Hypotheses:</a></li>
+<li><a href="#share-insights-from-investigation">Share Insights from Investigation:</a></li>
+</ul></li>
 <li><a href="#assumptions">Assumptions</a></li>
 <li><a href="#limitations">Limitations</a></li>
 <li><a href="#future-scope">Future Scope</a></li>
@@ -2234,7 +2238,46 @@ Show code
 </ol>
 <h2 id="using-r-to-visualise-spatio-temporal-data">Using R to Visualise Spatio Temporal Data</h2>
 <h3 id="overview-on-previous-works">Overview on Previous Works</h3>
-<p>ABC</p>
+<p>VAST Challenge 2021 made use of the same dataset that was used for VAST Challenge 2014. Of the 28 submissions for the Mini-Challenge 2 in 2014, many of the winning teams made use of D3.js, a JavaScript library to develop their propriety tools. Some of the teams explored novel approach such as using parallel coordiantes plot, time rings and network graph. However, most common approaches can be summarized as:</p>
+<ul>
+<li>Timeline of employee’s location color coded by location category overlaid with spend</li>
+<li>Geospatial map of movement</li>
+<li>Space-time cube of movement</li>
+</ul>
+<p>We would experiment with some of the visualisations above and seek a simpler representation using R, a open-source software, without compromising on the depth of the insights.</p>
+<p><strong>Approach by VAST 2014 Mini-Challenge 2 Winning Teams</strong></p>
+<ul>
+<li>Central South University
+<ul>
+<li>Analytical Tools: D3.js, mySQL, Excel</li>
+<li>Visualisation: Heatmap, Parallel Coordinates Plot, RadViz, Geospatial Map</li>
+</ul></li>
+<li>Fraunhofer IAIS and City University London
+<ul>
+<li>Analytical Tools: V-Analytics, developed in the Knowledge Discovery department of Fraunhofer IAIS using D3.js</li>
+<li>Visualisation: Time Histogram, Geospatial Map, Network Graph with clustering (Semantic space map), Space-time Cube</li>
+</ul></li>
+<li>Georgia Institute of Technology
+<ul>
+<li>Analytical Tools: D3.js, Matlab</li>
+<li>Visualisation: Space-time Cube, Timeline view, Heatmap</li>
+</ul></li>
+<li>Middlesex University
+<ul>
+<li>Analytical Tools: Patterns of Life suite of tools developed by Middlesex University</li>
+<li>Visualisation: Timeline view, Geospatial Map, Bar chart</li>
+</ul></li>
+<li>Peking University
+<ul>
+<li>Analytical Tools: MovementFinder developed by Peking University using Python, D3.js, QGIS</li>
+<li>Visualisation: Timeline view with clustering, Geospatial Map with 24-hour ring</li>
+</ul></li>
+<li>Purdue University
+<ul>
+<li>Analytical Tools: Dodeca-Rings Map developed by Purdue University using HTML5, CSS, SVG, JavaScripts, jQuery, PHP, MySQL and D3</li>
+<li>Visualisation: Geospatial Map with dodecagons to show events, Social Relationship Matrix, Activity Temporal Chart</li>
+</ul></li>
+</ul>
 <h3 id="what-r-packages-will-be-explored">What R Packages Will Be Explored?</h3>
 <p><strong>Data Cleaning and Transformation</strong></p>
 <ul>
@@ -2269,7 +2312,7 @@ Show code
 </ol>
 <h3 id="merging-data">Merging Data</h3>
 <ol type="a">
-<li><strong>Merging Credit Card And Loyalty Data To Form Transactional Dataset:</strong> Transactional dataset formed by joining both the credit card and loyalty data on date, location and amounts spent. To accommodate for possible errors in data inputs and difference in spend (e.g. due to mismatch due to cashbacks), we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.</li>
+<li><strong>Merging Credit Card And Loyalty Data To Form Transactional Dataset:</strong> Transactional dataset formed by joining both the credit card and loyalty data on date, location and amounts spent. To accommodate for possible errors in data inputs and difference in spend and time, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship. We will also take note of mismatch due to cashbacks or deviation in the time places posted credit card transactions to not attribute suspicious activity to data quality issue.</li>
 <li><strong>Location of Owner Using GPS dataset:</strong> Merge GPS dataset with car assignments dataset by ID. This will give an indication of the employees’ locations by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects.</li>
 <li><strong>Identifying Movements By Merging GPS and Transactional Dataset:</strong> First, we will identify time pauses within the GPS data to discover where the employees were spending their time at. Then we can perform a visual inspection of these pauses in and their respective locations vis-a-vis the map. In addition, we can match the coordinates during the gps pauses against the location names in the transactional dataset to match the location on the map. This will help to connect the credit card and loyalty card owners to cars assignments.</li>
 </ol>
@@ -2278,15 +2321,15 @@ Show code
 <li>We will need to transform the data into the right format for the selected visualisation. For example, <a href="https://rpubs.com/kishan19/297073">edges and nodes</a> will need to be prepared for network graph charts.</li>
 </ol>
 <h2 id="shiny-web-app-design">Shiny Web App Design</h2>
-<p><strong>Give Users The Dexterity To Explore Hypotheses:</strong></p>
+<h3 id="give-users-dexterity-to-explore-hypotheses">Give Users Dexterity To Explore Hypotheses:</h3>
 <ul>
-<li>The first page of the Shiny app will identify popular locations using credit and loyalty data. The user should be able to drill into popular locations i) by weekdays vs weekends, ii) by category, iii) by amount, and iv) by hour. Users can flesh out behaviours that seem suspicious. These credit card and loyalty card numbers will be further investigated in the next page.</li>
-<li>The second page of the Shiny app seeks to identify suspicious behaviour by travel pattern. Users should be able to view travel patterns by ‘location to location’ (node to node) at different time of day. Users can compare travel patterns across different cars or zoom into an individual by filtering using the car id.</li>
-<li>The third page of the Shiny app seeks to identify employees by inferring owners to each credit card and loyalty card. The visual will be able to filter to by car id, employee name, credit card number and loyalty card. The chart will be done in a time-series with i) transactional data (credit card and loyalty card) as the y-axis, date/time as the bottom x-axis, and location as the top x-axis. The analysis should be done with statistical approach using confidence interval/ hypothesis testing.</li>
+<li><strong>Spending Patterns</strong>: The first page of the Shiny app will identify popular locations using credit and loyalty data. The user should be able to drill into popular locations i) by weekdays vs weekends, ii) by category, iii) by amount, and iv) by hour. Users can flesh out behaviours or spend that seem suspicious (anomaly detection). These credit card and loyalty card numbers will be further investigated in the next page.</li>
+<li><strong>Driving Patterns</strong>: The second page of the Shiny app seeks to identify suspicious behaviour by travel pattern. Users should be able to view travel patterns by ‘location to location’ (node to node) at different time of day. Users can compare travel patterns across different cars or zoom into an individual by filtering using the car id. From this, cars with faulty GPS data will be identified to avoid assigning meaning to data quality issues. Users should be able to i) spot activity at unexpected hours (anomaly detection), ii) identify where the unusual activities are happening on the map, and iii) who else were likely part of the activities.</li>
+<li><strong>Unified View of Spend and Driving Patterns</strong>: The third page of the Shiny app seeks to identify employees by inferring owners to each credit card and loyalty card. The visual will be able to filter to by car id, employee name, credit card number and loyalty card. The chart will be done in a time-series with i) transactional data (credit card and loyalty card) as the y-axis, date/time as the bottom x-axis, and location as the top x-axis. The analysis should be done with statistical approach using confidence interval/ hypothesis testing. Users should be able to i) see the journey of each employee by the location and type of location they were at, and ii) identify mismatch in location of spending and gps data.</li>
 </ul>
-<p><strong>Sharing Insights from the Investigation:</strong></p>
+<h3 id="share-insights-from-investigation">Share Insights from Investigation:</h3>
 <ul>
-<li>The last page of the Shiny app seeks to highlight insights gathered from the earlier three pages and flesh out i) unofficial relationships and ii) locations where suspicious activity may be occurring. The page will not be interactive.</li>
+<li><strong>Insights</strong>: The last page of the Shiny app seeks to highlight insights gathered from the earlier three pages and flesh out i) unofficial relationships and ii) locations where suspicious activity may be occurring. The page will not be interactive.</li>
 </ul>
 <h2 id="assumptions">Assumptions</h2>
 <ol type="1">

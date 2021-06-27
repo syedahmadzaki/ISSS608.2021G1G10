@@ -80,7 +80,40 @@ head(cars,5)
 
 ## Using R to Visualise Spatio Temporal Data
 ### Overview on Previous Works
-ABC
+VAST Challenge 2021 made use of the same dataset that was used for VAST Challenge 2014. Of the 28 submissions for the Mini-Challenge 2 in 2014, many of the winning teams made use of D3.js, a JavaScript library to develop their propriety tools. Some of the teams explored novel approach such as using parallel coordiantes plot, time rings and network graph. However, most common approaches can be summarized as:
+
+- Timeline of employee's location color coded by location category overlaid with spend
+- Geospatial map of movement 
+- Space-time cube of movement
+
+We would experiment with some of the visualisations above and seek a simpler representation using R, a open-source software, without compromising on the depth of the insights. 
+
+
+**Approach by VAST 2014 Mini-Challenge 2 Winning Teams**
+
+- Central South University
+  + Analytical Tools: D3.js, mySQL, Excel
+  + Visualisation: Heatmap, Parallel Coordinates Plot, RadViz, Geospatial Map
+
+- Fraunhofer IAIS and City University London
+  + Analytical Tools: V-Analytics, developed in the Knowledge Discovery department of Fraunhofer IAIS using D3.js
+  + Visualisation: Time Histogram, Geospatial Map, Network Graph with clustering (Semantic space map), Space-time Cube  
+
+- Georgia Institute of Technology
+  + Analytical Tools: D3.js, Matlab
+  + Visualisation: Space-time Cube, Timeline view, Heatmap
+
+- Middlesex University
+  + Analytical Tools: Patterns of Life suite of tools developed by Middlesex University
+  + Visualisation: Timeline view, Geospatial Map, Bar chart
+
+- Peking University
+  + Analytical Tools: MovementFinder developed by Peking University using Python, D3.js, QGIS
+  + Visualisation: Timeline view with clustering, Geospatial Map with 24-hour ring
+
+- Purdue University
+  + Analytical Tools: Dodeca-Rings Map developed by Purdue University using HTML5, CSS, SVG, JavaScripts, jQuery, PHP, MySQL and D3
+  + Visualisation: Geospatial Map with dodecagons to show events, Social Relationship Matrix, Activity Temporal Chart
 
 ### What R Packages Will Be Explored?
 **Data Cleaning and Transformation**
@@ -111,7 +144,7 @@ b. Check that location names are not mis-spelt that create duplicates redundanci
 c. For car-assignments data, replace car id blanks with 0 to indicate no car id. 
 
 ### Merging Data
-a. **Merging Credit Card And Loyalty Data To Form Transactional Dataset:** Transactional dataset formed by joining both the credit card and loyalty data on date, location and amounts spent. To accommodate for possible errors in data inputs and difference in spend (e.g. due to mismatch due to cashbacks), we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.
+a. **Merging Credit Card And Loyalty Data To Form Transactional Dataset:** Transactional dataset formed by joining both the credit card and loyalty data on date, location and amounts spent. To accommodate for possible errors in data inputs and difference in spend and time, we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship. We will also take note of mismatch due to cashbacks or deviation in the time places posted credit card transactions to not attribute suspicious activity to data quality issue. 
 b. **Location of Owner Using GPS dataset:** Merge GPS dataset with car assignments dataset by ID.  This will give an indication of the employees' locations by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects. 
 c. **Identifying Movements By Merging GPS and Transactional Dataset:** First, we will identify  time pauses within the GPS data to discover where the employees were spending their time at. Then we can perform a visual inspection of these pauses in  and their respective locations vis-a-vis the map. In addition, we can match the coordinates during the gps pauses against the location names in the transactional dataset to match the location on the map. This will help to connect the credit card and loyalty card owners to cars assignments.
 
@@ -119,15 +152,15 @@ c. **Identifying Movements By Merging GPS and Transactional Dataset:** First, we
 a. We will need to transform the data into the right format for the selected visualisation. For example, [edges and nodes](https://rpubs.com/kishan19/297073) will need to be prepared for network graph charts. 
 
 ## Shiny Web App Design
-**Give Users The Dexterity To Explore Hypotheses:** 
+### Give Users Dexterity To Explore Hypotheses:
 
--   The first page of the Shiny app will identify popular locations using credit and loyalty data. The user should be able to drill into popular locations i) by weekdays vs weekends, ii) by category, iii) by amount, and iv) by hour. Users can flesh out behaviours that seem suspicious. These credit card and loyalty card numbers will be further investigated in the next page.
-- The second page of the Shiny app seeks to identify suspicious behaviour by travel pattern. Users should be able to view travel patterns by ‘location to location’ (node to node) at different time of day. Users can compare travel patterns across different cars or zoom into an individual by filtering using the car id.
-- The third page of the Shiny app seeks to identify employees by inferring owners to each credit card and loyalty card. The visual will be able to filter to by car id, employee name, credit card number and loyalty card. The chart will be done in a time-series with i) transactional data (credit card and loyalty card) as the y-axis, date/time as the bottom x-axis, and location as the top x-axis. The analysis should be done with statistical approach using confidence interval/ hypothesis testing.
+- **Spending Patterns**: The first page of the Shiny app will identify popular locations using credit and loyalty data. The user should be able to drill into popular locations i) by weekdays vs weekends, ii) by category, iii) by amount, and iv) by hour. Users can flesh out behaviours or spend that seem suspicious (anomaly detection). These credit card and loyalty card numbers will be further investigated in the next page.
+- **Driving Patterns**: The second page of the Shiny app seeks to identify suspicious behaviour by travel pattern. Users should be able to view travel patterns by ‘location to location’ (node to node) at different time of day. Users can compare travel patterns across different cars or zoom into an individual by filtering using the car id. From this, cars with faulty GPS data will be identified to avoid assigning meaning to data quality issues. Users should be able to i) spot activity at unexpected hours (anomaly detection), ii) identify where the unusual activities are happening on the map, and iii) who else were likely part of the activities. 
+- **Unified View of Spend and Driving Patterns**: The third page of the Shiny app seeks to identify employees by inferring owners to each credit card and loyalty card. The visual will be able to filter to by car id, employee name, credit card number and loyalty card. The chart will be done in a time-series with i) transactional data (credit card and loyalty card) as the y-axis, date/time as the bottom x-axis, and location as the top x-axis. The analysis should be done with statistical approach using confidence interval/ hypothesis testing. Users should be able to i) see the journey of each employee by the location and type of location they were at, and ii) identify mismatch in location of spending and gps data. 
 
-**Sharing Insights from the Investigation:** 
+### Share Insights from Investigation:
 
-- The last page of the Shiny app seeks to highlight insights gathered from the earlier three pages and flesh out i) unofficial relationships and ii) locations where suspicious activity may be occurring. The page will not be interactive. 
+- **Insights**: The last page of the Shiny app seeks to highlight insights gathered from the earlier three pages and flesh out i) unofficial relationships and ii) locations where suspicious activity may be occurring. The page will not be interactive. 
 
 
 ## Assumptions  
