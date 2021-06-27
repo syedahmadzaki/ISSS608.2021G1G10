@@ -7,7 +7,7 @@ author:
     url: google.com
     affiliation: School of Computing and Information Systems, Singapore Management University
     affiliation_url: https://scis.smu.edu.sg/
-  - name: Manmit S/o Narmal Singh 
+  - name: Manmit Singh
     url: google.com
     affiliation: School of Computing and Information Systems, Singapore Management University
     affiliation_url: https://scis.smu.edu.sg/
@@ -119,7 +119,12 @@ c. **Identifying Movements By Merging GPS and Transactional Dataset:** First, we
 
 ## User Takeaways  
 1.	**Allowing Users To Ask The Right Questions:** Manipulating the data in a form that can be visualized on an interactive platform would allow the user to explore the data in greater detail. For a visual detective, this is key in uncovering anomalies or trends into what might have happened prior to the disappearances.  
-2.	**Giving Users The Dexterity To Explore A Hypothesis** TBC - For this case, timetk would help with...cross reference network analysis to .. 
+2.	**Giving Users The Dexterity To Explore A Hypothesis:** 
+  -   The first page of the Shiny app will identify popular locations using credit and loyalty data. The user should be able to drill into popular locations i) by weekdays vs weekends, ii) by category, iii) by amount, and iv) by hour. Users can flesh out behaviours that seem suspicious. These credit card and loyalty card numbers will be further investigated in the next page.
+  - The second page of the Shiny app seeks to identify suspicious behaviour by travel pattern. Users should be able to view travel patterns by ‘location   to location’ (node to node), and filter each car id to investigate the individual’s behaviour. 
+ - The third page of the Shiny app seeks to identify employees by inferring owners to each credit card and loyalty card. The visual will be able to     filter to by car id, employee name, credit card number and loyalty card. The chart will be done in a time-series with i) transactional data (credit    card and loyalty card) as the y-axis, date/time as the bottom x-axis, and location as the top x-axis. The analysis should be done with statistical approach using confidence interval/ hypothesis testing. 
+
+ - The last page of the Shiny app seeks to highlight insights gathered from the earlier three pages and flesh out i) unofficial relationships and ii) locations where suspicious activity may be occurring. The page will not be interactive. 
 
 
 ## Assumptions  
