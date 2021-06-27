@@ -105,26 +105,29 @@ ABC
 ## Data Preparation  
 Data preparation largely follows the Mini-Challenge questions posed:  
 
-### 1. Data Cleaning
+### Data Cleaning
 a. Check that dates and time are recognized correctly by R  
 b. Check that location names are not mis-spelt that create duplicates redundancies  
 c. For car-assignments data, replace car id blanks with 0 to indicate no car id. 
 
-### 2. Merging Data
+### Merging Data
 a. **Merging Credit Card And Loyalty Data To Form Transactional Dataset:** Transactional dataset formed by joining both the credit card and loyalty data on date, location and amounts spent. To accommodate for possible errors in data inputs and difference in spend (e.g. due to mismatch due to cashbacks), we will use fuzzy matching to find the closest match between both datasets. This would give an indication of the loyalty number - credit card number relationship.
 b. **Location of Owner Using GPS dataset:** Merge GPS dataset with car assignments dataset by ID.  This will give an indication of the employees' locations by car assignment. Travel patterns of employees assigned vehicles could be used to identify suspicious behavior and narrow down the suspects. 
 c. **Identifying Movements By Merging GPS and Transactional Dataset:** First, we will identify  time pauses within the GPS data to discover where the employees were spending their time at. Then we can perform a visual inspection of these pauses in  and their respective locations vis-a-vis the map. In addition, we can match the coordinates during the gps pauses against the location names in the transactional dataset to match the location on the map. This will help to connect the credit card and loyalty card owners to cars assignments.
 
+### Data Transformation
+a. We will need to transform the data into the right format for the selected visualisation. For example, [edges and nodes](https://rpubs.com/kishan19/297073) will need to be prepared for network graph charts. 
 
+## Shiny Web App Design
+**Give Users The Dexterity To Explore Hypotheses:** 
 
-## User Takeaways  
-1.	**Allowing Users To Ask The Right Questions:** Manipulating the data in a form that can be visualized on an interactive platform would allow the user to explore the data in greater detail. For a visual detective, this is key in uncovering anomalies or trends into what might have happened prior to the disappearances.  
-2.	**Giving Users The Dexterity To Explore A Hypothesis:** 
-  -   The first page of the Shiny app will identify popular locations using credit and loyalty data. The user should be able to drill into popular locations i) by weekdays vs weekends, ii) by category, iii) by amount, and iv) by hour. Users can flesh out behaviours that seem suspicious. These credit card and loyalty card numbers will be further investigated in the next page.
-  - The second page of the Shiny app seeks to identify suspicious behaviour by travel pattern. Users should be able to view travel patterns by ‘location   to location’ (node to node), and filter each car id to investigate the individual’s behaviour. 
- - The third page of the Shiny app seeks to identify employees by inferring owners to each credit card and loyalty card. The visual will be able to     filter to by car id, employee name, credit card number and loyalty card. The chart will be done in a time-series with i) transactional data (credit    card and loyalty card) as the y-axis, date/time as the bottom x-axis, and location as the top x-axis. The analysis should be done with statistical approach using confidence interval/ hypothesis testing. 
+-   The first page of the Shiny app will identify popular locations using credit and loyalty data. The user should be able to drill into popular locations i) by weekdays vs weekends, ii) by category, iii) by amount, and iv) by hour. Users can flesh out behaviours that seem suspicious. These credit card and loyalty card numbers will be further investigated in the next page.
+- The second page of the Shiny app seeks to identify suspicious behaviour by travel pattern. Users should be able to view travel patterns by ‘location to location’ (node to node) at different time of day. Users can compare travel patterns across different cars or zoom into an individual by filtering using the car id.
+- The third page of the Shiny app seeks to identify employees by inferring owners to each credit card and loyalty card. The visual will be able to filter to by car id, employee name, credit card number and loyalty card. The chart will be done in a time-series with i) transactional data (credit card and loyalty card) as the y-axis, date/time as the bottom x-axis, and location as the top x-axis. The analysis should be done with statistical approach using confidence interval/ hypothesis testing.
 
- - The last page of the Shiny app seeks to highlight insights gathered from the earlier three pages and flesh out i) unofficial relationships and ii) locations where suspicious activity may be occurring. The page will not be interactive. 
+**Sharing Insights from the Investigation:** 
+
+- The last page of the Shiny app seeks to highlight insights gathered from the earlier three pages and flesh out i) unofficial relationships and ii) locations where suspicious activity may be occurring. The page will not be interactive. 
 
 
 ## Assumptions  
