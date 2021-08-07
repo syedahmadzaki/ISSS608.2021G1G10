@@ -1,14 +1,24 @@
 # Install and load key R libraries
 
-ipak <- function(pkg){
-    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-    if (length(new.pkg)) 
-        install.packages(new.pkg, dependencies = TRUE)
-    sapply(pkg, require, character.only = TRUE)
-}
+#ipak <- function(pkg){
+#    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+#    if (length(new.pkg)) 
+#        install.packages(new.pkg, dependencies = TRUE)
+#    sapply(pkg, require, character.only = TRUE)
+#}
 
-packages <- c("shiny","shinydashboard","readr","tidyverse","shinythemes","readxl")
-ipak(packages)
+#packages <- c("shiny","shinydashboard","readr","tidyverse","shinythemes",
+#              "readxl","rsconnect")
+#ipak(packages)
+
+library(shiny)
+library(shinydashboard)
+library(readr)
+library(tidyverse)
+library(shinythemes)
+library(readxl)
+library(rsconnect)
+
 
 # Define UI for application that draws a histogram
 ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = " Intro", collapsible = TRUE, inverse = FALSE, theme = shinytheme("flatly"),
