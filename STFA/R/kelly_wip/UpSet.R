@@ -12,9 +12,10 @@ ui <- fluidPage(
 
     # Application title
     titlePanel("UpSet Plot for Co-Location Investigation"),
-
-    # Sidebar for basic and advanced settings for Upset Plot
+    
     sidebarLayout(
+        
+        # Sidebar for basic and advanced settings for Upset Plot
         sidebarPanel(value="upset_plot",
             tabsetPanel(
                 tabPanel(
@@ -180,6 +181,31 @@ server <- function(input, output, session) {
         #}
     #})
     
+}
+
+csvFileServer <- function(id, stringsAsFactors) {
+    moduleServer(
+        id,
+        function(input, output, session) {
+            userFile <- reactive({
+                validate(need(input$file, message = FALSE))
+                input$file
+            })
+            
+            dataframe <- reactive({
+                read.csv(userFile()$datapath,
+                         header = input$heading,
+                         quote = input$quote,
+                         stringsAsFactors = stringsAsFactors)
+            })
+            
+            observe({
+                msg <- sprintf("File %s was uploaded", userFile()$name)
+                cat(msg, "\n")
+            })
+            return(dataframe)
+        }
+    )    
 }
 
 # Run the application 
