@@ -1,16 +1,41 @@
-# Upset Plot
-
-# Install and load key R libraries
-
-ipak <- function(pkg){
-  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-  if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-  sapply(pkg, require, character.only = TRUE)
+csvFileUI <- function(id, label = "CSV file") {
+  # `NS(id)` returns a namespace function, which was save as `ns` and will
+  # invoke later.
+  ns <- NS(id)
+  tagList(
+    fileInput(ns("file"), label),
+    checkboxInput(ns("heading"), "Has heading"),
+    selectInput(ns("quote"), "Quote", c(
+      "None" = "",
+      "Double quote" = "\"",
+      "Single quote" = "'"
+    ))
+  )
 }
 
-packages <- c("readr","tidyverse","plotly","UpSetR")
-ipak(packages)
-
+csvFileServer <- function(id, stringsAsFactors) {
+  moduleServer(
+    id,
+    function(input, output, session) {
+      userFile <- reactive({
+        validate(need(input$file, message = FALSE))
+        input$file
+      })
+      
+      dataframe <- reactive({
+        read.csv(userFile()$datapath,
+                 header = input$heading,
+                 quote = input$quote,
+                 stringsAsFactors = stringsAsFactors)
+      })
+      
+      observe({
+        msg <- sprintf("File %s was uploaded", userFile()$name)
+        cat(msg, "\n")
+      })
+      return(dataframe)
+    }
+  )    
+}
 
 
