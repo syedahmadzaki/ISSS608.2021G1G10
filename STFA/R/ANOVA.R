@@ -1,11 +1,66 @@
-# Inferential Analysis with ANOVA
+library(shiny)
+library(tidyverse)
+library(plyr)
+library(ggplot2)
+library(ggstatsplot)
 
-ipak <- function(pkg){
-  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-  if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-  sapply(pkg, require, character.only = TRUE)
+# ----------------------------------------------------------------------------------------------------------------------
+# Import csv data function 
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Plot chart function
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# To port over to main app later
+
+ui <- fluidPage(
+  
+  # Application title
+  titlePanel("UpSet Plot - View Locations with Same Visitors"),
+  
+  sidebarLayout(
+    
+    # Sidebar for basic and advanced settings for Upset Plot
+    sidebarPanel(width = 2,
+                 h4(HTML("UpSet Plot Settings")),
+                 SettingsUI("settings")
+    ),
+    
+    # Show tab panels of file import, data cleaning and plot 
+    mainPanel(
+      tabsetPanel(
+        
+        # User to plot chart
+        tabPanel("UpSet Plot", 
+                 UpSetPlotUI("upset")),
+        
+        # User to upload data
+        tabPanel("Import Own Data",
+                 br(),
+                 csvFileUI("datafile", "User data (.csv format)"),
+                 dataTableOutput("table"))
+        
+        
+      )
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  
+  # Ingest uploaded dataset
+  datafile <- csvFileServer("datafile", stringsAsFactors = FALSE)
+  
+  # Preview imported data set
+  output$table <- renderDataTable({
+    datafile()
+  })
+  
+  # ANOVA plot
+  ANOVAServer("upset")
+  
 }
 
-packages <- c("ggstatsplot","readr","tidyverse","plotly")
-ipak(packages)
+shinyApp(ui, server)
