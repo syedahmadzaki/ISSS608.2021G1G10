@@ -86,5 +86,11 @@ hist <- ggplot(cc_anova, aes(x=price)) +
 ggplotly(hist)
 
 # Statistical test Results
+location_list <- cc_data %>%
+  distinct(location) %>%  
+  as.list(location)
 
 
+cc_list <- cc_data %>%
+  distinct(last4ccnum) %>%  
+  as.list(last4ccnum)

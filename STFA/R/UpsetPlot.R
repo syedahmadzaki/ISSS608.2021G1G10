@@ -24,13 +24,13 @@ csvFileUI <- function(id, label = "CSV file") {
     br(),
     
     # Select dataset from VAST challenge
-    #radioButtons(
-      #NS(id,'choose_data'),
-      #label = ('Select dataset'),
-      #choices = c(
-        #'Credit Card dataset' = "cc_data",
-        #'Upload own dataset' = "user_data")
-    #),
+    radioButtons(
+      NS(id,'choose_data'),
+      label = ('Select dataset'),
+      choices = c(
+        'Credit Card dataset' = "cc_data",
+        'Upload own dataset' = "user_data")
+    ),
     
     # Prompt user to upload csv file
     fileInput(NS(id,"file"),
@@ -98,7 +98,7 @@ csvFileServer <- function(id, stringsAsFactors) {
 ui <- fluidPage(
   
   # Application title
-  titlePanel("UpSet Plot - View Locations with Same Visitors"),
+  titlePanel("UpSet Plot - Who Visits the Same Locations"),
   
   sidebarLayout(
     
@@ -115,12 +115,12 @@ ui <- fluidPage(
           htmlOutput("sets"),
           
           # No. of sets
-          sliderInput(
-            "setsize",
-            label = ("Select no. of sets"),
-            value = 5,
-            min = 2,
-            max = 20),
+          #sliderInput(
+            #"setsize",
+            #label = ("Select no. of sets"),
+            #value = 5,
+            #min = 2,
+            #max = 20),
           
           # No. of intersections
           numericInput(
@@ -365,13 +365,25 @@ server <- function(input, output, session) {
   
   
   # Default dataset
+  #cc_csv <- read.csv("cc_pivot.csv", header=T, sep="," ) %>%
+    #dplyr::select(-X)
   My_data <- cc_csv
   
+  #My_data <- reactiveVal()
+  #observeEvent(
+    #if(input$choose_data == "user_data"){ 
+    #My_data <- datafile()
+  #})
+  #observeEvent(
+    #if(input$choose_data == "cc_data"){ 
+   # My_data <- cc_csv
+    #})
+  
   # Assign dataset 
-  eventReactive(
-    input$confirm, 
-    isolate(My_data <- datafile())
-    )
+  #eventReactive(
+    #input$confirm, 
+    #isolate(My_data <- datafile())
+    #)
   
   
   # Upset plot
@@ -384,7 +396,8 @@ server <- function(input, output, session) {
     
     isolate(UpSetR::upset(data = My_data, 
                   sets = Specific_sets(),
-                  nsets = input$setsize, 
+                  nsets = 5, 
+                  #nsets = input$setsize, 
                   nintersects = input$nintersections, 
                   order.by = input$order,
                   decreasing = input$decreasing,
