@@ -207,7 +207,7 @@ server <- function(input, output, session) {
   })
   
   # Assign deafult datasets
-  cc_data <- read.csv("cc_data.csv")
+  cc_data <- read.csv("data/cc_data.csv")
   cc_data[grep("Katerina", cc_data$location),2] <- "Katerina's Cafe"
   ANOVA_data <- cc_data
   

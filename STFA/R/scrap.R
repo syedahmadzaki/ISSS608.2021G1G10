@@ -24,7 +24,7 @@ UpSetR::upset(cc_pivot, nsets = 6, order.by = "freq")
 
 #write.csv(cc_pivot,'cc_pivot.csv')
 
-cc_csv <- read.csv("cc_pivot.csv", header=T, sep="," ) %>%
+cc_csv <- read.csv("data/cc_pivot.csv", header=T, sep="," ) %>%
   dplyr::select(-X)
 
 #UpSetR::upset(cc_csv)
