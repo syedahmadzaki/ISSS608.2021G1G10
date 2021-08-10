@@ -250,7 +250,7 @@ ui <- fluidPage(
           ),
           
           # Users to submit format
-          actionButton("submitformat","Submit"),
+          actionButton("submitformat","Submit")
           
         )
       )

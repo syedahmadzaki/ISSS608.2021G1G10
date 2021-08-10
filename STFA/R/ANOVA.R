@@ -17,19 +17,9 @@ AcsvFileUI <- function(id, label = "CSV file") {
     br(),
     fluidRow(column(10,h4(HTML("<b>Instructions</b>")),
                     p(
-                      "Begin by uploading a correctly formatted .csv file. 
-                      Or you can choose to view the ready ANOVA Plot based on the credit card transaction dataset from VAST Challenge Mini Case 2 in the Upset Plot tab."
+                      "Begin by uploading a correctly formatted .csv file."
                     ))),
     br(),
-    
-    # Select dataset from VAST challenge
-    radioButtons(
-      NS(id,'choose_data'),
-      label = ('Select dataset'),
-      choices = c(
-        'Credit Card dataset' = "cc_data",
-        'Upload own dataset' = "user_data")
-    ),
     
     # Prompt user to upload csv file
     fileInput(NS(id,"file"),
@@ -112,33 +102,37 @@ ui <- fluidPage(
     sidebarPanel(width = 2,
                  h4(HTML("ANOVA Plot Settings")),
     
-    # Users select plot type
-    # p for parametric, np for non-parametric, r for robust and bayes for Bayes Factor
-    selectInput(
-      "type",
-      label = ("Select test statistics"),
-      choices = list("Parametric" = "p",
-                     "Non-Parametric" = "np",
-                     "Robust" = "r",
-                     "Bayes Factor" = "bf"),
-      selected = "np"),
+      # Users select plot type
+      # p for parametric, np for non-parametric, r for robust and bayes for Bayes Factor
+      selectInput(
+        "type",
+        label = ("Select test statistics"),
+        choices = list("Parametric" = "p",
+                       "Non-Parametric" = "np",
+                       "Robust" = "r",
+                       "Bayes Factor" = "bf"),
+        selected = "np"),
+      
+      # Users confidence level for one-way ANOVA
+      selectInput(
+        "cf",
+        label = ("Select confidence level"),
+        choices = list("0.5" = 0.5,
+                       "0.9" = 0.9,
+                       "0.95" = 0.95,
+                       "0.99" = 0.99),
+        selected = 0.95),
     
-    # Users confidence level for one-way ANOVA
-    selectInput(
-      "cf",
-      label = ("Select confidence level"),
-      choices = list("0.9" = 0.9,
-                     "0.95" = 0.95,
-                     "0.99" = 0.99),
-      selected = 0.95),
-  
-    # Users no. of bins for histogram
-    sliderInput(
-      "bins",
-      label = ("No. of bins"),
-      value = 5,
-      min = 3,
-      max = 30)
+      # Users no. of bins for histogram
+      sliderInput(
+        "bins",
+        label = ("No. of bins"),
+        value = 5,
+        min = 3,
+        max = 30),
+      
+      # Users to submit 
+      actionButton("submit","Submit")
 
     ),
     
@@ -146,7 +140,7 @@ ui <- fluidPage(
     mainPanel(
       tabsetPanel(
         
-        # Default chart 2
+        # Default chart 1
         tabPanel("ANOVA - Between Locations",
                  br(),
                  
@@ -155,13 +149,13 @@ ui <- fluidPage(
                    "locations",
                    label = ("Select locations"),
                    choices = location_list,
-                   selected = c("Kalami Kafenion", "Guy's Gyros","Brew've Been Served","Albert's Fine Clothing"),
+                   selected = c("Kalami Kafenion", "Guy's Gyros","Brew've Been Served","Jack's Magical Beans"),
                    multiple=TRUE)),
                  
                  
                  fluidRow(column(7,plotOutput("ANOVAL", height = 900)),
                           column(5,plotlyOutput("histL", height = 900)))
-                 ),
+        ),
         
         
         # Default chart 2
@@ -182,10 +176,19 @@ ui <- fluidPage(
         ),
         
         # User to upload data
-        tabPanel("Import Own Data",
-                 br(),
-                 AcsvFileUI("datafile", "User data (.csv format)"),
-                 dataTableOutput("table"))
+        tabPanel("Use Own Data",
+                 tabsetPanel(
+                   
+                   tabPanel("Import",
+                    br(),
+                    AcsvFileUI("datafile", "User data (.csv format)"),
+                    dataTableOutput("table")
+                   ),
+                   
+                   tabPanel("Plot")
+                 )
+        )
+        
         
         
       )
@@ -203,10 +206,29 @@ server <- function(input, output, session) {
     datafile()
   })
   
-  # Assign dataset
+  # Assign deafult datasets
   cc_data <- read.csv("cc_data.csv")
   cc_data[grep("Katerina", cc_data$location),2] <- "Katerina's Cafe"
-  ANOVA_data <- cc_anova
+  ANOVA_data <- cc_data
+  
+  # Assign uploaded dataset
+  #eventReactive({
+    #input$confirm
+    #isolate(ANOVA_userdata <- datafile())
+  #})
+  
+  ### uploading data from external source
+  ANOVA_userdata <- reactive({
+    if(input$file == 0){return()}
+    inFile <- input$file1
+    if (is.null(inFile)){return(NULL)}
+    
+    isolate({ 
+      input$Load
+      my_data <- read.csv(inFile$datapath, header = input$header, sep = input$sep, stringsAsFactors = FALSE, dec = input$dec)
+    })
+    my_data
+  })
   
   # Create location and credit card list for selection
   location_list <- cc_data %>%
@@ -217,66 +239,98 @@ server <- function(input, output, session) {
     distinct(last4ccnum) %>%  
     as.list(last4ccnum)
     
-  # Plot ANOVA
+  # Plot ANOVAs
+  # Plot ANOVA - by location
   output$ANOVAL <- renderPlot({
-    ggbetweenstats(
+    
+    # Plot graph after users click on Plot button
+    input$submit
+    
+    isolate(ggbetweenstats(
       data = (ANOVA_data %>% 
         filter(location %in% input$locations)),
       x = location,
       y = price,
       type = input$type,
-      #conf.level = input$cf,
-      #outlier.tagging = TRUE,
-      #outlier.label = last4ccnum, 
+      conf.level = input$cf,
       title = "Difference in mean spend across locations",
       results.subtitle = TRUE,
       xlab = "Location",
       ylab = "Price ($)"
-    )
+    ))
   })
   
+  # Plot ANOVA - by credit card
   output$ANOVAC <- renderPlot({
-    ggbetweenstats(
+    
+    # Update graph after users click on Submit button
+    input$submit
+    
+    isolate(ggbetweenstats(
       data = (ANOVA_data %>% 
                 filter(last4ccnum %in% input$ccnums)),
       x = last4ccnum,
       y = price,
       type = input$type,
-      #conf.level = input$cf,
-      #outlier.tagging = TRUE,
-      #outlier.label = last4ccnum, 
+      conf.level = input$cf,
       title = "Difference in mean spend across credit card numbers",
       results.subtitle = TRUE,
       xlab = "Credit Card Numbers",
       ylab = "Price ($)"
-    )
+    ))
   })
   
-  # Plot histogram
+  # Plot ANOVA - user data
+  output$ANOVAU <- renderPlot({
+    
+    # Update graph after users click on Submit button
+    input$submit
+    
+    isolate(ggbetweenstats(
+      data = ANOVA_userdata ,
+      x = ANOVA_userdata[,1],
+      y = ANOVA_userdata[,2],
+      type = input$type,
+      conf.level = input$cf,
+      title = "One-Way ANOVA",
+      results.subtitle = TRUE,
+      xlab = "X",
+      ylab = "Y"
+    ))
+  })
+  
+  # Plot histograms
   output$histL <- renderPlotly({
-    hist <- ggplot(ANOVA_data %>% 
+    
+    # Plot graph after users click on Plot button
+    input$submit
+    
+    isolate(hist <- ggplot(ANOVA_data %>% 
                      filter(location %in% input$locations), aes(x=price)) +
       geom_histogram(bins = input$bins) +
       facet_wrap(~location) +
       labs(title = "Distribution of spend amount by location",
-           y = "Frequency", x = "Price ($)")
+           y = "Frequency", x = "Price ($)"))
     
-    ggplotly(hist)
+    isolate(ggplotly(hist))
   })  
   
   output$histC <- renderPlotly({
-    hist <- ggplot(ANOVA_data %>% 
+    
+    # Plot graph after users click on Plot button
+    input$submit
+    
+    isolate(hist <- ggplot(ANOVA_data %>% 
                      filter(last4ccnum %in% input$ccnums), aes(x=price)) +
       geom_histogram(bins = input$bins) +
       facet_wrap(~last4ccnum) +
       labs(title = "Distribution of spend amount by location",
-           y = "Frequency", x = "Price ($)")
+           y = "Frequency", x = "Price ($)"))
     
-    ggplotly(hist)
+    isolate(ggplotly(hist))
   })  
   
-      
-  
+
 }
 
 shinyApp(ui, server)

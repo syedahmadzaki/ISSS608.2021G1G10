@@ -94,3 +94,5 @@ location_list <- cc_data %>%
 cc_list <- cc_data %>%
   distinct(last4ccnum) %>%  
   as.list(last4ccnum)
+
+cc_data[,1]
