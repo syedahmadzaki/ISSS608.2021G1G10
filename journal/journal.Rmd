@@ -12,9 +12,7 @@ author:
     affiliation: Singapore Management University
     
 abstract: |
-  This is the abstract.
-
-  It consists of two paragraphs.
+  xxxx
 bibliography: sigproc.bib
 csl: acm-sig-proceedings.csl
 output: rticles::acm_article
@@ -23,11 +21,17 @@ output: rticles::acm_article
 
 
 # Motivation 
-Lorem ipsum dolor sit[@meier2012] amet, consectetur adipiscing[@fenner2012a] elit. Pellentesque rhoncus ut tellus eu tristique. Duis pharetra velit vitae viverra elementum. Nulla metus dui, pulvinar id enim at, pellentesque semper ipsum. Phasellus cursus dignissim ipsum, sed congue orci pretium quis. Maecenas rhoncus leo a cursus euismod. Fusce a erat eu ipsum tristique tempus at sed tortor. Aliquam erat volutpat. Donec at pretium lorem. Donec pretium nunc id nunc bibendum convallis. Phasellus quis enim id massa feugiat egestas hendrerit sollicitudin nibh. Sed blandit eros id tellus porta, eget ullamcorper urna posuere. Pellentesque laoreet lacus nibh, a mattis libero viverra sit amet. Sed vitae diam interdum, pharetra neque sit amet, dictum lectus.
+Almost every action leaves a digital trail. Digital evidence such as GPS records and payment transactions play an increasingly significant role in criminal and civil investigations[@getsource]. It is crucial that investigators have the ability to utilize and transform the data into insightful information to aid in their investigations. The growing volume of such data from rise in digital footprints also increases the time and resources needed to analyze them. Without effective data analysis, law enforcement agencies will struggle to make sense of the massive data.
 
-Donec massa justo, ultricies quis facilisis sed, tristique nec metus. Vestibulum id condimentum diam. Integer semper augue id porttitor ultrices. Cras vulputate felis eu diam porttitor, ac pulvinar nisi imperdiet. Donec eros felis, imperdiet vel malesuada at, varius et quam. Phasellus facilisis non risus eu placerat. Sed ac mollis lorem.
+However, most law enforcement personnel do not have training in data science and digital research, which are generally required to perform advanced analytics. Investigators with resource and time constraints will struggle to find relevant information for investigations, even though data is now everywhere.
+
+Addressing this challenge, we designed and developed ___, a _____ dashboard to allow investigators to conduct investigative analysis of GPS and credit card data via an open-source tool. The tool aims to simplify data exploration and analysis to gain valuable insights into the behavior of individuals quickly. The study is built upon VAST Mini Challenge 2's task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars. We demonstrate the potential of ___ through the use of interactive maps to explore GPS paths, interactive network graph to explore relationships from payment transactions, UPSet plot to understand co-location of individuals and one-way ANOVA to determine differences in spending behavior.
+
+[@meier2012] amet
+
 
 # Design Framework
+
 
 
 # Use Case
@@ -37,9 +41,7 @@ Donec massa justo, ultricies quis facilisis sed, tristique nec metus. Vestibulum
 
 
 # Future Work
-Nullam semper imperdiet orci, at lacinia est aliquet et. Sed justo nibh, aliquet et velit at, pharetra consequat velit. Nullam nec ligula sagittis, adipiscing nisl sed, varius massa. Mauris quam ante, aliquet a nunc et, faucibus imperdiet libero. Suspendisse odio tortor, bibendum vel semper sit amet, euismod ac ante. Nunc nec dignissim turpis, ac blandit massa. Donec auctor massa ac vestibulum aliquam. Fusce auctor dictum lobortis. Vivamus tortor augue, convallis quis augue sit amet, laoreet tristique quam. Donec id volutpat orci. Suspendisse at mi vel elit accumsan porta ac ut diam. Nulla ut dapibus quam.
-
-Sed est odio, ornare in rutrum et, dapibus in urna. Suspendisse varius massa in ipsum placerat, quis tristique magna consequat. Suspendisse non convallis augue. Quisque fermentum justo et lorem volutpat euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi sagittis interdum justo, eu consequat nisi convallis in. Sed tincidunt risus id lacinia ultrices. Phasellus ac ligula sed mi mattis lacinia ac non felis. Etiam at dui tellus.
+We plan to improve the analytics-based tools so that the basic interactions such as brushing-and-linking and details-on-demand types can be easily supported.
 
 
 # References
