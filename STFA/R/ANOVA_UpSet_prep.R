@@ -1,16 +1,16 @@
 library(shiny)
 library(tidyverse)
-library(plyr)
 library(ggplot2)
 library(plotly)
 library(ggstatsplot)
 library(UpSetR)
+#library(plyr)
 library(dplyr)
 
 # ANOVA ----------------------------------------------------------------------------------------------------------------------
 # Data Prep for Default Datasets
 
-cc_data <- read.csv("data/cc_data.csv")
+cc_data <- read.csv("data/cc_data.csv", encoding = "UTF-8")
 cc_data[grep("Katerina", cc_data$location),2] <- "Katerina's Cafe"
 
 location_list <- cc_data %>%
