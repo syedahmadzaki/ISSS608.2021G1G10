@@ -20,29 +20,32 @@ output: rticles::acm_article
 
 
 
-# Motivation 
-Almost every action leaves a digital trail. Digital evidence such as GPS records and payment transactions play an increasingly significant role in criminal and civil investigations[@getsource]. It is crucial that investigators have the ability to utilize and transform the data into insightful information to aid in their investigations. The growing volume of such data from rise in digital footprints also increases the time and resources needed to analyze them. Without effective data analysis, law enforcement agencies will struggle to make sense of the massive data.
+# Introduction 
+Almost every action leaves a digital trail. Digital evidence such as GPS records and payment transactions play an increasingly significant role in criminal and civil investigations[@getsource]. It is crucial that law enforcement agencies have the ability to utilize and transform the data into insightful information to aid in their investigations. The growth in volume and variety of digital data also increases the time and resources needed to analyze them. However, most law enforcement personnel do not have training in data science and digital research, which are generally required to perform advanced analytics. Without effective data analysis, investigators will struggle to find relevant information for their cases, even though data is everywhere.
 
-However, most law enforcement personnel do not have training in data science and digital research, which are generally required to perform advanced analytics. Investigators with resource and time constraints will struggle to find relevant information for investigations, even though data is now everywhere.
+Addressing this challenge, we designed and developed ___, a _____ dashboard to allow law enforcement agents to conduct investigative analysis of GPS and credit card data via an open-source tool. The tool aims to simplify data exploration and analysis to gain valuable insights into the behavior of individuals quickly. The study is built upon VAST Mini Challenge 2's task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars. We demonstrate the potential of ___ through the use of interactive maps to explore GPS paths, interactive network graph to explore relationships from payment transactions, UPSet plot to understand co-location of individuals and one-way ANOVA to determine differences in spending behavior.
 
-Addressing this challenge, we designed and developed ___, a _____ dashboard to allow investigators to conduct investigative analysis of GPS and credit card data via an open-source tool. The tool aims to simplify data exploration and analysis to gain valuable insights into the behavior of individuals quickly. The study is built upon VAST Mini Challenge 2's task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars. We demonstrate the potential of ___ through the use of interactive maps to explore GPS paths, interactive network graph to explore relationships from payment transactions, UPSet plot to understand co-location of individuals and one-way ANOVA to determine differences in spending behavior.
+This paper documents our approach to design and develop the interactive application targeted at law enforcement agencies. This introduction is followed in Section 2 by an explanation of our objectives and motivation. Section 3 provides a review of existing techniques used to visualize GPS and credit card data. Section 4 details the data used and design framework used. Section 5 provides a visual overview of the application. Section 6 summaries the findings from the use case. Section 7 concludes the report and offers ideas for further development.
 
 [@meier2012] amet
 
+# Motivation and Objectives
+x
 
-# Design Framework
+# Review of Existing Techniques
+x
 
+# Data and User Interface Design
+x
 
+# The Application
+x
 
-# Use Case
-
-
-# Discussion
-
+# Case Study: VAST Mini Challenge 2
+x
 
 # Future Work
 We plan to improve the analytics-based tools so that the basic interactions such as brushing-and-linking and details-on-demand types can be easily supported.
-
 
 # References
 
