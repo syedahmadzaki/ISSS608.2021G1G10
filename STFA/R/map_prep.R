@@ -304,8 +304,6 @@ spots_table <- spots %>%
 spots_table$geometry <- NULL
 colnames(spots_table) <- c("start_date","Name","Start_Time","End_Time","Duration_Hours","Location", "Location_Type")
 
-
-
 rm(spots) # Remove unused earlier dataset
 rm(spots_median) # Remove unused earlier dataset
 
@@ -406,3 +404,10 @@ rm(Kronos_sf) # Remove unused earlier dataset
 rm(car) # Remove unused earlier dataset
 rm(gps_name) # Remove unused earlier dataset
 #rm(gps_path) # Remove unused earlier dataset
+
+#write_csv(gps_name,"gps_name.csv")
+
+#--------------- Table for Heatmaply
+
+
+

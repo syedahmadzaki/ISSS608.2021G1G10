@@ -12,6 +12,7 @@ library(formattable)
 library(DT)
 library(colourpicker)
 library(fresh)
+library(UpSetR)
 
 
 # Define UI for application that draws a histogram
@@ -30,7 +31,6 @@ ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = "Introduction", co
                         default_link_hover_bg = "gray"
                       ),        output_file = NULL
                     )),
-                  #theme = shinytheme("flatly"),
                   
                   # Intro Tab - Mainly a write-up of our project.
                   
@@ -59,172 +59,371 @@ ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = "Introduction", co
                   
                   tabPanel("ANOVA",icon = icon("tint"),
                            
-                           # Application title
-                           titlePanel("One-Way ANOVA - Difference in Spends"),
-                           
-                           sidebarLayout(
-                             
-                             # Sidebar for basic and advanced settings for ANOVA Plot
-                             sidebarPanel(width = 2,
-                                          h4(HTML("ANOVA Plot Settings")),
-                                          
-                                          # Users select plot type
-                                          # p for parametric, np for non-parametric, r for robust and bayes for Bayes Factor
-                                          selectInput(
-                                            "type",
-                                            label = ("Select test statistics"),
-                                            choices = list("Parametric" = "p",
-                                                           "Non-Parametric" = "np",
-                                                           "Robust" = "r",
-                                                           "Bayes Factor" = "bf"),
-                                            selected = "np"),
-                                          
-                                          # Users confidence level for one-way ANOVA
-                                          #selectInput(
-                                          #"cf",
-                                          #label = ("Select confidence level"),
-                                          #choices = list("0.5" = 0.5,
-                                          #"0.9" = 0.9,
-                                          #"0.95" = 0.95,
-                                          #"0.99" = 0.99),
-                                          #selected = 0.95),
-                                          
-                                          # Users no. of bins for histogram
-                                          sliderInput(
-                                            "bins",
-                                            label = ("No. of bins"),
-                                            value = 5,
-                                            min = 3,
-                                            max = 30),
-                                          
-                                          # Users to submit 
-                                          actionButton("submit","Submit")
-                                          
-                             ),
-                             
-                             # Show tab panels of file import, data cleaning and plot 
-                             mainPanel(
-                               tabsetPanel(
-                                 
-                                 # Instructions
-                                 tabPanel("Guide",
-                                          br(),
-                                          fluidRow(
-                                            column(6,
-                                                   h4(HTML("<b>Understanding One-Way Analysis of Variance Test</b>")),
-                                                   tags$div(
-                                                     tags$p("Analysis of variance (ANOVA) test is conducted to check if the means of two or more groups are significantly different from each other. 
+                           sidebarLayout(fluid = TRUE,
+                                         
+                                         # Sidebar for basic and advanced settings for ANOVA Plot
+                                         sidebarPanel(width = 2,
+                                                      h4(HTML("ANOVA Plot Settings")),
+                                                      
+                                                      # Users select plot type
+                                                      # p for parametric, np for non-parametric, r for robust and bayes for Bayes Factor
+                                                      selectInput(
+                                                        "type",
+                                                        label = ("Select test statistics"),
+                                                        choices = list("Parametric" = "p",
+                                                                       "Non-Parametric" = "np",
+                                                                       "Robust" = "r",
+                                                                       "Bayes Factor" = "bf"),
+                                                        selected = "np"),
+                                                      
+                                                      # Users confidence level for one-way ANOVA
+                                                      #selectInput(
+                                                      #"cf",
+                                                      #label = ("Select confidence level"),
+                                                      #choices = list("0.5" = 0.5,
+                                                      #"0.9" = 0.9,
+                                                      #"0.95" = 0.95,
+                                                      #"0.99" = 0.99),
+                                                      #selected = 0.95),
+                                                      
+                                                      # Users no. of bins for histogram
+                                                      sliderInput(
+                                                        "bins",
+                                                        label = ("No. of bins"),
+                                                        value = 5,
+                                                        min = 3,
+                                                        max = 30),
+                                                      
+                                                      # Users to submit 
+                                                      #                                                      submitButton("Apply Changes", icon("refresh"))                                                         
+                                                      actionButton("submit","Submit")
+                                                      
+                                         ),
+                                         
+                                         # Show tab panels of file import, data cleaning and plot 
+                                         mainPanel(width = 10, fluid = TRUE,
+                                                   tabsetPanel(
+                                                     
+                                                     # Instructions
+                                                     tabPanel("Guide",
+                                                              br(),
+                                                              fluidRow(
+                                                                column(6,
+                                                                       h4(HTML("<b>Understanding One-Way Analysis of Variance Test</b>")),
+                                                                       tags$div(
+                                                                         tags$p("Analysis of variance (ANOVA) test is conducted to check if the means of two or more groups are significantly different from each other. 
                                   For example, we could use one-way ANOVA to understand if the test scores between 5 different classes are significantly different."), 
-                                                     tags$p("It is important to realize that one-way ANOVA is an omnibus test statistic which is unable to tell us which specific groups were statsitically significantly different from each other.
+                                                                         tags$p("It is important to realize that one-way ANOVA is an omnibus test statistic which is unable to tell us which specific groups were statsitically significantly different from each other.
                                    Thus, we can make use of post-hoc test that can help us determine which of the groups differ from each other."), 
-                                                     tags$p("By using the ggbetweenstats function from ggstatplot package, we can easily visualize the results of one-way ANOVA. 
+                                                                         tags$p("By using the ggbetweenstats function from ggstatplot package, we can easily visualize the results of one-way ANOVA. 
                                     The visualization is built upon boxviolin plot to show how the dependent variable distribute for each group. 
                                     The function offers users the flexibility to select the type of hypothesis testing, including parametric, non-parametric, robust or Bayes Factor.
                                     It also automatically selects the appropriate post-hoc test and displays the results of the pairwise comparisons on the chart."),
-                                                     tags$p("In our use case, we made use of credit card transaction data to showcase how such a visualization 
+                                                                         tags$p("In our use case, we made use of credit card transaction data to showcase how such a visualization 
                             can help us understand the difference in spend amount across locations and credit card users.
-                          The visualization aims to answer questions like 'Is the spending of user A significantly from user B?' and 'Is the mean spend at this location significantly different from other cafes?'"), 
-                                                     tags$a(href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html", "Click here to find out more about ggstatplot R package.")),
-                                                   br(),
-                                                   h4(HTML("<b>Steps</b>")),
-                                                   tags$ol(
-                                                     tags$li("Begin by exploring the credit card transaction dataset under the 'EDA tab."),
-                                                     tags$li("Select the ANOVA tab based on the type of groups you are interested in comparing - 'ANOVA - Between Locations' or 'ANOVA - Between Credit Cards'."),
-                                                     tags$li("Select the locations or credit card numbers you would like to zoom in on within each tab."), 
-                                                     tags$li("You can play with the number of bins to understand the nature of the data to select the right test statistics."), 
-                                                     tags$li("For example, if the dataset is not normally distributed, you can select a non-parametric test."),
-                                                     tags$li("Click on 'Submit' button and the plot will be updated with the one-way ANOVA and pairwise comparison results."),
-                                                   ),
-                                                   br(),
-                                                   br(),
-                                                   br()
-                                            ), 
-                                            column(6,tags$img(src="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats_files/figure-html/ggbetweenstats1-1.png", width = "100%"),
-                                                   tags$h6("Source: vignettes/web_only/ggbetweenstats.Rmd")
-                                            ))
-                                 ), 
-                                 
-                                 # EDA plots
-                                 tabPanel("EDA",
-                                          br(),
-                                          fluidRow(h4(HTML("<b>Exploratory Data Analysis</b>"))),
-                                          fluidRow(column(6,plotlyOutput("EDA_1A", height = 700)),
-                                                   column(6,plotlyOutput("EDA_2A", height = 700)))
-                                 ), 
-                                 
-                                 
-                                 # Default chart 1
-                                 tabPanel("ANOVA - Between Locations",
-                                          br(),
-                                          
-                                          # Select location 
-                                          fluidRow(selectInput(
-                                            "locations",
-                                            label = ("Select locations"),
-                                            choices = location_list,
-                                            selected = c("Kalami Kafenion", "Guy's Gyros","Brew've Been Served","Jack's Magical Beans"),
-                                            multiple=TRUE)),
-                                          
-                                          
-                                          fluidRow(column(8,plotOutput("ANOVAL", height = 600)),
-                                                   column(4,plotlyOutput("histL", height = 600))),
-                                          br(),
-                                          br()
-                                 ),
-                                 
-                                 
-                                 # Default chart 2
-                                 tabPanel("ANOVA - Between Credit Cards",
-                                          br(),
-                                          
-                                          # Select credit card number 
-                                          fluidRow(selectInput(
-                                            "ccnums",
-                                            label = ("Select credit card numbers"),
-                                            choices = cc_list,
-                                            selected = c("4795","5368","8129","2142"),
-                                            multiple=TRUE)),
-                                          
-                                          
-                                          fluidRow(column(8,plotOutput("ANOVAC", height = 600)),
-                                                   column(4,plotlyOutput("histC", height = 600))),
-                                          br(),
-                                          br()
-                                 )#,
-                                 
-                                 # User to upload data and show ANOVA chart
-                                 #                                 tabPanel("Import Own Data",
-                                 #                                          fluidRow(
-                                 #                                            column(6,
-                                 #                                                   AcsvFileUI("datafile", "User data (.csv format)"),
-                                 #                                                   dataTableOutput("table")
-                                 #                                            ),
-                                 
-                                 # To add plot here
-                                 #                                            column(6,)
-                                 #                                          )
-                                 #                                 )
-                                 
-                                 
-                                 
-                               )
-                             )
+                          The visualization aims to answer questions like 'Is the spending of user A significantly different from user B?' and 'Is the mean spend at this location significantly different from other cafes?'"), 
+                                                                         tags$a(href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html", "Click here to find out more about ggstatplot R package.")),
+                                                                       br(),
+                                                                       h4(HTML("<b>Steps</b>")),
+                                                                       tags$ol(
+                                                                         tags$li("Begin by exploring the credit card transaction dataset under the 'EDA tab."),
+                                                                         tags$li("Select the ANOVA tab based on the type of groups you are interested in comparing - 'ANOVA - Between Locations' or 'ANOVA - Between Credit Cards'."),
+                                                                         tags$li("Select the locations or credit card numbers you would like to zoom in on within each tab."), 
+                                                                         tags$li("You can play with the number of bins to understand the nature of the data to select the right test statistics."), 
+                                                                         tags$li("For example, if the dataset is not normally distributed, you can select a non-parametric test."),
+                                                                         tags$li("Click on 'Submit' button and the plot will be updated with the one-way ANOVA and pairwise comparison results."),
+                                                                       ),
+                                                                       br(),
+                                                                       br(),
+                                                                       br()
+                                                                ), 
+                                                                column(6,tags$img(src="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats_files/figure-html/ggbetweenstats1-1.png", width = "100%"),
+                                                                       tags$h6("Source: vignettes/web_only/ggbetweenstats.Rmd")
+                                                                ))
+                                                     ), 
+                                                     
+                                                     # EDA plots
+                                                     tabPanel("EDA",
+                                                              br(),
+                                                              fluidRow(column(12,
+                                                                              h4(HTML("<b>Exploratory Data Analysis</b>"))                                                                              
+                                                              )
+                                                              ),
+                                                              fluidRow(column(6,plotlyOutput("EDA_1A", height = 700, width = "100%")),
+                                                                       column(6,plotlyOutput("EDA_2A", height = 700, width = "100%")))
+                                                     ), 
+                                                     
+                                                     # Default chart 1
+                                                     tabPanel("ANOVA - Between Locations",
+                                                              br(),
+                                                              
+                                                              # Select location 
+                                                              fluidRow(column(12,
+                                                                              selectInput(
+                                                                                "locations",
+                                                                                label = ("Select locations and click 'Submit'"),
+                                                                                choices = location_list,
+                                                                                selected = c("Kalami Kafenion", "Guy's Gyros","Brew've Been Served","Jack's Magical Beans"),
+                                                                                multiple=TRUE)                                                                             
+                                                              )
+                                                              ),
+                                                              
+                                                              fluidRow(column(8, h4(HTML("<b>One-Way ANOVA</b>")),
+                                                                              plotOutput("ANOVAL", width = "100%", height = 600)),
+                                                                       column(4, h4(HTML("<b>Distribution of spend amount by location</b>")),
+                                                                              plotlyOutput("histL", width = "100%", height = 600))),
+                                                              br(),
+                                                              br()
+                                                     ),
+                                                     
+                                                     
+                                                     # Default chart 2
+                                                     tabPanel("ANOVA - Between Credit Cards",
+                                                              br(),
+                                                              
+                                                              # Select credit card number 
+                                                              fluidRow(column(12,
+                                                                              selectInput(
+                                                                                "ccnums",
+                                                                                label = ("Select credit card numbers and click 'Submit'"),
+                                                                                choices = cc_list,
+                                                                                selected = c("4795","5368","8129","2142"),
+                                                                                multiple=TRUE)                                                                              
+                                                              )
+                                                              ),
+                                                              
+                                                              
+                                                              fluidRow(column(8, h4(HTML("<b>One-Way ANOVA</b>")),
+                                                                              plotOutput("ANOVAC", width = "100%", height = 600)),
+                                                                       column(4, h4(HTML("<b>Distribution of spend amount by credit card numbers</b>")),
+                                                                              plotlyOutput("histC", width = "100%", height = 600))),
+                                                              br(),
+                                                              br()
+                                                     )
+                                                   )
+                                         )
                            )
-                           
                   ),
                   
                   # UpSet Tab - Explains how to use our Shiny app.
                   
-                  tabPanel("Upset Chart",icon = icon("chart-bar")
+                  tabPanel("Upset Chart",icon = icon("chart-bar"),
                            
-                           
-                           
+                           sidebarLayout(
+                             
+                             # Sidebar for basic and advanced settings for Upset Plot
+                             sidebarPanel(width=3, fluid = TRUE,
+                                          h4(HTML("UpSet Plot Settings")),
+                                          
+                                          tabsetPanel(
+                                            tabPanel(
+                                              'Setting',
+                                              br(),
+                                              
+                                              # Show the sets from the dataset for multiple selection
+                                              htmlOutput("sets"),
+                                              
+                                              # No. of sets
+                                              #sliderInput(
+                                              #"setsize",
+                                              #label = ("Select no. of sets"),
+                                              #value = 5,
+                                              #min = 2,
+                                              #max = 20),
+                                              
+                                              # No. of intersections
+                                              numericInput(
+                                                "nintersections",
+                                                label = ("Limit no. of intersections"),
+                                                value = 50,
+                                                min = 1,
+                                                max = 60),
+                                              
+                                              # Order by degree or frequency
+                                              selectInput(
+                                                "order",
+                                                label = ("Order intersections by"),
+                                                choices = list("Degree" = "degree",
+                                                               "Frequency" = "freq"),
+                                                selected = "freq"),
+                                              
+                                              # Order descending or ascending
+                                              selectInput(
+                                                "decreasing",
+                                                label = ("Increasing/Decreasing"),
+                                                choices = list("Increasing" = FALSE,
+                                                               "Decreasing" = TRUE),
+                                                selected = TRUE),
+                                              
+                                              # To show empty intersections
+                                              checkboxInput(
+                                                "empty", 
+                                                label = "Show empty intersections", 
+                                                value = FALSE),
+                                              
+                                              # Users to submit settings
+                                              #                                              submitButton("Apply Changes", icon("refresh"))                                              
+                                              actionButton("submitsetting","Submit")
+                                              ,
+                                            ),
+                                            
+                                            tabPanel("Format",
+                                                     
+                                                     colourInput(
+                                                       "mainbarcolor",
+                                                       label = h6("Select main bar colour"),
+                                                       "#214F8A"
+                                                     ),
+                                                     
+                                                     colourInput(
+                                                       "setbarcolor",
+                                                       label = h6("Select set bar colour"),
+                                                       "#EA5D4E"
+                                                     ),
+                                                     
+                                                     sliderInput(
+                                                       "mbratio",
+                                                       label = h6("Bar : Matrix ratio"),
+                                                       value = 0.30,
+                                                       min = 0.20,
+                                                       max = 0.80,
+                                                       ticks = FALSE,
+                                                       step = 0.01
+                                                     ),
+                                                     
+                                                     numericInput(
+                                                       "intersection_title_scale",
+                                                       label = h6("Intersection Size Label Text Scale"),
+                                                       value = 1.8,
+                                                       min = 1,
+                                                       max = 10,
+                                                       step = 0.1
+                                                     ),
+                                                     
+                                                     numericInput(
+                                                       "set_title_scale",
+                                                       label = h6("Set Size Label Text Scale"),
+                                                       value = 1.8,
+                                                       min = 1,
+                                                       max = 10,
+                                                       step = 0.1
+                                                     ),
+                                                     
+                                                     numericInput(
+                                                       "intersection_ticks_scale",
+                                                       label = h6("Intersection Size Ticks Text Scale"),
+                                                       value = 1.8,
+                                                       min = 1,
+                                                       max = 10,
+                                                       step = 0.1
+                                                     ),
+                                                     
+                                                     numericInput(
+                                                       "set_ticks_scale",
+                                                       label = h6("Set Size Ticks Text Scale"),
+                                                       value = 1.8,
+                                                       min = 1,
+                                                       max = 10
+                                                     ),
+                                                     
+                                                     numericInput(
+                                                       "intersection_size_numbers_scale",
+                                                       label = h6("Intersection Size Numbers Text Scale"),
+                                                       value = 1.8,
+                                                       min = 1,
+                                                       max = 10,
+                                                       step = 0.1
+                                                     ),
+                                                     
+                                                     numericInput(
+                                                       "names_scale",
+                                                       label = h6("Set Names Text Scale"),
+                                                       value = 1.8,
+                                                       min = 1,
+                                                       max = 10,
+                                                       step = 0.1
+                                                     ),
+                                                     
+                                                     # Users to submit format
+                                                     #                                              submitButton("Apply Changes", icon("refresh"))                                              
+                                                     actionButton("submitformat","Submit")
+                                            )
+                                          )
+                             ),
+                             
+                             # Show tab panels of file import, data cleaning and plot 
+                             mainPanel(width = 9, fluid = TRUE,
+                                       tabsetPanel(
+                                         
+                                         # Instructions
+                                         tabPanel("Guide",
+                                                  br(),
+                                                  fluidRow(
+                                                    column(6,
+                                                           h4(HTML("<b>Understanding UpSet Plot</b>")),
+                                                           tags$div(
+                                                             tags$p("Understanding relationships between sets is a common visual challenge that many analysts face. 
+                          Venn diagrams has been the traditional choice of graphics to used to make sense of such data.
+                          However, as the number of sets increase, so does the strain on readers intepreting the complex Venn diagrams (see figure)."), 
+                                                             tags$p("The UpSet plots offer a novel way to view set data by the size of their intersections. 
+                          It is focused on communicating the size and properties of the set aggregates and interactions."), 
+                                                             tags$p("It is made up by 3 parts: i) The total size of each set is represented on the bottom left barplot. 
+                          ii) Every possible intersection is represented by the bottom plot. 
+                          iii) Frequency of each intersection is shown on the top barplot."),
+                                                             tags$p("In our use case, we made use of credit card transaction data to showcase 
+                          how an Upset plot can help to visualize the co-location of visitors, with locations forming the sets.
+                          The visualization aims to answer questions like 'How many visitors visited location A, B, and D?' and 'What is this proportion compared to total number of visitors of location A?'"), 
+                                                             tags$a(href="https://cran.r-project.org/web/packages/UpSetR/", "Click here to find out more about UpSet Plot R package.")),
+                                                           br(),
+                                                           h4(HTML("<b>Steps</b>")),
+                                                           tags$ol(
+                                                             tags$li("Begin by exploring the credit card transaction dataset under the 'EDA tab."),
+                                                             tags$li("Select the locations which you would like to explore further and specify them under the side panel 'Select specific sets'."),
+                                                             tags$li("Select the upper limit of the number of interactions under 'Limit no. of intersections'."), 
+                                                             tags$li("Select how the interactions in the matrix should be ordered by - Frequency or Degree under 'Order intersections by'."), 
+                                                             tags$li("Select if the order should be decreasing or increasing under 'Increasing/Decreasing'."),
+                                                             tags$li("Check 'Show empty intersections' to show empty intersections."),
+                                                             tags$li("Click on 'Apply changes' button and view 'UpSet Plot' tab."),
+                                                             tags$li("The UpSet plot will show the size of the overlaps between locations under 'Location Intersections' and size of each set under 'Visitors Per Location'."),
+                                                             tags$li("Format the chart by selecting the bar colours and text sizes of your choice under 'Format' tab.")
+                                                           )
+                                                    ), 
+                                                    column(6,tags$img(src="https://pbs.twimg.com/media/DDkuD6aWsAAP4N3?format=jpg&name=medium", width = "100%"),
+                                                           tags$h6("Source: Xu et al. (2012). A fast and accurate SNP detection algorithm for next-generation sequencing data. Nature communications.")
+                                                    )),
+                                                  br(),
+                                                  br(),
+                                                  br()
+                                         ), 
+                                         
+                                         # EDA
+                                         tabPanel("EDA",
+                                                  br(),
+                                                  fluidRow(column(12,
+                                                                  h4(HTML("<b>Exploratory Data Analysis</b>"))                                                           
+                                                  )
+                                                  ),
+                                                  fluidRow(column(6,plotlyOutput("EDA_1", height = 600)),
+                                                           column(6,plotlyOutput("EDA_2", height = 600)))
+                                         ), 
+                                         
+                                         # User to plot chart
+                                         tabPanel("UpSet Plot", 
+                                                  br(),
+                                                  fluidRow(column(12,
+                                                                  h4(HTML("<b>Co-Location of Visitors</b>"))                                                                  
+                                                  )
+                                                  ),
+                                                  fluidRow(plotOutput("upset", height = 600))
+                                         )
+                                       )
+                             )
+                           )
                   ),
                   
                   # Exploring GPS Tab - Explores the GPS data and locations on a map.
                   
                   tabPanel("Exploring GPS",icon = icon("map-marked-alt"),
-                           #                           titlePanel("Using A Customised Map With Interactive Control"),
                            sidebarLayout(position = "left", fluid = TRUE,
                                          sidebarPanel(tags$style(".well {background-color:#e7e7e7;}"),
                                                       width = 3, fluid = TRUE,
@@ -232,13 +431,8 @@ ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = "Introduction", co
                                                       dateInput(inputId = "MapDate",
                                                                 min = ("2014-01-06"),
                                                                 max = ("2014-01-19"),
-                                                                #                               sliderInput(inputId = "MapDate",
-                                                                #                                           min = as.Date("2014-01-06","%Y-%m-%d"),
-                                                                #                                           max = as.Date("2014-01-19","%Y-%m-%d"),
                                                                 value=("2014-01-06"),
                                                                 format = "d M",
-                                                                #                                           timeFormat="%e-%b",
-                                                                #                                           step = 1,
                                                                 label = NULL),
                                                       hr(style = "border-top: 3px solid #FFFFFF;"),
                                                       h4("COMPARE MAX THREE STAFF", align = "center"),
@@ -281,10 +475,6 @@ ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = "Introduction", co
                                                                  showColour = "background",
                                                                  "#0000FF"
                                                                )
-                                                               #                                        selectInput(inputId = "id2colour",
-                                                               #                                                    label = "Select Line Colour 2",
-                                                               #                                                    choices = colourlist,
-                                                               #                                                    selected = "blue")
                                                         ),
                                                         column(6,
                                                                selectInput(inputId = "id2linetype",
@@ -308,10 +498,6 @@ ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = "Introduction", co
                                                                  showColour = "background",
                                                                  "#FF0000"
                                                                )
-                                                               #                                          selectInput(inputId = "id3colour",
-                                                               #                                                      label = "Select Line Colour 3",
-                                                               #                                                      choices = colourlist,
-                                                               #                                                      selected = "red")
                                                         ),
                                                         column(6,
                                                                selectInput(inputId = "id3linetype",
@@ -354,48 +540,29 @@ ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = "Introduction", co
                                                                 ))
                                                      ),
                                                      tabPanel("Map",
+                                                              br(),
+                                                              fluidRow(column(12,
+                                                                              h4(HTML("<b>Map Exploration</b>"))              
+                                                              )
+                                                              ),
                                                               tmapOutput("map", width = "100%", height = 600),
                                                               tags$div(tags$br()),
                                                               fluidRow(width = 12,
                                                                        column(4, align = "center",
-                                                                              #                                           h4(textOutput("selected_id1"), align = "center"),
-                                                                              #                                           h4("STAFF ID 1's MOVEMENTS", align = "center"),
                                                                               strong(textOutput("selected_id1")),
                                                                               formattableOutput("id1table", width = "100%", height = 400),
                                                                               style='border-right: 1px solid black'
                                                                        ),
                                                                        column(4, align = "center",
-                                                                              #                                          h4("STAFF ID 2's MOVEMENTS", align = "center"),
                                                                               strong(textOutput("selected_id2")),
-                                                                              #                                         textOutput("selected_id2"),
                                                                               formattableOutput("id2table", width = "100%", height = 400),
                                                                               style='border-right: 1px solid black'
                                                                        ),
                                                                        column(4, align = "center",
                                                                               strong(textOutput("selected_id3")),
-                                                                              #                                           h4("STAFF ID 3's MOVEMENTS", align = "center"),
-                                                                              #                                          textOutput("selected_id3"),
                                                                               formattableOutput("id3table", width = "100%", height = 400)
                                                                        )
                                                               ))),
-                                                   
-                                                   
-                                                   #                                 column(4,
-                                                   #                                        box(title = "Super Duper",
-                                                   #                                            solidHeader = TRUE,
-                                                   #                                            collapsible = TRUE,
-                                                   #                                            background = "teal",
-                                                   #                                          formattableOutput("id1table", width = "100%", height = 400))
-                                                   #                                        ),
-                                                   #                                 column(4,
-                                                   #                                        box(formattableOutput("id2table", width = "100%", height = 400))
-                                                   #                                        ),
-                                                   #                                 column(4,
-                                                   #                                        box(formattableOutput("id3table", width = "100%", height = 400))
-                                                   #                                        )
-                                                   #                               ),
-                                                   #                                fluidRow(
-                                                   #                                  column(DT::dataTableOutput("rawtable"), width = 12)),
                                          )
                            )
                   ),                           
@@ -428,25 +595,6 @@ server <- function(input, output,session) {
     datafile()
   })
   
-  # Assign uploaded dataset
-  #eventReactive({
-  #input$confirm
-  #isolate(ANOVA_userdata <- datafile())
-  #})
-  
-  ### uploading data from external source
-  #ANOVA_userdata <- reactive({
-  #if(input$file == 0){return()}
-  #inFile <- input$file1
-  #if (is.null(inFile)){return(NULL)}
-  
-  #isolate({ 
-  #input$Load
-  #my_data <- read.csv(inFile$datapath, header = input$header, sep = input$sep, stringsAsFactors = FALSE, dec = input$dec)
-  #})
-  #my_data
-  #})
-  
   # Assign default datasets
   ANOVA_data <- cc_data
   
@@ -458,7 +606,6 @@ server <- function(input, output,session) {
   cc_list <- cc_data %>%
     distinct(last4ccnum) %>%  
     as.list(last4ccnum)
-  
   
   # Plot EDA charts
   output$EDA_1A <- renderPlotly({
@@ -571,16 +718,16 @@ server <- function(input, output,session) {
     isolate(hist <- ggplot(ANOVA_data %>% 
                              filter(location %in% input$locations), aes(x=price)) +
               geom_histogram(bins = input$bins) +
-              facet_wrap(~location) +
-              labs(title = "Distribution of spend amount by location",
-                   y = "Frequency", x = "Price ($)") +
+              facet_wrap(~location, shrink = TRUE) +
+              labs(y = "Frequency", x = "Price ($)") +
               theme_minimal() +
               theme(#panel.grid = element_blank(),
                 #panel.grid.major = element_blank(),
                 panel.background = element_blank(),
-                title = element_text(size=10, face = "bold", margin = margin(t = 40, r = 0, b = 100, l = 0)),
-                axis.title.y = element_text(size=10, margin = margin(t = 0, r = 50, b = 0, l = 0)),
-                axis.title.x = element_text(size=10),
+                strip.text.x = element_text(size=8),
+                title = element_text(size=9, face = "bold", margin = margin(t = 40, r = 0, b = 100, l = 0)),
+                axis.title.y = element_text(size=8, margin = margin(t = 0, r = 50, b = 0, l = 0)),
+                axis.title.x = element_text(size=8),
                 axis.text = element_text(size=8))
     )
     
@@ -596,27 +743,179 @@ server <- function(input, output,session) {
                              filter(last4ccnum %in% input$ccnums), aes(x=price)) +
               geom_histogram(bins = input$bins) +
               facet_wrap(~last4ccnum) +
-              labs(title = "Distribution of spend amount by location",
-                   y = "Frequency", x = "Price ($)") +
+              labs(y = "Frequency", x = "Price ($)") +
+              scale_x_discrete(guide = guide_axis(n.dodge=3))+
               theme_minimal() +
               theme(#panel.grid = element_blank(),
                 #panel.grid.major = element_blank(),
                 panel.background = element_blank(),
-                title = element_text(size=10, face = "bold", margin = margin(t = 40, r = 0, b = 100, l = 0)),
-                axis.title.y = element_text(size=10, margin = margin(t = 0, r = 50, b = 0, l = 0)),
-                axis.title.x = element_text(size=10),
+                strip.text.x = element_text(size=8),
+                title = element_text(size=9, face = "bold", margin = margin(t = 40, r = 0, b = 100, l = 0)),
+                axis.title.y = element_text(size=8, margin = margin(t = 0, r = 50, b = 0, l = 0)),
+                axis.title.x = element_text(size=8),
                 axis.text = element_text(size=8))
     )
     
     isolate(ggplotly(hist))
-  })    
+  })
   
   #------------------------------Upset tab  
   
+  # Ingest uploaded dataset
+  datafile <- csvFileServer("datafile", stringsAsFactors = FALSE)
   
+  # Preview imported data set
+  output$table <- renderDataTable(datafile(), options = list(scrollX = TRUE))
+  
+  # Formatting - to increase spacing between sets
+  mat_prop <- reactive({
+    mat_prop <- input$mbratio
+  })
+  
+  bar_prop <- reactive({
+    bar_prop <- (1 - input$mbratio)
+  })
+  
+  # Setting - to show empty intersects
+  emptyIntersects <- reactive({
+    if(isTRUE(input$empty)){choice <- "on"
+    return(choice)
+    }
+    else{
+      return(NULL)
+    }
+  })
+  
+  # Setting - to allow users to select intended sets
+  FindStartEnd <- function(data){
+    startend <- c()
+    for(i in 1:ncol(data)){
+      column <- data[, i]
+      column <- (levels(factor(column)))
+      if((column[1] == "0") && (column[2] == "1" && (length(column) == 2))){
+        startend[1] <- i
+        break
+      }
+      else{
+        next
+      }
+    }
+    for(i in ncol(data):1){
+      column <- data[ ,i]
+      column <- (levels(factor(column)))
+      if((column[1] == "0") && (column[2] == "1") && (length(column) == 2)){
+        startend[2] <- i
+        break
+      }
+      else{
+        next
+      }
+    }
+    return(startend)
+  }
+  
+  startEnd <- reactive({
+    startEnd <- FindStartEnd(My_data)
+  })
+  
+  Specific_sets <- reactive({
+    Specific_sets <- as.character(c(input$Select))
+  })
+  
+  output$sets <- renderUI({
+    if(is.null(My_data == T)){
+      sets <-  selectInput("Select", 
+                           ("Select at least two sets"),
+                           choices = NULL,
+                           multiple=TRUE, selectize=TRUE, selected = Specific_sets())
+    }
+    else{
+      data <- My_data[startEnd()[1]:startEnd()[2]]
+      topfive <- colSums(data)
+      topfive <- as.character(head(names(topfive[order(topfive, decreasing = T)]), 5))
+      sets <- selectInput('Select', 
+                          ("Select specific sets"),
+                          choices = as.character(colnames(My_data[ , startEnd()[1]:startEnd()[2]])),
+                          multiple=TRUE, selectize=TRUE, selected = topfive)
+    }
+    return(sets)
+    
+  })
+  
+  
+  # Default dataset
+  My_data <- cc_csv
+  
+  # EDA plots
+  output$EDA_1 <- renderPlotly({
+    EDA_1 <- ggplot(EDA_visitors, 
+                    aes(y=reorder(location, visitors), x=visitors,
+                        text = paste('Visitors:', visitors,
+                                     '<br>Location: ', location))) +
+      geom_bar(stat = "identity") +
+      labs(title = "Distinct visitors per location",
+           x = "Visitors", y = "Locations") +
+      theme_minimal() +
+      theme(panel.grid = element_blank(),
+            panel.grid.major = element_blank(),
+            panel.background = element_blank(),
+            title = element_text(size=10),
+            axis.title.y = element_text(size=10),
+            axis.title.x = element_text(size=10),
+            axis.text = element_text(size=8))
+    
+    ggplotly(EDA_1, tooltip = c("text"))
+  })
+  
+  output$EDA_2 <- renderPlotly({
+    EDA_2 <- ggplot(EDA_visits, 
+                    aes(y=reorder(location,count_name_occurr),
+                        text = paste('Transactions:', count_name_occurr,
+                                     '<br>Location: ', location))) +
+      geom_bar(stat = "count") +
+      labs(title = "No. of transactions per location",
+           x = "Credit Card Transactions", y = "Locations") +
+      theme_minimal() +
+      theme(panel.grid = element_blank(),
+            panel.grid.major = element_blank(),
+            panel.background = element_blank(),
+            title = element_text(size=10),
+            axis.title.y = element_text(size=10),
+            axis.title.x = element_text(size=10),
+            axis.text = element_text(size=8))
+    
+    ggplotly(EDA_2, tooltip = c("text"))
+  })
+  
+  # Upset plot
+  # Show graph using renderplot
+  output$upset <- renderPlot({
+    
+    # Plot graph after users click on Plot button
+    input$submitsetting
+    input$submitformat
+    
+    isolate(UpSetR::upset(data = My_data, 
+                          sets = Specific_sets(),
+                          nsets = 5, 
+                          #nsets = input$setsize, 
+                          nintersects = input$nintersections, 
+                          order.by = input$order,
+                          decreasing = input$decreasing,
+                          empty.intersections = emptyIntersects(),
+                          mb.ratio = c(as.double(bar_prop()), as.double(mat_prop())),
+                          main.bar.color = input$mainbarcolor,
+                          sets.bar.color = input$setbarcolor,
+                          text.scale = c(input$intersection_title_scale, input$intersection_ticks_scale,
+                                         input$set_title_scale, input$set_ticks_scale, input$names_scale,
+                                         input$intersection_size_numbers_scale),
+                          mainbar.y.label = "Location Intersections",
+                          sets.x.label = "Visitors Per Location") 
+    )
+    
+  })    
   
   #------------------------------Map tab  
-  
   
   #------------ Limit selectInput Staff ID options within Map tab
   
@@ -640,29 +939,6 @@ server <- function(input, output,session) {
                         choices = stafflist1[!(stafflist1 %in% c(input$id3, input$id1))], 
                         selected = isolate(input$id2) )
   })
-  
-  #------------ Limit selectInput Line Colour options within Map tab
-  
-  #  observe({
-  #    if(!is.null(c(input$id1colour, input$id2colour)))
-  #      updateSelectInput(session, "id3colour", 
-  #                        choices = colourlist[!(colourlist %in% c(input$id1colour, input$id2colour))], 
-  #                        selected = isolate(input$id3colour) )
-  #  })
-  
-  #  observe({
-  #    if(!is.null(c(input$id2colour, input$id3colour)))
-  #      updateSelectInput(session, "id1colour", 
-  #                        choices = colourlist[!(colourlist %in% c(input$id2colour, input$id3colour))], 
-  #                        selected = isolate(input$id1colour) )
-  #  })
-  
-  #  observe({
-  #    if(!is.null(c(input$id3colour, input$id1colour)))
-  #      updateSelectInput(session, "id2colour", 
-  #                        choices = colourlist[!(colourlist %in% c(input$id3colour, input$id1colour))], 
-  #                        selected = isolate(input$id2colour) )
-  #  })
   
   #------------ Limit selectInput Line Type options within Map tab
   
