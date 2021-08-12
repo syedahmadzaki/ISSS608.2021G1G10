@@ -6,6 +6,7 @@ library(readr)
 library(writexl)
 library(readxl)
 library(sf)
+library(sfheaders)
 library(clock)
 library(lubridate)
 library(lwgeom)
@@ -304,7 +305,7 @@ spots_table$geometry <- NULL
 colnames(spots_table) <- c("start_date","Name","Start_Time","End_Time","Duration_Hours","Location", "Location_Type")
 
 
-rm(gps_name) # Remove unused earlier dataset
+
 rm(spots) # Remove unused earlier dataset
 rm(spots_median) # Remove unused earlier dataset
 
@@ -319,21 +320,72 @@ rm(Abila_st) # Remove unused earlier dataset
 rm(Abila_st_union) # Remove unused earlier dataset
 rm(Abila_st_proj) # Remove unused earlier dataset
 
-gps_path <- gps_sf %>% # Creating a movement path
-  group_by(id, Name, date) %>%
-  summarize(m = mean(Timestamp), 
-            do_union=FALSE, 
-            .groups = "drop") %>%
-  left_join(dplyr::select(car,CarID,RoleNName), by = c("id" = "CarID")) %>% #Add in RoleNName column
-  ungroup() %>%
-  st_cast("LINESTRING")
+#---------------error below
+
+#gps_path <- st_sfc(st_linestring(st_coordinates(gps_sf)), crs = 4326)
+
+#gps_sf <- gps_name %>%
+#  group_by(id, Name, RoleNName, date, lat, long) #%>%
+#  summarize(m = mean(Timestamp), 
+#            do_union=FALSE) #%>%
+  #ungroup()
+
+#gps_sf <- st_as_sf(gps_sf, coords = c("long", "lat"), crs = 4326) %>% # Changing into a shapefile
+#  st_combine() %>%
+#  st_cast("LINESTRING")
+
+#rm(gps_sf)
+
+#gps_path <- gps_name %>%
+#  group_by(id, Name, RoleNName, date, lat, long) %>%
+#  sf_linestring(x = "long", y = "lat")
+#  summarize(m = mean(Timestamp), 
+#            do_union=FALSE) %>%
+
+#st_cast("LINESTRING")
+
+
+
+#gps_sf <- st_as_sf(gps_name, coords = c("long", "lat"), crs = 4326) # Changing into a shapefile
+
+
+
+#gps_path <- gps_name %>%
+#  group_by(id, Name, RoleNName, date) #%>%
+#  summarize(m = mean(Timestamp), 
+#            do_union=FALSE,
+#            .groups = "drop") %>%
+#  st_geometry() %>%
+#  st_cast("LINESTRING")
+
+#gps_path <- st_as_sf(gps_path, coords = c("long", "lat"), crs = 4326) %>%
+#  st_cast("LINESTRING")
+
+#typeof(gps_path)
+#class(gps_path)
+
+#  sf_linestring(x)
+#gps_path <- gps_sf %>% # Creating a movement path
+#  group_by(id, Name, RoleNName, date) %>%
+#  summarize(m = mean(Timestamp), 
+#            do_union=FALSE #, 
+#            .groups = "drop"
+#            ) %>%
+#  left_join(dplyr::select(car,CarID,RoleNName), by = c("id" = "CarID")) %>% #Add in RoleNName column
+#  ungroup() 
+
+#gps_path <- st_as_sf(gps_path, coords = c("long", "lat"), crs = 4326) %>% # Changing into a shapefile
+#  st_cast("LINESTRING")
+
+#gps_sf <- st_as_sf(gps, coords = c("long", "lat"), crs = 4326) # Changing into a shapefile
+
+#---------------------- error above
 
 # Create blue polygon as background to mimic sea
 long.sea <- c(24.91075,24.91075,24.8232,24.8232,24.91075)
 lat.sea <- c(36.09543,36.0445,36.0445,36.09543,36.09543)
 sea <-data.frame(long.sea, lat.sea)
 
-rm(gps_sf) # Remove unused earlier dataset
 rm(long.sea) # Remove unused earlier dataset
 rm(lat.sea) # Remove unused earlier dataset
 
@@ -352,3 +404,5 @@ Kronos_sf_small <- st_crop(Kronos_sf, c(xmin = 24.8232, xmax = 24.91075, ymin = 
 
 rm(Kronos_sf) # Remove unused earlier dataset
 rm(car) # Remove unused earlier dataset
+rm(gps_name) # Remove unused earlier dataset
+#rm(gps_path) # Remove unused earlier dataset
