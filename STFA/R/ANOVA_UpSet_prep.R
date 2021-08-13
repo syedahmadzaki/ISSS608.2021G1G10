@@ -1,10 +1,10 @@
 library(shiny)
 library(tidyverse)
+#library(plyr)
 library(ggplot2)
 library(plotly)
 library(ggstatsplot)
 library(UpSetR)
-#library(plyr)
 library(dplyr)
 
 # ANOVA ----------------------------------------------------------------------------------------------------------------------

@@ -10,6 +10,8 @@ library(sfheaders)
 library(clock)
 library(lubridate)
 library(lwgeom)
+library(reshape2)
+library(dplyr)
 
 # Loading all datasets and image
 gps <- read_csv("data/gps.csv") # Add gps data
@@ -304,9 +306,6 @@ spots_table <- spots %>%
 spots_table$geometry <- NULL
 colnames(spots_table) <- c("start_date","Name","Start_Time","End_Time","Duration_Hours","Location", "Location_Type")
 
-rm(spots) # Remove unused earlier dataset
-rm(spots_median) # Remove unused earlier dataset
-
 # Creating the map
 
 Abila_st_union <- st_combine(Abila_st) # Dissolve Abila road network
@@ -400,14 +399,198 @@ rm(sea_sf) # Remove unused earlier dataset
 # Clip a smaller Kronos island around Abila
 Kronos_sf_small <- st_crop(Kronos_sf, c(xmin = 24.8232, xmax = 24.91075, ymin = 36.0445, ymax = 36.09543))
 
+#--------------- Table for Heatmaply
+
+spots_heatmap <- spots %>%
+  left_join(dplyr::select(spots_median_sf,Location, Location.Type), by = c("Location" = "Location"))
+
+# Abbreviate Dept
+spots_heatmap <- spots_heatmap %>% mutate(DEPT = case_when( 
+  spots_heatmap$CurrentEmploymentType == "Engineering" ~ "ENG",
+  spots_heatmap$CurrentEmploymentType == "Executive" ~ "EXEC",
+  spots_heatmap$CurrentEmploymentType == "Facilities" ~ "FAC",
+  spots_heatmap$CurrentEmploymentType == "Security" ~ "SEC",
+  spots_heatmap$CurrentEmploymentType == "Information Technology" ~ "IT",
+  TRUE ~ "NA"))
+
+spots_heatmap <- spots_heatmap %>% mutate(LTYPE = case_when(
+  spots_heatmap$Location.Type == "Residential" ~ "HOME",
+  spots_heatmap$Location.Type == "Complex" ~ "COMP",
+  spots_heatmap$Location.Type == "Industrial" ~ "IND",
+  spots_heatmap$Location.Type == "Food Joints" ~ "FOOD",
+  spots_heatmap$Location.Type == "Leisure & Shopping" ~ "LEISURE",
+  spots_heatmap$Location.Type == "Unknown" ~ "UNKNOWN",
+  spots_heatmap$Location.Type == "Coffee Cafe" ~ "COFFEE",
+  spots_heatmap$Location.Type == "Transport" ~ "TRANSPORT",
+  spots_heatmap$Location.Type == "HQ" ~ "HQ",
+  TRUE ~ "NA"))
+
+# Concatenate Name with Abbreviated Dept  
+spots_heatmap$NameDept <- paste(spots_heatmap$Name, " (", spots_heatmap$DEPT, ")", sep = "")
+
+spots_heatmap$LTYPE2 <- paste(spots_heatmap$Location, " (", spots_heatmap$LTYPE, ")", sep = "")
+
+# Rename Concatenate Locations
+spots_heatmap <- spots_heatmap %>% mutate(LTYPE3 = case_when(
+  spots_heatmap$LTYPE2 == "1 IT Helpdesk Nils's Home (HOME)" ~ "IT Helpdesk Nils's Home (HOME)",
+  spots_heatmap$LTYPE2 == "2 Engineer Lars's Home (HOME)" ~ "Engineer Lars's Home (HOME)",
+  spots_heatmap$LTYPE2 == "3 Engineer Felix's Home (HOME)" ~ "Engineer Felix's Home (HOME)",
+  spots_heatmap$LTYPE2 == "4 CFO Ingrid's Home (HOME)" ~ "CFO Ingrid's Home (HOME)",
+  spots_heatmap$LTYPE2 == "5 IT Technician Isak's Home (HOME)" ~ "IT Technician Isak's Home (HOME)",
+  spots_heatmap$LTYPE2 == "7 Drill Technician Elsa's Home (HOME)" ~ "Drill Technician Elsa's Home (HOME)",
+  spots_heatmap$LTYPE2 == "8 IT Technician Lucas's Home (HOME)" ~ "IT Technician Lucas's Home (HOME)",
+  spots_heatmap$LTYPE2 == "9 Drill Technician Gustav's Home (HOME)" ~ "Drill Technician Gustav's Home (HOME)",
+  spots_heatmap$LTYPE2 == "10 CIO Ada's Home (HOME)" ~ "CIO Ada's Home (HOME)",
+  spots_heatmap$LTYPE2 == "11 Hydraulic Technician Axel's Home (HOME)" ~ "Hydraulic Technician Axel's Home (HOME)",
+  spots_heatmap$LTYPE2 == "12 Site Control Hideki's Home (HOME)" ~ "Site Control Hideki's Home (HOME)",
+  spots_heatmap$LTYPE2 == "19 Hydraulic Technician Vira's Home (HOME)" ~ "Hydraulic Technician Vira's Home (HOME)",
+  spots_heatmap$LTYPE2 == "20 Building Control Stenig's Home (HOME)" ~ "Building Control Stenig's Home (HOME)",
+  spots_heatmap$LTYPE2 == "26 Drill Site Manager Marin's Home (HOME)" ~ "Drill Site Manager Marin's Home (HOME)",
+  spots_heatmap$LTYPE2 == "27 Drill Technician Kare's Home (HOME)" ~ "Drill Technician Kare's Home (HOME)",
+  spots_heatmap$LTYPE2 == "28 Drill Technician Isande's Home (HOME)" ~ "Drill Technician Isande's Home (HOME)",
+  spots_heatmap$LTYPE2 == "32 COO Orhan's Home (HOME)" ~ "COO Orhan's Home (HOME)",
+  spots_heatmap$LTYPE2 == "34 Perimeter Control Edvard's Home (HOME)" ~ "Perimeter Control Edvard's Home (HOME)",
+  spots_heatmap$LTYPE2 == "35 Environmental Safety Advisor Willem's Home (HOME)" ~ "Environmental Safety Advisor Willem's Home (HOME)",
+  spots_heatmap$LTYPE2 == "Shared Home A - 6 Linnea 25 Kanon 29 Bertrand (HOME)" ~ "Shared Home A - Linnea, Kanon and Bertrand (HOME)",
+  spots_heatmap$LTYPE2 == "Shared Home B - 14 Lidelse 18 Birgitta 21 Hennie (HOME)" ~ "Shared Home B - Lidelse, Birgitta and Hennie (HOME)",
+  spots_heatmap$LTYPE2 == "Shared Home C - 17 Sven 24 Minke 33 Brand (HOME)" ~ "Shared Home C - Sven, Minke and Brand (HOME)",
+  spots_heatmap$LTYPE2 == "Shared Home D - 22 Adra 23 Varja 30 Felix (HOME)" ~ "Shared Home D - Adra, Varja and Felix (HOME)",
+  spots_heatmap$LTYPE2 == "Shared Home E - 13 Inga 15 Loreto 16 Isia 21 Hennie (HOME)" ~ "Shared Home E - Inga, Loreto, Isia and Hennie (HOME)",
+  TRUE ~ spots_heatmap$LTYPE2))
+
+#testlist <- as.data.frame(unique(points_lasttry$CONCATL2))
+#write.csv(testlist,"testlist.csv")
+
+# Order concatenated names
+spots_heatmap$NameDept2 <- factor(spots_heatmap$NameDept,
+                                levels = c( "President/CEO Sten Sanjorge Jr. (EXEC)",
+                                            "SVP/CFO Ingrid Barranco (EXEC)",
+                                            "SVP/COO Orhan Strum (EXEC)",
+                                            "SVP/CIO Ada Campo-Corrente (EXEC)",
+                                            "Environmental Safety Advisor Willem Vasco-Pais (EXEC)",
+                                            "Engineer Lars Azada (ENG)",
+                                            "Engineer Felix Balas (ENG)",
+                                            "Geologist Birgitta Frente (ENG)",
+                                            "Geologist Kanon Herrero (ENG)",
+                                            "Engineering Group Manager Lidelse Dedos (ENG)",
+                                            "Drill Site Manager Marin Onda (ENG)",
+                                            "Drill Technician Brand Tempestad (ENG)",
+                                            "Drill Technician Elsa Orilla (ENG)",
+                                            "Drill Technician Gustav Cazar (ENG)",
+                                            "Drill Technician Isande Borrasca (ENG)",
+                                            "Drill Technician Kare Orilla (ENG)",
+                                            "Hydraulic Technician Axel Calzas (ENG)",
+                                            "Hydraulic Technician Vira Frente (ENG)",
+                                            "Facilities Group Manager Bertrand Ovan (FAC)",
+                                            "IT Group Manager Linnea Bergen (IT)",
+                                            "IT Technician Isak Baza (IT)",
+                                            "IT Technician Lucas Alcazar (IT)",
+                                            "IT Helpdesk Nils Calixto (IT)",
+                                            "IT Technician Sven Flecha (IT)",
+                                            "Security Group Manager Felix Resumir (SEC)",
+                                            "Badging Office Adra Nubarron (SEC)",
+                                            "Badging Office Varja Lagos (SEC)",
+                                            "Building Control Stenig Fusil (SEC)",
+                                            "Perimeter Control Edvard Vann (SEC)",
+                                            "Perimeter Control Hennie Osvaldo (SEC)",
+                                            "Perimeter Control Isia Vann (SEC)",
+                                            "Perimeter Control Minke Mies (SEC)",
+                                            "Site Control Hideki Cocinaro (SEC)",
+                                            "Site Control Inga Ferro (SEC)",
+                                            "Site Control Loreto Bodrogi (SEC)"))
+
+spots_heatmap$LTYPE4 <- factor(spots_heatmap$LTYPE3,
+                                  levels = c( "GasTech (HQ)",
+                                              "CFO Ingrid's Home (HOME)",
+                                              "COO Orhan's Home (HOME)",
+                                              "CIO Ada's Home (HOME)",
+                                              "Environmental Safety Advisor Willem's Home (HOME)",
+                                              "Engineer Lars's Home (HOME)",
+                                              "Engineer Felix's Home (HOME)",
+                                              "Drill Site Manager Marin's Home (HOME)",
+                                              "Drill Technician Elsa's Home (HOME)",
+                                              "Drill Technician Gustav's Home (HOME)",
+                                              "Drill Technician Isande's Home (HOME)",
+                                              "Drill Technician Kare's Home (HOME)",
+                                              "Hydraulic Technician Axel's Home (HOME)",
+                                              "Hydraulic Technician Vira's Home (HOME)",
+                                              "IT Technician Isak's Home (HOME)",
+                                              "IT Technician Lucas's Home (HOME)",
+                                              "IT Helpdesk Nils's Home (HOME)",
+                                              "Building Control Stenig's Home (HOME)",
+                                              "Perimeter Control Edvard's Home (HOME)",
+                                              "Site Control Hideki's Home (HOME)",
+                                              "Shared Home A - Linnea, Kanon and Bertrand (HOME)",
+                                              "Shared Home B - Lidelse, Birgitta and Hennie (HOME)",
+                                              "Shared Home C - Sven, Minke and Brand (HOME)",
+                                              "Shared Home D - Adra, Varja and Felix (HOME)",
+                                              "Shared Home E - Inga, Loreto, Isia and Hennie (HOME)",
+                                              "Bean There Done That (COFFEE)",
+                                              "Brew've Been Served (COFFEE)",
+                                              "Brewed Awakenings (COFFEE)",
+                                              "Coffee Cameleon (COFFEE)",
+                                              "Hallowed Grounds (COFFEE)",
+                                              "Jack's Magical Beans (COFFEE)",
+                                              "Abila Zacharo (FOOD)",
+                                              "Gelatogalore (FOOD)",
+                                              "Guy's Gyros (FOOD)",
+                                              "Hippokampos (FOOD)",
+                                              "Kalami Kafenion (FOOD)",
+                                              "Katerina's Cafe (FOOD)",
+                                              "Ouzeri Elian (FOOD)",
+                                              "Ahaggo Museum (LEISURE)",
+                                              "Albert's Fine Clothing (LEISURE)",
+                                              "General Grocer (LEISURE)",
+                                              "Kronos Mart (LEISURE)",
+                                              "Octavio's Office Supplies (LEISURE)",
+                                              "Roberts and Sons (LEISURE)",
+                                              "Shoppers' Delight (LEISURE)",
+                                              "Abila Airport (COMP)",
+                                              "Chostus Hotel (COMP)",
+                                              "Desafio Golf Course (COMP)",
+                                              "Kronos Capital (COMP)",
+                                              "Frank's Fuel (TRANSPORT)",
+                                              "Frydos Autosupply n' More (TRANSPORT)",
+                                              "U-Pump (TRANSPORT)",
+                                              "Abila Scrapyard (IND)",
+                                              "Carlyle Chemical Inc. (IND)",
+                                              "Kronos Pipe and Irrigation (IND)",
+                                              "Maximum Iron and Steel (IND)",
+                                              "Nationwide Refinery (IND)",
+                                              "Stewart and Sons Fabrication (IND)",
+                                              "Anonymous Site 1 (UNKNOWN)",
+                                              "Anonymous Site 2 (UNKNOWN)",
+                                              "Anonymous Site 3 (UNKNOWN)",
+                                              "Anonymous Site 4 (UNKNOWN)",
+                                              "Anonymous Site 5 (UNKNOWN)",
+                                              "Anonymous Site 6 (UNKNOWN)",
+                                              "Anonymous Site 7 (UNKNOWN)",
+                                              "Anonymous Site 8 (UNKNOWN)",
+                                              "NA (NA)"
+                                  ))
+
+spots_heatmap2 <- spots_heatmap %>% 
+  dplyr::count(.,NameDept2, LTYPE4) %>% 
+  dcast(NameDept2 ~ LTYPE4, value.var = "n")
+
+spots_heatmap2[is.na(spots_heatmap2)] <- 0
+spots_heatmap2[,68] <- NULL
+spots_heatmap2 <- spots_heatmap2[-36,]
+
+spots_heatmap3 <- spots_heatmap2[,-1]
+rownames(spots_heatmap3) <- spots_heatmap2[,1]
+
+
+rm(spots) # Remove unused earlier dataset
+rm(spots_median) # Remove unused earlier dataset
 rm(Kronos_sf) # Remove unused earlier dataset
 rm(car) # Remove unused earlier dataset
 rm(gps_name) # Remove unused earlier dataset
+rm(spots_heatmap) # Remove unused earlier dataset
+rm(spots_heatmap2) # Remove unused earlier dataset
 #rm(gps_path) # Remove unused earlier dataset
 
 #write_csv(gps_name,"gps_name.csv")
-
-#--------------- Table for Heatmaply
 
 
 
