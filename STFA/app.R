@@ -506,7 +506,8 @@ ui <-  navbarPage(title = "VAST Mini Challenge 2", selected = "Introduction", co
                                                                            selected = "3")
                                                         )
                                                       ),
-                                                      submitButton("Apply Changes", icon("refresh"))
+                                                      actionButton("submit_map","Submit")
+                                                      #                                                      submitButton("Apply Changes", icon("refresh"))
                                          ),
                                          mainPanel(width = 9, fluid = TRUE,
                                                    tabsetPanel(
@@ -966,93 +967,98 @@ server <- function(input, output,session) {
   #------------ Map output  
   
   output$map <- renderTmap({
-    tm_shape(sea_poly) +
-      tm_polygons(col = "#d0cfd4") +
-      tm_shape(Kronos_sf_small) +
-      tm_polygons(col = "#e7e7e7") +
-      tm_shape(Abila_st_buffer) +
-      tm_polygons(col = "white") +
-      tm_shape(
-        
-        st_sfc(st_linestring(st_coordinates(gps_sf %>% filter(date == input$MapDate & Name==input$id1))), crs = 4326)
-        
-        #        gps_path %>% filter(date == input$MapDate & Name==input$id1)
-        
-      ) +
-      tm_lines(col = input$id1colour,
-               lwd = 2,
-               lty = input$id1linetype,
-               id = "RoleNName") +
-      tm_shape(
-        
-        st_sfc(st_linestring(st_coordinates(gps_sf %>%filter(date == input$MapDate & Name==input$id2))), crs = 4326)
-        
-        #        gps_path %>% filter(date == input$MapDate & Name==input$id2)
-        
-      ) +
-      tm_lines(col = input$id2colour,
-               lwd = 2,
-               lty = input$id2linetype,
-               id = "RoleNName") +  
-      tm_shape(
-        
-        st_sfc(st_linestring(st_coordinates(gps_sf %>%filter(date == input$MapDate & Name==input$id3))), crs = 4326)
-        
-        #        gps_path %>% filter(date == input$MapDate & Name==input$id3)
-        
-      ) +
-      tm_lines(col = input$id3colour,
-               lwd = 2,
-               lty = input$id3linetype,
-               id = "RoleNName") +  
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Residential")) +
-      tm_symbols(shape = tmap_icons("pic/house.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Unknown")) +
-      tm_symbols(shape = tmap_icons("pic/unknown.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Coffee Cafe")) +
-      tm_symbols(shape = tmap_icons("pic/coffee.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Food Joints")) +
-      tm_symbols(shape = tmap_icons("pic/food.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "HQ")) +
-      tm_symbols(shape = tmap_icons("pic/gastech.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Industrial")) +
-      tm_symbols(shape = tmap_icons("pic/industrial.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Leisure & Shopping")) +
-      tm_symbols(shape = tmap_icons("pic/shopping.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Complex")) +
-      tm_symbols(shape = tmap_icons("pic/complex.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_shape(spots_median_sf %>%
-                 filter(Location.Type == "Transport")) +
-      tm_symbols(shape = tmap_icons("pic/transport.png"),
-                 size = 0.3,
-                 popup.vars = "Location.Type") +
-      tm_layout(title= 'Exploring GPS Movements of Three Chosen Staff On A Selected Date', 
-                title.position = c('left', 'top')) +
-      tm_view(set.view = c(24.866975, 36.069965, 14))
+    
+    # Plot map after users click on Plot button
+    input$submit_map
+    
+    isolate(    tm_shape(sea_poly) +
+                  tm_polygons(col = "#d0cfd4") +
+                  tm_shape(Kronos_sf_small) +
+                  tm_polygons(col = "#e7e7e7") +
+                  tm_shape(Abila_st_buffer) +
+                  tm_polygons(col = "white") +
+                  tm_shape(
+                    
+                    st_sfc(st_linestring(st_coordinates(gps_sf %>% filter(date == input$MapDate & Name==input$id1))), crs = 4326)
+                    
+                    #        gps_path %>% filter(date == input$MapDate & Name==input$id1)
+                    
+                  ) +
+                  tm_lines(col = input$id1colour,
+                           lwd = 2,
+                           lty = input$id1linetype,
+                           id = "RoleNName") +
+                  tm_shape(
+                    
+                    st_sfc(st_linestring(st_coordinates(gps_sf %>%filter(date == input$MapDate & Name==input$id2))), crs = 4326)
+                    
+                    #        gps_path %>% filter(date == input$MapDate & Name==input$id2)
+                    
+                  ) +
+                  tm_lines(col = input$id2colour,
+                           lwd = 2,
+                           lty = input$id2linetype,
+                           id = "RoleNName") +  
+                  tm_shape(
+                    
+                    st_sfc(st_linestring(st_coordinates(gps_sf %>%filter(date == input$MapDate & Name==input$id3))), crs = 4326)
+                    
+                    #        gps_path %>% filter(date == input$MapDate & Name==input$id3)
+                    
+                  ) +
+                  tm_lines(col = input$id3colour,
+                           lwd = 2,
+                           lty = input$id3linetype,
+                           id = "RoleNName") +  
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Residential")) +
+                  tm_symbols(shape = tmap_icons("pic/house.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Unknown")) +
+                  tm_symbols(shape = tmap_icons("pic/unknown.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Coffee Cafe")) +
+                  tm_symbols(shape = tmap_icons("pic/coffee.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Food Joints")) +
+                  tm_symbols(shape = tmap_icons("pic/food.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "HQ")) +
+                  tm_symbols(shape = tmap_icons("pic/gastech.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Industrial")) +
+                  tm_symbols(shape = tmap_icons("pic/industrial.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Leisure & Shopping")) +
+                  tm_symbols(shape = tmap_icons("pic/shopping.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Complex")) +
+                  tm_symbols(shape = tmap_icons("pic/complex.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_shape(spots_median_sf %>%
+                             filter(Location.Type == "Transport")) +
+                  tm_symbols(shape = tmap_icons("pic/transport.png"),
+                             size = 0.3,
+                             popup.vars = "Location.Type") +
+                  tm_layout(title= 'Exploring GPS Movements of Three Chosen Staff On A Selected Date', 
+                            title.position = c('left', 'top')) +
+                  tm_view(set.view = c(24.866975, 36.069965, 14)))
+    
   })
   
   #------------ Format Table output  
@@ -1096,7 +1102,6 @@ server <- function(input, output,session) {
   })
   
 }
-
 
 # Run the application 
 shinyApp(ui = ui, server = server)
