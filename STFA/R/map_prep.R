@@ -1,17 +1,17 @@
 # Install and load necessary packages
 #if (!require("pacman")) install.packages("pacman")
 #pacman::p_load(tidyverse, readr, writexl, readxl, sf, clock, lubridate, lwgeom)
-library(tidyverse)
-library(readr)
-library(writexl)
-library(readxl)
-library(sf)
-library(sfheaders)
 library(clock)
+library(dplyr)
 library(lubridate)
 library(lwgeom)
+library(readr)
+library(readxl)
 library(reshape2)
-library(dplyr)
+library(sf)
+library(sfheaders)
+library(tidyverse)
+library(writexl)
 
 # Loading all datasets and image
 gps <- read_csv("data/gps.csv") # Add gps data

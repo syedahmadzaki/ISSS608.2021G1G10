@@ -1,23 +1,39 @@
 # Load key R libraries
-library(shiny)
-library(shinydashboard)
+library(clock)
+library(colourpicker)
+library(crosstalk)
+library(dendextend)
+library(dplyr)
+library(DT)
+library(formattable)
+library(fresh)
+library(ggiraph)
+library(ggraph)
+library(ggrepel) 
+library(heatmaply)
+library(hms)
+library(htmltools) 
+library(igraph)
+library(lubridate)
+library(plotly)
+library(raster)
 library(readr)
-library(tidyverse)
-#library(shinythemes)
 library(readxl)
+library(RColorBrewer)
+library(rgdal)
 library(rsconnect)
 library(sf)
-library(tmap)
-library(formattable)
-library(DT)
-library(colourpicker)
-library(fresh)
-library(UpSetR)
-library(dendextend)
-library(heatmaply)
-library(RColorBrewer)
+library(shiny)
+library(shinydashboard)
 library(shinyjs)
-
+#library(shinythemes)
+library(sugrrants)
+library(tidygraph)
+library(tidyverse)
+library(timetk) 
+library(tmap)
+library(UpSetR)
+library(visNetwork)
 
 # Define UI for application that draws a histogram
 ui <-  fluidPage(
@@ -69,149 +85,148 @@ ui <-  fluidPage(
   
   tabPanel("ANOVA",icon = icon("tint"),
            
-           sidebarLayout(fluid = TRUE,
+           sidebarLayout(
+             # Sidebar for basic and advanced settings for ANOVA Plot
+             sidebarPanel(width = 3,fluid = TRUE,
+                          h4(HTML("ANOVA Plot Settings"), align = "center"),
+                          
+                          # Users select plot type
+                          # p for parametric, np for non-parametric, r for robust and bayes for Bayes Factor
+                          selectInput(
+                            "type",
+                            label = ("Select test statistics"),
+                            choices = list("Parametric" = "p",
+                                           "Non-Parametric" = "np",
+                                           "Robust" = "r",
+                                           "Bayes Factor" = "bf"),
+                            selected = "np"),
+                          
+                          # Users confidence level for one-way ANOVA
+                          #selectInput(
+                          #"cf",
+                          #label = ("Select confidence level"),
+                          #choices = list("0.5" = 0.5,
+                          #"0.9" = 0.9,
+                          #"0.95" = 0.95,
+                          #"0.99" = 0.99),
+                          #selected = 0.95),
+                          
+                          # Users no. of bins for histogram
+                          sliderInput(
+                            "bins",
+                            label = ("No. of bins"),
+                            value = 5,
+                            min = 3,
+                            max = 30),
+                          
+                          # Users to submit 
+                          #                                                      submitButton("Apply Changes", icon("refresh"))                                                         
+                          actionButton("submit","Submit")
+                          
+             ),
+             
+             # Show tab panels of file import, data cleaning and plot 
+             mainPanel(width = 9, fluid = TRUE,
+                       tabsetPanel(
                          
-                         # Sidebar for basic and advanced settings for ANOVA Plot
-                         sidebarPanel(width = 2,
-                                      h4(HTML("ANOVA Plot Settings"), align = "center"),
-                                      
-                                      # Users select plot type
-                                      # p for parametric, np for non-parametric, r for robust and bayes for Bayes Factor
-                                      selectInput(
-                                        "type",
-                                        label = ("Select test statistics"),
-                                        choices = list("Parametric" = "p",
-                                                       "Non-Parametric" = "np",
-                                                       "Robust" = "r",
-                                                       "Bayes Factor" = "bf"),
-                                        selected = "np"),
-                                      
-                                      # Users confidence level for one-way ANOVA
-                                      #selectInput(
-                                      #"cf",
-                                      #label = ("Select confidence level"),
-                                      #choices = list("0.5" = 0.5,
-                                      #"0.9" = 0.9,
-                                      #"0.95" = 0.95,
-                                      #"0.99" = 0.99),
-                                      #selected = 0.95),
-                                      
-                                      # Users no. of bins for histogram
-                                      sliderInput(
-                                        "bins",
-                                        label = ("No. of bins"),
-                                        value = 5,
-                                        min = 3,
-                                        max = 30),
-                                      
-                                      # Users to submit 
-                                      #                                                      submitButton("Apply Changes", icon("refresh"))                                                         
-                                      actionButton("submit","Submit")
-                                      
-                         ),
-                         
-                         # Show tab panels of file import, data cleaning and plot 
-                         mainPanel(width = 10, fluid = TRUE,
-                                   tabsetPanel(
-                                     
-                                     # Instructions
-                                     tabPanel("Guide",
-                                              br(),
-                                              fluidRow(
-                                                column(6,
-                                                       h4(HTML("<b>Understanding One-Way Analysis of Variance Test</b>")),
-                                                       tags$div(
-                                                         tags$p("Analysis of variance (ANOVA) test is conducted to check if the means of two or more groups are significantly different from each other. 
+                         # Instructions
+                         tabPanel("Guide",
+                                  br(),
+                                  fluidRow(
+                                    column(6,
+                                           h4(HTML("<b>Understanding One-Way Analysis of Variance Test</b>")),
+                                           tags$div(
+                                             tags$p("Analysis of variance (ANOVA) test is conducted to check if the means of two or more groups are significantly different from each other. 
                                   For example, we could use one-way ANOVA to understand if the test scores between 5 different classes are significantly different."), 
-                                                         tags$p("It is important to realize that one-way ANOVA is an omnibus test statistic which is unable to tell us which specific groups were statsitically significantly different from each other.
+                                             tags$p("It is important to realize that one-way ANOVA is an omnibus test statistic which is unable to tell us which specific groups were statsitically significantly different from each other.
                                    Thus, we can make use of post-hoc test that can help us determine which of the groups differ from each other."), 
-                                                         tags$p("By using the ggbetweenstats function from ggstatplot package, we can easily visualize the results of one-way ANOVA. 
+                                             tags$p("By using the ggbetweenstats function from ggstatplot package, we can easily visualize the results of one-way ANOVA. 
                                     The visualization is built upon boxviolin plot to show how the dependent variable distribute for each group. 
                                     The function offers users the flexibility to select the type of hypothesis testing, including parametric, non-parametric, robust or Bayes Factor.
                                     It also automatically selects the appropriate post-hoc test and displays the results of the pairwise comparisons on the chart."),
-                                                         tags$p("In our use case, we made use of credit card transaction data to showcase how such a visualization 
+                                             tags$p("In our use case, we made use of credit card transaction data to showcase how such a visualization 
                             can help us understand the difference in spend amount across locations and credit card users.
                           The visualization aims to answer questions like 'Is the spending of user A significantly different from user B?' and 'Is the mean spend at this location significantly different from other cafes?'"), 
-                                                         tags$a(href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html", "Click here to find out more about ggstatplot R package.")),
-                                                       br(),
-                                                       h4(HTML("<b>Steps</b>")),
-                                                       tags$ol(
-                                                         tags$li("Begin by exploring the credit card transaction dataset under the 'EDA tab."),
-                                                         tags$li("Select the ANOVA tab based on the type of groups you are interested in comparing - 'ANOVA - Between Locations' or 'ANOVA - Between Credit Cards'."),
-                                                         tags$li("Select the locations or credit card numbers you would like to zoom in on within each tab."), 
-                                                         tags$li("You can play with the number of bins to understand the nature of the data to select the right test statistics."), 
-                                                         tags$li("For example, if the dataset is not normally distributed, you can select a non-parametric test."),
-                                                         tags$li("Click on 'Submit' button and the plot will be updated with the one-way ANOVA and pairwise comparison results."),
-                                                       ),
-                                                       br(),
-                                                       br(),
-                                                       br()
-                                                ), 
-                                                column(6,tags$img(src="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats_files/figure-html/ggbetweenstats1-1.png", width = "100%"),
-                                                       tags$h6("Source: vignettes/web_only/ggbetweenstats.Rmd")
-                                                ))
-                                     ), 
-                                     
-                                     # EDA plots
-                                     tabPanel("EDA",
-                                              br(),
-                                              fluidRow(column(12,
-                                                              h4(HTML("<b>Exploratory Data Analysis</b>"))                                                                              
-                                              )
-                                              ),
-                                              fluidRow(column(6,plotlyOutput("EDA_1A", height = 700, width = "100%")),
-                                                       column(6,plotlyOutput("EDA_2A", height = 700, width = "100%")))
-                                     ), 
-                                     
-                                     # Default chart 1
-                                     tabPanel("ANOVA - Between Locations",
-                                              br(),
-                                              
-                                              # Select location 
-                                              fluidRow(column(12,
-                                                              selectInput(
-                                                                "locations",
-                                                                label = ("Select locations and click 'Submit'"),
-                                                                choices = location_list,
-                                                                selected = c("Kalami Kafenion", "Guy's Gyros","Brew've Been Served","Jack's Magical Beans"),
-                                                                multiple=TRUE)                                                                             
-                                              )
-                                              ),
-                                              
-                                              fluidRow(column(8, h4(HTML("<b>One-Way ANOVA</b>")),
-                                                              plotOutput("ANOVAL", width = "100%", height = 600)),
-                                                       column(4, h4(HTML("<b>Distribution of spend amount by location</b>")),
-                                                              plotlyOutput("histL", width = "100%", height = 600))),
-                                              br(),
-                                              br()
-                                     ),
-                                     
-                                     
-                                     # Default chart 2
-                                     tabPanel("ANOVA - Between Credit Cards",
-                                              br(),
-                                              
-                                              # Select credit card number 
-                                              fluidRow(column(12,
-                                                              selectInput(
-                                                                "ccnums",
-                                                                label = ("Select credit card numbers and click 'Submit'"),
-                                                                choices = cc_list,
-                                                                selected = c("4795","5368","8129","2142"),
-                                                                multiple=TRUE)                                                                              
-                                              )
-                                              ),
-                                              
-                                              
-                                              fluidRow(column(8, h4(HTML("<b>One-Way ANOVA</b>")),
-                                                              plotOutput("ANOVAC", width = "100%", height = 600)),
-                                                       column(4, h4(HTML("<b>Distribution of spend amount by credit card numbers</b>")),
-                                                              plotlyOutput("histC", width = "100%", height = 600))),
-                                              br(),
-                                              br()
-                                     )
-                                   )
+                                             tags$a(href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html", "Click here to find out more about ggstatplot R package.")),
+                                           br(),
+                                           h4(HTML("<b>Steps</b>")),
+                                           tags$ol(
+                                             tags$li("Begin by exploring the credit card transaction dataset under the 'EDA tab."),
+                                             tags$li("Select the ANOVA tab based on the type of groups you are interested in comparing - 'ANOVA - Between Locations' or 'ANOVA - Between Credit Cards'."),
+                                             tags$li("Select the locations or credit card numbers you would like to zoom in on within each tab."), 
+                                             tags$li("You can play with the number of bins to understand the nature of the data to select the right test statistics."), 
+                                             tags$li("For example, if the dataset is not normally distributed, you can select a non-parametric test."),
+                                             tags$li("Click on 'Submit' button and the plot will be updated with the one-way ANOVA and pairwise comparison results."),
+                                           ),
+                                           br(),
+                                           br(),
+                                           br()
+                                    ), 
+                                    column(6,tags$img(src="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats_files/figure-html/ggbetweenstats1-1.png", width = "100%"),
+                                           tags$h6("Source: vignettes/web_only/ggbetweenstats.Rmd")
+                                    ))
+                         ), 
+                         
+                         # EDA plots
+                         tabPanel("EDA",
+                                  br(),
+                                  fluidRow(column(12,
+                                                  h4(HTML("<b>Exploratory Data Analysis</b>"))                                                                              
+                                  )
+                                  ),
+                                  fluidRow(column(6,plotlyOutput("EDA_1A", height = 700, width = "100%")),
+                                           column(6,plotlyOutput("EDA_2A", height = 700, width = "100%")))
+                         ), 
+                         
+                         # Default chart 1
+                         tabPanel("ANOVA - Between Locations",
+                                  br(),
+                                  
+                                  # Select location 
+                                  fluidRow(column(12,
+                                                  selectInput(
+                                                    "locations",
+                                                    label = ("Select locations and click 'Submit'"),
+                                                    choices = location_list,
+                                                    selected = c("Kalami Kafenion", "Guy's Gyros","Brew've Been Served","Jack's Magical Beans"),
+                                                    multiple=TRUE)                                                                             
+                                  )
+                                  ),
+                                  
+                                  fluidRow(column(8, h4(HTML("<b>One-Way ANOVA</b>")),
+                                                  plotOutput("ANOVAL", width = "100%", height = 600)),
+                                           column(4, h4(HTML("<b>Distribution of spend amount by location</b>")),
+                                                  plotlyOutput("histL", width = "100%", height = 600))),
+                                  br(),
+                                  br()
+                         ),
+                         
+                         
+                         # Default chart 2
+                         tabPanel("ANOVA - Between Credit Cards",
+                                  br(),
+                                  
+                                  # Select credit card number 
+                                  fluidRow(column(12,
+                                                  selectInput(
+                                                    "ccnums",
+                                                    label = ("Select credit card numbers and click 'Submit'"),
+                                                    choices = cc_list,
+                                                    selected = c("4795","5368","8129","2142"),
+                                                    multiple=TRUE)                                                                              
+                                  )
+                                  ),
+                                  
+                                  
+                                  fluidRow(column(8, h4(HTML("<b>One-Way ANOVA</b>")),
+                                                  plotOutput("ANOVAC", width = "100%", height = 600)),
+                                           column(4, h4(HTML("<b>Distribution of spend amount by credit card numbers</b>")),
+                                                  plotlyOutput("histC", width = "100%", height = 600))),
+                                  br(),
+                                  br()
                          )
+                       )
+             )
            )
   ),
   
@@ -797,7 +812,85 @@ ui <-  fluidPage(
   
   # Network Graph Tab - Understanding the linkages between locations at certain junctures and people.
   
-  tabPanel("Network Graph",icon = icon("project-diagram"))
+  tabPanel("Network Graph",icon = icon("project-diagram"),
+           sidebarLayout(position = "left", fluid = TRUE,
+                         sidebarPanel(width = 3, fluid = TRUE,
+                                      h4("Network Graph Settings", align = "center"),
+                                      selectInput(inputId = "variable",
+                                                  label = "Data Selection: ",
+                                                  choices = c("CC",
+                                                              "Loyalty"),
+                                                  selected = "CC"),
+                                      
+                                      selectInput(inputId = "variable1",
+                                                  label = "Layout Option: ",
+                                                  choices = c("Random Layout" = "layout_randomly",
+                                                              "FR Layout" = "layout_with_fr",
+                                                              "Circle Layout" = "layout_in_circle",
+                                                              "Nicely" = "layout_nicely",
+                                                              "KK Layout" = "layout_with_kk"),
+                                                  selected = "layout_with_fr"),
+                                      
+                                      sliderInput(inputId = "fontsize",
+                                                  label = "Node Font Size",
+                                                  min = 0,
+                                                  max = 50,
+                                                  value = 25),
+                                      
+                                      sliderInput(inputId ="nodesize",
+                                                  label = "Node Size",
+                                                  min = 0,
+                                                  max =25,
+                                                  value = 25),
+                                      
+                                      selectInput(inputId = "variable3",
+                                                  label = "Edges Colour: ",
+                                                  choices = c("Light Grey" = "#D3D3D3",
+                                                              "Dark Grey" = "	#2F4F4F",
+                                                              "SlateGrey" = "#778899"),
+                                                  selected = "#778899"),
+                                      
+                                      sliderInput(inputId = "edgeopacity",
+                                                  label = "Edge Opacity",
+                                                  min = 0,
+                                                  max = 1,
+                                                  value = 0.5),
+                                      
+                                      selectInput(inputId = "variable4",
+                                                  label = "Vis Edges Option: ",
+                                                  choices = c("Arrows From" = "from",
+                                                              "Arrows To" = "to",
+                                                              "Middle" = "middle"),
+                                                  selected = "to"),
+                                      
+                                      selectInput(inputId = "analysis",
+                                                  label = "Analysis Options: ",
+                                                  choices = c("NA"= "no_analysis",
+                                                              "Eigen" = "eigen_analysis",
+                                                              "Degree" = "degree_analysis"),
+                                                  selected = "NA"),
+                                      actionButton("submit_network","Submit")
+                         ),
+                         mainPanel(width = 9, fluid = TRUE,
+                                   tabsetPanel(
+                                     tabPanel("Guide"),
+                                     tabPanel("Network",
+                                              br(),
+                                              fluidRow(
+                                                column(12,
+                                                       h4(HTML("<b>Network Exploration</b>"))              
+                                                )
+                                              ),
+                                              fluidRow(
+                                                column(12,
+                                                       visNetworkOutput("network_proxy_nodes", height = "900px")                                                   
+                                                )
+                                              )
+                                     )
+                                   )
+                         )
+           )
+  )
   )
 )
 
@@ -1399,6 +1492,70 @@ server <- function(input, output,session) {
   
   output$selected_id3 <- renderText({
     paste(input$id3, "'s Movements")
+  })
+  
+  #------------ Network Graph output  
+  
+  output$network_proxy_nodes <- renderVisNetwork({
+    
+    # Plot graph after users click on Plot button
+    input$submit_network
+    
+    isolate(
+      if (input$variable == "CC"){
+        
+        visNetwork(nodes21, edges21, width = "100%") %>%
+          visIgraphLayout(layout = input$variable1) %>%
+          visNodes(
+            #label = input$label_nodes,
+            size = input$nodesize,
+            font = list(size = input$fontsize),
+            color = list(
+              background = "#0085AF",
+              border = "#013848",
+              highlight = "#FF8000"
+            ),
+            shadow = list(enabled = TRUE, size = 10)
+          ) %>%
+          visEdges(
+            arrows = input$variable4,
+            shadow = FALSE,
+            color = list(color = input$variable3, highlight = "#C62F4B", opacity = input$edgeopacity)
+          ) %>%
+          visOptions(highlightNearest = list(enabled = T, degree = 2, hover = T),
+                     selectedBy = "label") %>% 
+          visInteraction(navigationButtons = TRUE) %>%
+          addFontAwesome() %>%
+          visLayout(randomSeed = 123)
+      }
+      
+      else {
+        visNetwork(d_lc_nodes, lc_edges21, width = "100%") %>%
+          visIgraphLayout(layout = input$variable1) %>%
+          visNodes(
+            #label = POI,
+            size = input$nodesize,
+            font = list(size = input$fontsize),
+            color = list(
+              background = "#0085AF",
+              border = "#013848",
+              highlight = "#FF8000"
+            ),
+            shadow = list(enabled = TRUE, size = 10)
+          ) %>%
+          visEdges(
+            arrows = input$variable4,
+            shadow = FALSE,
+            color = list(color = input$variable3, highlight = "#C62F4B", opacity = input$edgeopacity)
+          ) %>%
+          visOptions(highlightNearest = list(enabled = T, degree = 2, hover = T),
+                     selectedBy = "label") %>% 
+          visInteraction(navigationButtons = TRUE) %>%
+          addFontAwesome() %>%
+          visLayout(randomSeed = 123)
+      }      
+    )
+    
   })
   
 }
