@@ -12,7 +12,7 @@ navbar:
     - text: "Research Paper"
       href: journal/journal.pdf
     - text: "Application With Guide"
-      href: app_guide.pdf
+      href: app_guide.html
       
   right:
     - text: "About"
