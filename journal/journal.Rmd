@@ -114,8 +114,9 @@ The UpSet plot allows user to – at a glance – gather information about the n
 
 
 
+![](vistNetwork_explore.png)
+Fig _. Interactive Network Graph
 
-Fig _. Interactive Network Graph 
 Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. In addition, inferential statistics analysis is done when the user selects eigen and degree analysis. This highlights the important and popular relationships respectively within the POI’s network. Important relationships include nodes that have few but well-connected connections. The node colours fade in tandem with relationship importance.  Popular relationships are nodes with many connections.  
 
 
