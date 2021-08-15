@@ -1,12 +1,5 @@
 ---
-title: "Application with Guide And GitHub"
-description: |
-  A new article created using the Distill format.
-author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
+title: "Application with Guide"
 date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
@@ -15,8 +8,9 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Our application can be found here: [Forensic Investigation App](https://isss608-2021g1g10.shinyapps.io/STFA/).  
-Our GitHub link can be found here: [Project GitHub](https://github.com/syedahmadzaki/ISSS608.2021G1G10).
+RShiny application and guide: [Forensic Investigation App](https://isss608-2021g1g10.shinyapps.io/STFA/). 
+
+GitHub: [Project GitHub](https://github.com/syedahmadzaki/ISSS608.2021G1G10).
 
 
 

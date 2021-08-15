@@ -7,19 +7,17 @@ navbar:
   left:
     - text: "Proposal"
       href: proposal.html
-    - text: "PDF Open For Poster"
-      href: data/rmarkdown-2.0.pdf
-    - text: "PDF Open For Research Paper"
-      href: data/rmarkdown-2.0.pdf
+    - text: "Poster"
+      href: poster/VAposter.pdf
     - text: "Research Paper"
-      href: research_paper.html
+      href: journal/journal.pdf
+    #- text: "Research Paper"
+      #href: research_paper.html
     - text: "Application With Guide"
       href: app_guide.html
       
   right:
-    - text: "Home"
-      href: index.html
     - text: "About"
-      href: about.html
+      href: index.html
 
 output: distill::distill_article
