@@ -12,9 +12,7 @@ author:
     affiliation: Singapore Management University
     
 abstract: |
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Major technological shifts in past decade provide law enforcement agencies with increasing volume and variety of digital evidence, such as GPS and payment transactions, to aid in their investigations. Growth in digital data has challenged investigators' forensic investigative ability to utilize and transform the data into insightful information. Inability to analyse this data in an accurate and timely fashion will reduce investigational efficiency and adds to the backlog of cases. To address this painpoint, we designed and developed a Forensic Investigation App (FIA), a dynamic and interactive visual analytics dashboard to allow investigators to explore and analyse GPS and payment transaction data to gain valuable insights about potential suspects. We demonstrate the potential of FIA through the use of interactive visualisations that will shed light on individual's movement patterns and spending habits and key locations that connects them.
 bibliography: sigproc.bib
 csl: acm-sig-proceedings.csl
 output: rticles::acm_article
@@ -121,13 +119,15 @@ Users can explore the co-location of individuals within various time windows via
 ![Fig 5. Interactive UpSet Plot](upset.png)
 
 ## Heatmap Dendrogram
-Users can select the From the colour intensity within the heatmap (Figure 6), the user can discern the frequency of visit of each staff to a location. The dendrograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered together (no surprises there) and on a few occasions, they have visited the homes of GASTech executives.
+From the colour intensity within the heatmap (Figure 6), the user can discern the frequency of visit of each staff to a location. Based on the agglomerative hierarchical clustering, the dendrograms for both the row and columns cluster similar staff and locations respectively based on similarity. A whole host of dendrogram settings are provided for the user to customize his visualization, ranging from the distance, clustering, and seriation method to showing either the row or column dendrograms. When a user selects Euclidean distance as its preferred distance method, the clustering is computed based on the square root of the sum of the square differences of the visit frequency between each location / staff respectively. When a user selects Complete as its linkage method, low-level clusters are then clustered into higher order clusters based on its maximum distance from each cluster.
+
+Using this heatmap, for example, the user would be able to tell that the movements of security staff are clustered together (no surprises there!) and on a few occasions, they have visited the homes of GASTech executives, which prompts further investigation.
 
 ![Fig 6. Interactive heatmap Dendrogram](heatmap.png)
 
 
 ## Spatial Map
-Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location (Figure 7). For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
+Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location on the spatial map (Figure 7). For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
 
 ![Fig 7. Interactive Spatial Map.](spatial.png)
 
@@ -142,11 +142,11 @@ In addition, inferential statistics analysis is done when the user selects eigen
 # Future Work
 The interactivity and analytical features of FIA prototype can be further enhanced. As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
 
-Furthermore, the application include brushing-and-linking of different types of charts and embed drill-downs to provide details on demand, depending on the richness of the datasets.
-
-The tmap package can be enhanced to link up to actual images of road and environment (e.g. Google Street Map) to allow investigators to explore the surroundings of locations.
+To allow investigators to explore the surroundings of locations within a single app, the tmap package can be enhanced to link up to actual images of road and environment (e.g. Google Street Map).
 
 The visNetwork could be improved with additional options for analysis. This includes centrality analysis options such as betweenness and community detection.
+
+Furthermore, the application include brushing-and-linking of different types of charts and embed drill-downs to provide details on demand, depending on the richness of the datasets.
 
 # References
 
