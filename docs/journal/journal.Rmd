@@ -123,13 +123,13 @@ From the colour intensity within the heatmap (Figure 6), the user can discern th
 
 Using this heatmap, for example, the user would be able to tell that the movements of security staff are clustered together (no surprises there!) and on a few occasions, they have visited the homes of GASTech executives, which prompts further investigation.
 
-![Interactive heatmap Dendrogram](heatmap.png)
+![Interactive Heatmap Dendrogram](heatmap.png)
 
 
 ## Spatial Map
 Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location on the spatial map (Figure 7). For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
 
-![Interactive Spatial Map.](spatial.png)
+![Interactive Spatial Map](spatial.jpg)
 
 
 ## Network Graph
