@@ -84,7 +84,6 @@ FIA is an interactive tool developed using Shiny and various R packages ggplot2,
  <br>
  <br>
  
- 
 # Analysis and Insights
 \vspace{-100pt}
 #### Case Study: VAST Mini Challenge 2
@@ -93,7 +92,7 @@ FIA is an interactive tool developed using Shiny and various R packages ggplot2,
 The *ggbetweenstats* function from *ggstatsplot* package was used to visualise the output of ANOVA tests. The function supports the most common types of hypothesis tests, including Welch’s one-way ANOVA for parametric data, Kruskal–Wallis one-way ANOVA for non-parametric, Fisher’s ANOVA for Bayes Factor.
 
 \vspace{-100pt}
-```{r pressure2, echo=FALSE, out.width = '100%'}
+```{r pressure2, echo=FALSE, out.width = '80%'}
 knitr::include_graphics("anova.png")
 ```
 \vspace{-100pt}
@@ -117,7 +116,7 @@ knitr::include_graphics("spatial.png")
 **Interactive Heat Map with Dendrogram**<br>
 The *heatmaply* package was used to build the heat map with dendrogram. From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered and visited the homes of GasTech executives.
 \vspace{-100pt}
-```{r pressure5, echo=FALSE, out.width = '100%'}
+```{r pressure5, echo=FALSE, out.width = '80%'}
 knitr::include_graphics("heatmap.png")
 ```
 \vspace{-100pt}
@@ -141,9 +140,6 @@ knitr::include_graphics("vis.png")
 library(pagedown)
 
 pagedown::chrome_print("VAposter.html")
-
-
-
 ```
 
 
