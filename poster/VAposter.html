@@ -299,9 +299,9 @@ font-size: 20pt;
 <div id="introduction-and-motivation" class="section level1">
 <h1>Introduction and Motivation</h1>
 <p><strong>Background</strong><br>
-Forensic Analysis has proliferated into digital forensics which involves transforming data into insightful information to aid investigations. Searching through data such as credit card and travel data, law enforcement agencies can quickly seek out anormalies and identify suspects.By creating forensic tools with interactive visualization and automated analysis techniques, digital data can be presented in meaningful ways. Reflecting on this, we designed and developed a Forensic Investigation App (FIA), an interactive dashboard that allows law enforcement agents to conduct investigative analysis of GPS and merchant card data.</p>
+Forensic Analysis has proliferated digital forensics which involves transforming data into insightful information to aid investigations. Searching through data such as credit card and travel data, law enforcement agencies can quickly seek out anormalies and identify suspects.By creating forensic tools with interactive visualization and automated analysis techniques, digital data can be presented in meaningful ways.</p>
 <p><strong>Objective</strong><br>
-To develop an interactive tool that simplifies data exploration and analysis, providing valuable insights into the behaviours of individuals by leveraging their digital trail. The study is built on VAST Mini Challenge 2’s task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars.</p>
+Designe and develop a Forensic Investigation App (FIA), an interactive dashboard that allows law enforcement agents to conduct investigative analysis of GPS and merchant card data. The application is built on VAST Mini Challenge 2’s task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars.</p>
 <p><strong>Design Principles</strong><br></p>
 <ul>
 <li><u>Simplicity and Clarity</u> - Aesthetically clean, easy to configure visuals and seamless user experience.</li>
@@ -309,19 +309,22 @@ To develop an interactive tool that simplifies data exploration and analysis, pr
 <li><u>Utility</u> - Perform exploratory and inferential data analysis, supported by different visualisations.</li>
 </ul>
 <p><strong>Data Sources</strong><br>
-Data was obtained from Mini-Challenge 2 within the annual IEEE Visual Analytics Science and Technology (VAST) Challenge 2021. The data includes i) csv files of vehicle tracking,credit card and loyalty card purchases of the GASTech employees two weeks before the disappearance of several employees; and ii) geo-spatial files of the island.Data was cleaned and transformed in R using base R and the dplyr package. These activities are done by server and hidden from the user.</p>
+Data was obtained from Mini-Challenge 2 within the annual IEEE Visual Analytics Science and Technology (VAST) Challenge 2021. The data includes i) csv files of vehicle tracking, credit card and loyalty card purchases of the GASTech employees two weeks before the disappearance of several employees; and ii) geo-spatial files of the island.</p>
 <p><strong>Analytical Approach</strong><br>
 The interactive tool aims to address the following analysis requirements:
 (1) Are mean spends of the locations and individuals statistically different?
-(2) How many visitors went to locations A, B, C and D at a certain hour and who?
-(3) What is the visit frequency of a specific staff to a particular location?
-(4) Can either the staff or the locations be clustered into groups, based on similarity?
-(5) How long did a staff stay in a particular location on a particular day?
-(6) Were there any staff who exhibited similar movement patterns?
-(7) How does expenditure at locations link people?
-(8) Which are the locations of importance within the networks?</p>
+(2) Can either the staff or the locations be clustered into groups, based on similarity?
+(3) How long did a staff stay in a particular location on a particular day?
+(4) Did any staff exhibit similar or wayward movement patterns?
+(5) Which are the locations of importance within the staff networks?</p>
 <p><strong>Application Overview</strong><br>
 FIA is an interactive tool developed using Shiny and various R packages ggplot2,tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br></p>
@@ -332,30 +335,31 @@ FIA is an interactive tool developed using Shiny and various R packages ggplot2,
 <h4>Case Study: VAST Mini Challenge 2</h4>
 <p><strong>Interactive ANOVA</strong><br>
 The <em>ggbetweenstats</em> function from <em>ggstatsplot</em> package was used to visualise the output of ANOVA tests. The function supports the most common types of hypothesis tests, including Welch’s one-way ANOVA for parametric data, Kruskal–Wallis one-way ANOVA for non-parametric, Fisher’s ANOVA for Bayes Factor.
-</p>
-<p><strong>Interactive Upset Plot</strong><br>
-UpSet plots provide a novel way to view set data by the size of their intersections. It focuses on communicating the size and properties of the set aggregates and interactions with bar charts. The <em>UpSetR</em> package was used to build the Upset plot. This package requires the dataset to be in binary matrix format, with the columns representing the universe of sets. Users can change visualization attributes to explore the intersections between the sets.
+
+<img src="anova.png" width="100%" />
+
+<strong>Interactive Upset Plot</strong><br>
+UpSet plots provide a novel way to view set data by the size of their intersections. It focuses on communicating the size and properties of the set aggregates and interactions with bar charts. The <em>UpSetR</em> package was used to build the Upset plot. This package requires the dataset to be in binary matrix format, with the columns representing the universe of sets. Users can change visualization attributes to explore the intersections between the sets.</p>
+<p><img src="upset.png" width="100%" />
 </p>
 <p><strong>Interactive Spatial Map </strong><br>
 The <em>tmap</em> package was used to build the spatial map.From the movement lines and the table, the user can see the path taken by the staff, locations visited, and duration stayed in each visited location. For example, the user would be able to tell who frequent the same locations together, and that if staff drove in a wayward manner.
 </p>
+<p><img src="spatial.png" width="100%" />
+</p>
 <p><strong>Interactive Heat Map with Dendrogram</strong><br>
-The <em>heatmaply</em> package was used to build the heat map with dendrogram. From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered together (no surprises there!) and on a few occasions, they have visited the homes of GasTech executives.
+The <em>heatmaply</em> package was used to build the heat map with dendrogram. From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered and visited the homes of GasTech executives.
 </p>
-<p><strong>Interactive Network Graph - Eigenvector Analysis</strong><br>
-The <em>visNetwork</em> package was used to generate the UI for the Network Graph. The datasets must be carefully prepared into nodes and edges data. Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. The eigen analysis highlights important relationships within an individual’s network, including other credit card expenditures and locations that may have few but strong connections.
-</p>
-<p><strong>Interactive Network Graph - Degree Analysis</strong><br>
-Similar to eigenvector analysis, degree analysis was done using the <em>visNetwork</em> package. Degree analysis highlights popular relationships (nodes with many connections). Users can seek out different popular locations within a credit card network to understand the individual’s patterns and detect anomaly behaviour.
+<p><strong>Interactive Network Graph - Eigenvector &amp; Degree Analysis</strong><br>
+The <em>visNetwork</em> package was used to generate the UI for the Network Graph. Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. The eigen analysis highlights important relationships within an individual’s network, degree analysis highlights popular relationships (nodes with many connections)
+
+<img src="vis.png" width="80%" height="20%" />
 </p>
 </div>
 </div>
 <div id="future-works" class="section level1">
 <h1>FUTURE WORKS</h1>
-<p><strong>1. Scope</strong> <br>
-Scope…<br><br>
-<strong>2. Analysis</strong><br>
-Analysis….</p>
+<p>The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization. In addition, tmap package can be enhanced to link up to actual images of road and environment.Lastly, visNetwork could have additional options for analysis, such as, community detection.</p>
 </div>
 </div>
 </div>
