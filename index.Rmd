@@ -1,18 +1,21 @@
 ---
-title: "ISSS608 2021 G1 G10 Project"
+title: "ISSS608 Visual Analytics"
 description: |
-  Welcome to the website. I hope you enjoy it!
+  Singapore Management University AY2020-21 G1 Group 10 
 site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
-# Learn more about publishing to GitHub Pages at:
-# https://rstudio.github.io/distill/publish_website.html#github-pages
-
 ```
+
+Team Members
+
+- [Kelly Koh Kia Woon](mailto: kelly.koh.2020@mitb.smu.edu.sg)
+- [Manmit Singh](mailto: manmits.2020@mitb.smu.edu.sg)
+- [Syed Ahmad Zaki Bin Syed Sakaf Al-attas](mailto: ahmadzaki.2020@mitb.smu.edu.sg)
+
+Instructor
+
+- [Prof Kam Tin Seong](https://faculty.smu.edu.sg/profile/kam-tin-seong-486)
 

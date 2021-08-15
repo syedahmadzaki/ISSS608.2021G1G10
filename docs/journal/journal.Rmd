@@ -4,7 +4,7 @@ author:
   - name: Kelly Koh Kia Woon
     email: kelly.koh.2020@mitb.smu.edu.sg
     affiliation: Singapore Management University
-  - name: Manmit S/o Narmal Singh
+  - name: Manmit Singh
     email: manmits.2020@mitb.smu.edu.sg
     affiliation: Singapore Management University
   - name: Syed Ahmad Zaki Bin Syed Sakaf Al-attas
@@ -53,9 +53,10 @@ To overcome this problem, we can adopt the visualisation technique using ‘UpSe
 ## Network Graph
 Leveraging visuals such as scatterplots, histograms and bubble charts, relationships between entities in datasets can be fleshed out. These charts allow for a quick overview and identification of relationship patterns. In addition, statistical methods such as correlation, can denote the strength of relationships between quantitative variables. Specifically, using Cohen’s d to measure the difference in standard deviation between two groups in a population, and Pearson’s r to measure the strength of a linear association (Price, 2012). As an example, the scatterplot below shows the moderately negative relationship between temperature against elevation using Pearson’s r .
 
-Figure
+![](temp_elevation.png)
+Figure 2: Correlation between temperature vs. elevation, r = -0.6 (SAS , n.d.)
 
-While these methods are useful, they are not sufficient to visualise complex relationships between elements. To thoroughly visualise and investigate relationships, Network Graphs should be used. Network Graphs are powered by graph theory, that transforms the entities and connections within datasets (Carlson, 2020) to nodes and edges respectively. These graphs can flesh out i) relationships between all the entities within the dataset; ii) number of connections each entity has; and iii) importance of relationships that connect the entities. In addition to visualisation, Network Graphs can be statistically analysed to highlight underlying relationships using methods such as, i) degree centrality – the number of ties to a node, and ii) eigenvector centrality – the node’s importance within the network (rdrr.io, 2020). Network Graphs are often used to analyse transportation and social media networks.
+While these methods are useful, they are not sufficient to visualise complex relationships between elements. To thoroughly visualise and investigate relationships, Network Graphs should be used. Network Graphs are powered by graph theory, that transforms the entities and connections within datasets (Carlson, 2020) to nodes and edges respectively. These graphs can flesh out i) relationships between all the entities within the dataset; ii) number of connections each entity has; and iii) importance of relationships that connect the entities. In addition to visualisation, Network Graphs can be statistically analysed to highlight underlying relationships using methods such as, i) degree centrality – the number of ties to a node, and ii) eigenvector centrality – the node’s importance within the network (Rdrr.io, 2020). Network Graphs are often used to analyse transportation and social media networks.
 
 
 # Data 
@@ -91,8 +92,9 @@ A heatmap would allow for easy visualisation of frequencies between two categori
 Maps are usually the go-to visualisation for spatial data. It allows the user to interact with the map to understand both movement trails and proximity of locations from each other. For this, both the sf and tmap package was employed. The sf package provides users with a comprehensive list of spatial data manipulation. Separately, the tmap package allow users to visualise these spatial data on a map, along with its related map functionalities.
 
 ### Network Graph
-Unstructured and structured data can be used for Network Graphs, and the datasets must be carefully prepared into nodes; and edges data. Minimally, the nodes dataset contains columns which i) “id” - a unique identifier for the node to the edge and ii) “label” - the name of the variable.  The edges dataset must contain at least i) “id” – maps the node to the edge data; ii) “from” (source); and iii) “to” (target) columns. The “from” and “to” columns map the relationship between the source and target. 
-In R, the visNetwork package provides the dexterity to customize the network graph, such as, its layout, node image, edge colour and opacity, font size and edge direction (Thieurmel, 2019). Credit card and loyalty card data was used in the package to explore relationships between i) credit card expenditure-location, and ii) loyalty card expenditure – location. The app has features for the user to customize the network display and understand the networks' eigen and degree centrality. The default layout is force-directed, which tries to produce a nice visual. The graph has a zoom function and nodes can be dragged to explore specific points-of-interest (“POI”). 
+Unstructured and structured data can be used for Network Graphs, and the datasets must be carefully prepared into nodes, and edges data. Minimally, the nodes dataset contains columns with i) “id” - a unique identifier for the node to the edge; and ii) “label” - the name of the variable.  The edges dataset must contain at least i) “id” – maps the node to the edge data; ii) “from” (source); and iii) “to” (target) columns. The “from” and “to” columns map the relationship between the source and target. 
+
+In R, the visNetwork package provides the dexterity to customize the Network Graph, such as, its layout, node image, edge colour and opacity, font size and edge direction (Thieurmel, 2019). Credit card and loyalty card data was used in the package to explore relationships between i) credit card expenditure-location, and ii) loyalty card expenditure – location. The app has features for the user to customize the network display and understand the networks' eigen and degree centrality. The default layout is force-directed, which tries to produce a nice visual. The graph has a zoom function and nodes can be dragged to explore specific points-of-interest (“POI”). 
 
 
 # Case Study: VAST Mini Challenge 2
@@ -112,8 +114,9 @@ The UpSet plot allows user to – at a glance – gather information about the n
 
 
 
+![](vistNetwork_explore.png)
+Fig _. Interactive Network Graph
 
-Fig _. Interactive Network Graph 
 Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. In addition, inferential statistics analysis is done when the user selects eigen and degree analysis. This highlights the important and popular relationships respectively within the POI’s network. Important relationships include nodes that have few but well-connected connections. The node colours fade in tandem with relationship importance.  Popular relationships are nodes with many connections.  
 
 
@@ -168,4 +171,49 @@ references:
     month: August
 
 
+- id: Price2012
+  title: Psychology Research Methods: Core Skills and Concepts (v. 1.0)
+  author: 
+  - family: Price
+    given: Paul C.
+  type: Web site
+  publisher: Lard Bucket
+  URL: ‘https://2012books.lardbucket.org/books/’
+  issued:
+    year: 2012
+    
+
+- id: Carlson2020
+  title: Graph theory
+  author: Carlson, Stephan C.
+  type: Web site
+  publisher: Britannica
+  URL: ‘https://www.britannica.com/topic/graph-theory’
+    year: 2020
+    month: November  
+    
+- id: Rdrr2020
+  title: Tidy Graph Centrality
+  type: Web site
+  publisher: rdrr.io
+  URL: ‘https://rdrr.io/cran/tidygraph/man/centrality.html’
+     year: 2020
+    month: July  
+
+- id: Sasjmp
+  title: Statistical Knowledge - What is Correlation
+  type: Web site
+  publisher: SAS
+  URL: ‘https://www.jmp.com/en_ch/statistics-knowledge-portal/
+  what-is-correlation.html’
+  
+
+- id: Beniot2019
+  title: Network Visualization using 'vis.js' Library
+  author: Thieurmel, Benoit
+  URL: ‘https://cran.r-project.org/web/packages/visNetwork/visNetwork.pdf’
+  type: Web site
+  year: 2019
+  month: December
+ 
 ...

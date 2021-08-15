@@ -769,10 +769,10 @@ ui <-  fluidPage(useShinyjs(),
                                                      
                                                      selectInput(inputId = "analysis",
                                                                  label = "Select Analysis Option",
-                                                                 choices = c("NA"= "no_analysis",
-                                                                             "Eigen" = "eigen_analysis",
-                                                                             "Degree" = "degree_analysis"),
-                                                                 selected = "NA"),
+                                                                 choices = c("None",
+                                                                             "Eigen",
+                                                                             "Degree"),
+                                                                 selected = "None"),
                                                      
                                                      actionButton("submit_network","Submit")
                                         ),
@@ -1478,7 +1478,7 @@ server <- function(input, output,session) {
       
       if (input$variable == "CC"){
         
-        if(input$analysis == "None"){
+        if (input$analysis == "None"){
           
           visNetwork(nodes21, edges21, width = "100%") %>%
             visIgraphLayout(layout = input$variable1) %>%
@@ -1504,7 +1504,7 @@ server <- function(input, output,session) {
             visLayout(randomSeed = 123)
         }
         
-        else if (input$analysis == "Eigen"){
+         else if (input$analysis == "Eigen"){
           
           visNetwork(eigennodes, edges21, width = "100%") %>%
             visIgraphLayout(layout = input$variable1) %>%
@@ -1615,7 +1615,7 @@ server <- function(input, output,session) {
             visLayout(randomSeed = 123)
         }
         
-        else
+        else 
         {
           
           visNetwork(d_lc_nodes, lc_edges21, width = "100%") %>%
