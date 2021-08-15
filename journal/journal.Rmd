@@ -133,11 +133,11 @@ Users can select the date of interest and compare the routes taken by three empl
 
 
 ## Network Graph
-Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. 
+Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships on the Network Graph (Figure 8). Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. 
 
 In addition, inferential statistics analysis is done when the user selects eigen and degree analysis. This highlights the important and popular relationships respectively within the POI’s network. Important relationships include nodes that have few but well-connected connections. The node colours fade in tandem with relationship importance. Popular relationships are nodes with many connections.  
 
-![Fig 7. Interactive Network Graph.](vis.png)
+![Fig 8. Interactive Network Graph.](vis.png)
 
 # Future Work
 The interactivity and analytical features of FIA prototype can be further enhanced. As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
