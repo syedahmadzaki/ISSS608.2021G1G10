@@ -67,15 +67,6 @@ The interactive tool aims to address the following analysis requirements:
 
 **Application Overview**<br>
 FIA is an interactive tool developed using Shiny and various R packages ggplot2,tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 # Analysis and Insights
 \vspace{-100pt}
@@ -83,6 +74,7 @@ FIA is an interactive tool developed using Shiny and various R packages ggplot2,
 \vspace{-100pt}
 **Interactive ANOVA**<br>
 The *ggbetweenstats* function from *ggstatsplot* package was used to visualise the output of ANOVA tests. The function supports the most common types of hypothesis tests, including Welch’s one-way ANOVA for parametric data, Kruskal–Wallis one-way ANOVA for non-parametric, Fisher’s ANOVA for Bayes Factor.
+
 \vspace{-100pt}
 ```{r pressure2, echo=FALSE, out.width = '100%'}
 knitr::include_graphics("anova.png")
@@ -110,7 +102,7 @@ knitr::include_graphics("spatial.png")
 The *heatmaply* package was used to build the heat map with dendrogram. From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered and visited the homes of GasTech executives.
 \vspace{-100pt}
 ```{r pressure5, echo=FALSE, out.width = '100%'}
-#knitr::include_graphics("x.jpg")
+knitr::include_graphics("heatmap.png")
 ```
 \vspace{-100pt}
 
@@ -123,7 +115,11 @@ knitr::include_graphics("vis.png")
 \vspace{-100pt}
 
 # FUTURE WORKS
-The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization. In addition, tmap package can be enhanced to link up to actual images of road and environment.Lastly, visNetwork could have additional options for analysis, such as, community detection.
+(1) The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
+
+(2) In addition, tmap package can be enhanced to link up to actual images of road and environment.
+
+(3) Lastly, visNetwork could have additional options for analysis, such as, community detection.
 
 ```{r echo=FALSE, eval=FALSE}
 library(pagedown)

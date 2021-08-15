@@ -318,25 +318,15 @@ The interactive tool aims to address the following analysis requirements:
 (4) Did any staff exhibit similar or wayward movement patterns?
 (5) Which are the locations of importance within the staff networks?</p>
 <p><strong>Application Overview</strong><br>
-FIA is an interactive tool developed using Shiny and various R packages ggplot2,tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br></p>
+FIA is an interactive tool developed using Shiny and various R packages ggplot2,tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.</p>
 </div>
 <div id="analysis-and-insights" class="section level1">
 <h1>Analysis and Insights</h1>
 <div id="case-study-vast-mini-challenge-2" class="section level4">
 <h4>Case Study: VAST Mini Challenge 2</h4>
 <p><strong>Interactive ANOVA</strong><br>
-The <em>ggbetweenstats</em> function from <em>ggstatsplot</em> package was used to visualise the output of ANOVA tests. The function supports the most common types of hypothesis tests, including Welch’s one-way ANOVA for parametric data, Kruskal–Wallis one-way ANOVA for non-parametric, Fisher’s ANOVA for Bayes Factor.
-
-<img src="anova.png" width="100%" />
+The <em>ggbetweenstats</em> function from <em>ggstatsplot</em> package was used to visualise the output of ANOVA tests. The function supports the most common types of hypothesis tests, including Welch’s one-way ANOVA for parametric data, Kruskal–Wallis one-way ANOVA for non-parametric, Fisher’s ANOVA for Bayes Factor.</p>
+<p><img src="anova.png" width="100%" />
 
 <strong>Interactive Upset Plot</strong><br>
 UpSet plots provide a novel way to view set data by the size of their intersections. It focuses on communicating the size and properties of the set aggregates and interactions with bar charts. The <em>UpSetR</em> package was used to build the Upset plot. This package requires the dataset to be in binary matrix format, with the columns representing the universe of sets. Users can change visualization attributes to explore the intersections between the sets.</p>
@@ -349,6 +339,8 @@ The <em>tmap</em> package was used to build the spatial map.From the movement li
 </p>
 <p><strong>Interactive Heat Map with Dendrogram</strong><br>
 The <em>heatmaply</em> package was used to build the heat map with dendrogram. From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered and visited the homes of GasTech executives.
+
+<img src="heatmap.png" width="100%" />
 </p>
 <p><strong>Interactive Network Graph - Eigenvector &amp; Degree Analysis</strong><br>
 The <em>visNetwork</em> package was used to generate the UI for the Network Graph. Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. The eigen analysis highlights important relationships within an individual’s network, degree analysis highlights popular relationships (nodes with many connections)
@@ -359,7 +351,11 @@ The <em>visNetwork</em> package was used to generate the UI for the Network Grap
 </div>
 <div id="future-works" class="section level1">
 <h1>FUTURE WORKS</h1>
-<p>The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization. In addition, tmap package can be enhanced to link up to actual images of road and environment.Lastly, visNetwork could have additional options for analysis, such as, community detection.</p>
+<ol style="list-style-type: decimal">
+<li><p>The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.</p></li>
+<li><p>In addition, tmap package can be enhanced to link up to actual images of road and environment.</p></li>
+<li><p>Lastly, visNetwork could have additional options for analysis, such as, community detection.</p></li>
+</ol>
 </div>
 </div>
 </div>
