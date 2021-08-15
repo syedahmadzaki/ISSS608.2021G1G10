@@ -8,7 +8,7 @@ navbar:
     - text: "Proposal"
       href: proposal.html
     - text: "Poster"
-      href: poster/VAposter.html
+      href: poster/VAposter.pdf
     - text: "Research Paper"
       href: journal/journal.pdf
     - text: "Application With Guide"
