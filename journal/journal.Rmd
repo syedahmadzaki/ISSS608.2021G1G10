@@ -140,13 +140,16 @@ In addition, inferential statistics analysis is done when the user selects eigen
 ![Interactive Network Graph.](vis.png)
 
 # Future Work
-The interactivity and analytical features of FIA prototype can be further enhanced. As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
+As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualisation. This would reduce the time from the uncertainty on how to process the data before uploading them into the application. 
 
-To allow investigators to explore the surroundings of locations within a single app, the tmap package can be enhanced to link up to actual images of road and environment (e.g. Google Street Map).
+The interactivity and analytical features of FIA prototype can also be further enhanced based on the common needs of investigators. We suggest the app can incrementally address:
 
-The visNetwork could be improved with additional options for analysis. This includes centrality analysis options such as betweenness and community detection.
+- Allow investigators to explore the surroundings of locations within a single app. This includes enhancing the tmap package to link up to actual images of road and environment (e.g. Google Street Map).
+- Improve the visNetwork network package with additional options for analysis. This includes centrality analysis options such as betweenness and community detection.
+- Enable the exploration of other metadata by including brushing-and-linking of different types of charts and embed drill-downs to provide details on demand.
+- Expand the scope of the app to include other digital data such as weblogs
 
-Furthermore, the application could include brushing-and-linking of different types of charts and embed drill-downs to provide details on demand, depending on the richness of the datasets.
+To ensure that insights from the tool is reliable and can be admissible in court, the app should also be validated by forensic investigation specialists. It should also undergo a period of user testing to prove that it is error-free and can operate in all environment. 
 
 # References
 
@@ -210,15 +213,15 @@ references:
     year: 2020
     month: July  
 - id: sasjmp
-  title: Statistical Knowledge - What is Correlation
+  title: Statistical Knowledge Portal - What is Correlation
   type: Web site
-  publisher: SAS
+  publisher: SAS JMP
   URL: ‘https://www.jmp.com/en_ch/statistics-knowledge-portal/what-is-correlation.html’
 - id: thieurmel2019
   title: Network Visualization using 'vis.js' Library
   author: 
-  - family Thieurmel
-  given: Benoit
+  - family: Thieurmel
+    given: Benoit
   URL: ‘https://cran.r-project.org/web/packages/visNetwork/visNetwork.pdf’
   type: Web site
   issued:
@@ -228,7 +231,11 @@ references:
   title: Applied spatial data analysis with R (2nd ed)
   author: 
   - family: Bivand
-  given: Roger S.
+    given: Roger S.
+  - family: Pebesma
+    given: E
+  - family: Gaomez-Rubio
+    given: V
   type: book
   publisher: Springer
   issued:
