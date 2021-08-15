@@ -1,87 +1,145 @@
 ---
-title: Generate Reproducible & Live HTML and PDF Conference Posters Using RMarkdown
+# Title Box
+title: Forensic Investigation - Interactive Visual Analysis with R Shiny <br>
+title_textsize: "70pt"
+author_textsize: "45pt"
+affiliation_textsize: "45pt"
 author:
-  - name: Brent Thorne
-    affil: 1
-    orcid: '0000-0002-1099-3857'
-  - name: Another G. Author
-    affil: 2
+  - name: <br>Kelly Koh Kia Woon 
+    affil: 
+    email: kelly.koh.2020@mitb.smu.edu.sg
+  - name: Manmit Singh
+    affil: 
+    email: manmits.2020@mitb.smu.edu.sg
+  - name: Syed Ahmad Zaki Bin Syed Sakaf Al-attas
+    affil: 
+    email: ahmadzaki.2020@mitb.smu.edu.sg
+  - name: <br> Prof Kam Tin Seong (Mentor)
+    email: tskam@smu.edu.sg
+    main: true
 affiliation:
-  - num: 1
-    address: Department of Earth Science, Brock University
-  - num: 2
-    address: Department of Graphics and Layouts, University of Posters; Canada
-column_numbers: 3
-logoright_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png
+  - num: 
+    address: School of Computing and Information Systems, Singapore Management University
+    
 logoleft_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png
+logoright_name: smu_logo.png
+
 output: 
   posterdown::posterdown_html:
     self_contained: false
 bibliography: packages.bib
 ---
 
+
+
+---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Introduction
+# Introduction and Motivation
 
-Welcome to `posterdown` ! This is my attempt to provide a semi-smooth workflow for those who wish to take their R Markdown skills to the conference world. Most features from R Markdown are available in this package such as Markdown section notation, figure captioning, and even citations like this one [@R-rmarkdown]. The rest of this example poster will show how you can insert typical conference poster features into your own document. 
+**Background**<br>
+Forensic Analysis has proliferated into digital forensics which involves transforming data into insightful information to aid investigations. Searching through data such as credit card and travel data, law enforcement agencies can quickly seek out anormalies and identify suspects.By creating forensic tools with interactive visualization and automated analysis techniques, digital data can be presented in meaningful ways. Reflecting on this, we designed and developed a Forensic Investigation App (FIA), an interactive dashboard that allows law enforcement agents to conduct investigative analysis of GPS and merchant card data. 
 
-## Objectives
+**Objective**<br>
+To develop an interactive tool that simplifies data exploration and analysis, providing valuable insights into the behaviours of individuals by leveraging their digital trail. The study is built on VAST Mini Challenge 2's task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars. 
 
-1. Easy to use reproducible poster design. 
-2. Integration with R Markdown.
-3. Easy transition from `posterdown` to `pagedown` report or manuscript documents [@R-pagedown].
+**Design Principles**<br>
 
-# Methods
+- <u>Simplicity and Clarity</u> - Aesthetically clean, easy to configure visuals and seamless user experience.
+- <u>Interactivity</u> - Provide the flexibility for the user to customize visuals and explore data.
+- <u>Utility</u> - Perform exploratory and inferential data analysis, supported by different visualisations.
 
-This package uses the same workflow approach as the R Markdown you know and love. Basically it goes from RMarkdown > Knitr > Markdown > Pandoc > HTML/CSS > PDF. You can even use the bibliography the same way [@R-posterdown].
+**Data Sources**<br>
+Data was obtained from Mini-Challenge 2 within the annual IEEE Visual Analytics Science and Technology (VAST) Challenge 2021. The data includes i) csv files of vehicle tracking,credit card and loyalty card purchases of the GASTech employees two weeks before the disappearance of several employees; and ii) geo-spatial files of the island.Data was cleaned and transformed in R using base R and the dplyr package. These activities are done by server and hidden from the user.
 
-# Results
 
-Usually you want to have a nice table displaying some important results that you have calculated. In `posterdown` this is as easy as using the `kable` table formatting you are probably use to as per typical R Markdown formatting.
+**Analytical Approach**<br>
+The interactive tool aims to address the following analysis requirements:
+(1)	Are mean spends of the locations and individuals statistically different?
+(2)	How many visitors went to locations A, B, C and D at a certain hour and who?
+(3)	What is the visit frequency of a specific staff to a particular location?
+(4)	Can either the staff or the locations be clustered into groups, based on similarity?
+(5)	How long did a staff stay in a particular location on a particular day? 
+(6)	Were there any staff who exhibited similar movement patterns? 
+(7)	How does expenditure at locations link people? 
+(8)	Which are the locations of importance within the networks?
 
-You can reference tables like so: Table \@ref(tab:mytable). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam placerat augue at velit tincidunt semper. Donec elementum porta posuere. Nullam interdum, odio at tincidunt feugiat, turpis nisi blandit eros, eu posuere risus felis non quam. Nam eget lorem odio. Duis et aliquet orci. Phasellus nec viverra est.
+**Application Overview**<br>
+FIA is an interactive tool developed using Shiny and various R packages ggplot2,tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.
+<br>
+<br>
+<br>
 
-```{r mytable, out.width='80%'}
-knitr::kable(iris[1:10, 1:4], caption = 'Table caption.',align = 'c',"html")
+
+# Analysis and Insights
+\vspace{-100pt}
+#### Case Study: VAST Mini Challenge 2
+\vspace{-100pt}
+**Interactive ANOVA**<br>
+The *timetk* package was used to provide diagnostic plots to study trends, seasonality and
+remainder, anomalies and lag if present in the time-series.
+\vspace{-100pt}
+```{r pressure2, echo=FALSE, out.width = '100%'}
+#knitr::include_graphics("images/cases-etsUI.jpg")
 ```
-
-Or with figures: Figure \@ref(fig:standard-plot), or Figure \@ref(fig:morefigs).
-
-```{r standard-plot, out.width='80%', fig.align='center', fig.cap='Great figure!', fig.height=5}
-plot(mtcars[1:2])
+\vspace{-100pt}
+**Interactive Upset Plot**<br>
+The focus here is to allow users to compare and assess the performance of the predictive models
+provided. The tool allows the user to explore and compare models available for predictive time-series analysis. The tool also allows advanced users to change more advanced parameters.
+\vspace{-100pt}
+```{r pressure3, echo=FALSE, out.width = '100%'}
+#knitr::include_graphics("x.jpg")
 ```
+\vspace{-100pt}
 
-```{r morefigs, out.width='80%', echo=TRUE, fig.cap='Amazing, right?!', fig.height=5}
-data <- iris
 
-plot(x = data$Sepal.Length, 
-     y = data$Sepal.Width, 
-     col = data$Species,
-     pch = 19, 
-     xlab = "Sepal Length (cm)",
-     ylab = "Sepal Width (cm)")
-
+**Interactive Heat Map with Dendrogram**<br>
+The scatterplot from *ggstatsplot* package was chosen for the statistical tests conducted on the variables.
+\vspace{-100pt}
+```{r pressure4, echo=FALSE, out.width = '100%'}
+#knitr::include_graphics("x.jpg")
 ```
+\vspace{-100pt}
+**Interactive Spatial Map **<br>
+The *ggplot2* package was used to generate the funnel plot, which is more appropriate for death rate analysis.
+\vspace{-100pt}
 
-# Next Steps
-
-Aliquam sed faucibus risus, quis efficitur erat. Vestibulum semper mauris quis tempus eleifend. Aliquam sagittis dictum ipsum, quis viverra ligula eleifend ut. Curabitur sagittis vitae arcu eget faucibus. In non elementum felis. Duis et aliquam nunc. Nunc pulvinar sapien nunc, vel pretium nisi efficitur in. Fusce fringilla maximus leo et maximus. Fusce at ligula laoreet, iaculis mi at, auctor odio. Praesent sed elementum justo. Aenean consectetur risus rhoncus tincidunt efficitur. Praesent dictum mauris at diam maximus maximus [@R-posterdown].
-
-# Conclusion
-
-Try `posterdown` out! Hopefully you like it!
-
-```{r, include=FALSE}
-knitr::write_bib(c('knitr','rmarkdown','posterdown','pagedown'), 'packages.bib')
+```{r pressure5, echo=FALSE, out.width = '100%'}
+#knitr::include_graphics("x.jpg")
 ```
+\vspace{-100pt}
 
-# References
+**Interactive Network Graph - Eigenvector Analysis**<br>
+The *olsrr* package was used to generate the UI for the multivariate analysis, which is more appropriate for exploring relationships with multiple independent variables.
+\vspace{-100pt}
+
+```{r pressure6, echo=FALSE, out.width = '100%'}
+#::include_graphics("x.jpg")
+```
+\vspace{-100pt}
+
+
+**Interactive Network Graph - Degree Analysis**<br>
+The *olsrr* package was used to generate the UI for the multivariate analysis, which is more appropriate for exploring relationships with multiple independent variables.
+\vspace{-100pt}
+
+
+# FUTURE WORKS
+
+**1. Scope** <br>
+Scope...<br><br>
+**2. Analysis**<br>
+Analysis....
 
 ```{r echo=FALSE, eval=FALSE}
 library(pagedown)
-pagedown::chrome_print("VAposter")
+
+pagedown::chrome_print("Poster.html")
 
 ```
+
+
+
