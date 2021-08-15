@@ -12,9 +12,7 @@ author:
     affiliation: Singapore Management University
     
 abstract: |
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Major technological shifts in past decade provide law enforcement agencies with increasing volume and variety of digital evidence, such as GPS and payment transactions, to aid in their investigations. Growth in digital data has challenged investigators' forensic investigative ability to utilize and transform the data into insightful information. Inability to analyse this data in an accurate and timely fashion will reduce investigational efficiency and adds to the backlog of cases. To address this painpoint, we designed and developed a Forensic Investigation App (FIA), a dynamic and interactive visual analytics dashboard to allow investigators to explore and analyse GPS and payment transaction data to gain valuable insights about potential suspects. We demonstrate the potential of FIA through the use of interactive visualisations that will shed light on individual's movement patterns and spending habits and key locations that connects them.
 bibliography: sigproc.bib
 csl: acm-sig-proceedings.csl
 output: rticles::acm_article
@@ -52,7 +50,7 @@ The interactive tool aims to address the following analysis requirements from th
 ## Visualizing Set Data
 Understanding relationships between sets is a common visual challenge that many analysts face. Venn diagrams has been the traditional choice of graphics adopted to make sense of sets data. However, as the number of sets increase, the Venn diagrams becomes too complex to and puts burden on the readers. An investigator who would like to see the size of the co-location of individuals of more than 4 locations will struggle without a proper tool. For example, R package such as ‘Venn’ can only draw and display up to 7 sets, as shown in Fig 1, and the results take time to interpret. 
 
-![Figure 1: A Venn Diagram showing the use of ‘Venn’ R package to show the intersections of 7 sets)](venn.png)
+![A Venn Diagram showing the use of ‘Venn’ R package to show the intersections of 7 sets](venn.png)
 
 
 To overcome this problem, we can adopt the visualisation technique using UpSetR package. This will help us breakdown the information into parts: i) visualising the total set size and ii) visualising the intersect size. 
@@ -62,12 +60,12 @@ The use of a map has been mentioned to be among the most persuasive visualisatio
 
 GIS has traditionally been limited to customized GIS software such as the ubiquitous ESRI ArcGIS (Figure 2) platform and the open-source QGIS. Only recently has R added GIS packages, to complement its powerful array of statistical computing and graphics packages. These GIS packages cover both the geospatial manipulation (sp and sf packages) as well as the map visualization (leaflet and tmap packages). This is especially appealing, since the whole process of data import, manipulation, conversion to GIS formats and subsequent enhancements can now all reside within the R environment. The same process is not as seamless in customized GIS software, and thus rely heavily on external software such as Excel or statistical tools, to manipulate traditional data formats.
 
-![Figure 2: Visualising GIS layers - ESRI’s ArcGIS Census Data Model](gis.png)
+![Visualising GIS layers - ESRI’s ArcGIS Census Data Model](gis.png)
 
 ## Network Graph
 Leveraging visuals such as scatterplots, histograms and bubble charts, relationships between entities in datasets can be fleshed out. These charts allow for a quick overview and identification of relationship patterns. In addition, statistical methods such as correlation, can denote the strength of relationships between quantitative variables. Specifically, using Cohen’s d to measure the difference in standard deviation between two groups in a population, and Pearson’s r to measure the strength of a linear association (@price2012). As an example, the scatterplot below shows the moderately negative relationship between temperature against elevation using Pearson’s r.
 
-![Figure 3: Correlation between temperature vs. elevation, r = -0.6 (SAS , n.d.)](temp_elevation.png)
+![Correlation between temperature vs. elevation, r = -0.6 (SAS , n.d.)](temp_elevation.png)
 
 While these methods are useful, they are not sufficient to visualise complex relationships between elements. To thoroughly visualise and investigate relationships, Network Graphs should be used. Network Graphs are powered by graph theory, that transforms the entities and connections within datasets (@carlson2020) to nodes and edges respectively. These graphs can flesh out i) relationships between all the entities within the dataset; ii) number of connections each entity has; and iii) importance of relationships that connect the entities. In addition to visualisation, Network Graphs can be statistically analysed to highlight underlying relationships using methods such as, i) degree centrality – the number of ties to a node, and ii) eigenvector centrality – the node’s importance within the network (@rdrr2020). Network Graphs are often used to analyse transportation and social media networks.
 
@@ -113,40 +111,42 @@ The final interactive plots in the published web application, and an illustratio
 ## ANOVA
 We demonstrate the testing of difference in mean spend across locations and credit card users using the ANOVA plot (Figure 4). User can select the locations of interest from the main panel after exploring the data in the ‘EDA’ tab. ‘Brew’ve Been Served’, ‘Jack’s Magical Beans’, Kalami Kafenion’ and ‘Guy’s Gyros’ are selected by default. If the univariate distributions from the histograms reveal skewedness, the user can make judgement to select a non-parametric test. The visualization automatically picks a Kruskal-Wallis test at 95% confidence level. The ANOVA results shows that there are significant differences between the spend across the locations (p <0.01). The Dunn test is the automatically selected as the post-hoc pairwise test, which displays significant comparisons on the chart. Of which, results show that ‘Brew’ve Been Served’ and ‘Guy’s Gyros’ have significantly different spend (p < 0.01). This provides evidence for the users to support the claim that these locations are of different nature.
 
-![Fig 4. Interactive ANOVA. ](anova.png)
+![Interactive ANOVA. ](anova.png)
 
 ## UpSet Plot 
 Users can explore the co-location of individuals within various time windows via UpSet plot. The UpSet plot allows user to – at a glance – gather information about the number of visitors to a location and how the size varies when intersecting with other locations. For example, Figure 5 shows that if a user would like to know how many of the visitors who visited the Golf Course also visited the other retailers during the whole observation period, one can select the locations in the side panel and order the intersections by degree. The plot shows that of the 5 individuals who visited ‘Desafio Golf Course’, 1 of them also visited ‘Roberts and Sons’ and ‘Albert’s Fine Clothing’ and 2 other visited Albert’s Fine Clothing and ‘Shopper’s Delight’. The data table will dynamically display the individuals based on the selected locations to allow users to drill down into the members within each intersections.
 
-![Fig 5. Interactive UpSet Plot](upset.png)
+![Interactive UpSet Plot](upset.png)
 
 ## Heatmap Dendrogram
-Users can select the From the colour intensity within the heatmap (Figure 6), the user can discern the frequency of visit of each staff to a location. The dendrograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered together (no surprises there) and on a few occasions, they have visited the homes of GASTech executives.
+From the colour intensity within the heatmap (Figure 6), the user can discern the frequency of visit of each staff to a location. Based on the agglomerative hierarchical clustering, the dendrograms for both the row and columns cluster similar staff and locations respectively based on similarity. A whole host of dendrogram settings are provided for the user to customize his visualization, ranging from the distance, clustering, and seriation method to showing either the row or column dendrograms. When a user selects Euclidean distance as its preferred distance method, the clustering is computed based on the square root of the sum of the square differences of the visit frequency between each location / staff respectively. When a user selects Complete as its linkage method, low-level clusters are then clustered into higher order clusters based on its maximum distance from each cluster.
 
-![Fig 6. Interactive heatmap Dendrogram](heatmap.png)
+Using this heatmap, for example, the user would be able to tell that the movements of security staff are clustered together (no surprises there!) and on a few occasions, they have visited the homes of GASTech executives, which prompts further investigation.
+
+![Interactive Heatmap Dendrogram](heatmap.png)
 
 
 ## Spatial Map
-Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location (Figure 7). For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
+Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location on the spatial map (Figure 7). For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
 
-![Fig 7. Interactive Spatial Map.](spatial.png)
+![Interactive Spatial Map](spatial.jpg)
 
 
 ## Network Graph
-Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. 
+Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships on the Network Graph (Figure 8). Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. 
 
 In addition, inferential statistics analysis is done when the user selects eigen and degree analysis. This highlights the important and popular relationships respectively within the POI’s network. Important relationships include nodes that have few but well-connected connections. The node colours fade in tandem with relationship importance. Popular relationships are nodes with many connections.  
 
-![Fig 7. Interactive Network Graph.](vis.png)
+![Interactive Network Graph.](vis.png)
 
 # Future Work
 The interactivity and analytical features of FIA prototype can be further enhanced. As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
 
-Furthermore, the application include brushing-and-linking of different types of charts and embed drill-downs to provide details on demand, depending on the richness of the datasets.
-
-The tmap package can be enhanced to link up to actual images of road and environment (e.g. Google Street Map) to allow investigators to explore the surroundings of locations.
+To allow investigators to explore the surroundings of locations within a single app, the tmap package can be enhanced to link up to actual images of road and environment (e.g. Google Street Map).
 
 The visNetwork could be improved with additional options for analysis. This includes centrality analysis options such as betweenness and community detection.
+
+Furthermore, the application could include brushing-and-linking of different types of charts and embed drill-downs to provide details on demand, depending on the richness of the datasets.
 
 # References
 
