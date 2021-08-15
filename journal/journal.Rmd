@@ -12,7 +12,9 @@ author:
     affiliation: Singapore Management University
     
 abstract: |
-  xxxx
+
+
+  
 bibliography: sigproc.bib
 csl: acm-sig-proceedings.csl
 output: rticles::acm_article
@@ -23,25 +25,26 @@ output: rticles::acm_article
 Almost every action leaves a digital trail. Major technological shifts in the past decade have made the collection of digital evidence, such as GPS records and payment transactions, a significant tool in criminal and civil investigations[@goodison2015]. It is crucial that law enforcement agencies could use and transform the ample data into insightful information to aid their investigations. The growth in volume and variety of digital data increases the time and resources needed to analyse them. Furthermore, cases increasingly the analysis of multiple devices followed by the correlation of the found evidence.
 
 However, most law enforcement personnel lack training in data science. Without effective data analysis, investigators will struggle to find relevant information for their cases. And the results of the digital evidence analysis can be challenged in court when not well-represented.
-Given that most of the work in digital forensics involves association to individuals, law enforcement agencies need forensic tools to approach identity management and representing a person’s network. Work in this area will allow for the identification of likely suspects and other anomalies. By integrating interactive visualization with automated analysis techniques, digital data can be presented in meaningful ways and allow investigators to interactively guide the investigation. 
 
-Addressing this challenge, we designed and developed Forensic Investigation App, an open-source interactive dashboard, to allow law enforcement agents to conduct investigative analysis of GPS and credit card data. It aims to simplify data exploration and analysis to gain valuable insights into the behaviour of individuals quickly. The study is built upon VAST Mini Challenge 2's task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars. We demonstrate the potential of FIA with interactive maps to explore data exploration, inferential analysis and clustering of transactions and GPS data.
+Given that most of the work in digital forensics involves association to individuals, law enforcement agencies need forensic tools to approach identity management. Work in this area will allow for the identification of likely suspects and other anomalies. By integrating interactive visualisation with automated analysis techniques, digital data can be presented in meaningful ways and allow investigators to interactively guide their investigation. 
 
-This paper documents our approach to design and develop the interactive application targeted at law enforcement agencies. This introduction is followed in Section 2 by an explanation of our objectives and motivation. Section 3 provides a review of existing techniques used to visualize GPS and credit card data. Section 4 details the data used. Section 5 provides an overview of the application and its visualisations. Section 6 summaries the findings from the use case. Section 7 concludes the report and offers ideas for further development.
+Addressing this challenge, we designed and developed the Forensic Investigation App, an open-source interactive application, to allow law enforcement agents to conduct investigative analysis of GPS and credit card data. It aims to simplify data exploration and analysis to gain valuable insights into the behaviour of individuals quickly. The prototype is built upon VAST Mini Challenge 2's task to find unusual patterns in GASTech employees' credit card records and GPS tracking records of their cars. We demonstrate the potential of FIA with five visualisations to explore data exploration, inferential analysis and clustering of credit card transactions and GPS data.
+
+This paper documents our approach to design and develop the interactive application targeted at law enforcement agencies without full time support of a data science team. This introduction is followed in Section 2 by an explanation of our objectives and motivation. Section 3 provides a review of existing techniques used to visualize GPS and credit card data. Section 4 details the data used. Section 5 provides an overview of the application and its visualisations. Section 6 summaries the findings from the use case. Section 7 concludes the report and offers ideas for further development.
 
 
 # Motivation and Objectives
 
 Our research and development efforts were motivated by the absence of an effective and easy to use web-enabled client-based visual analytics tool for investigators to discover patterns in digital data, such as GPS and credit card transactions. 
 
-The interactive tool aims to address the following analysis requirements:
+The interactive tool aims to address the following analysis requirements from the VAST Mini Challenge use case:
 - Are the locations and individuals statistically different in mean spend? 
-- How many visitors and who went to location A, B, C and D? 
-- What is the visit frequency of a specific staff to a particular location? [heatmap] X
-- Can either the staff or the locations be clustered into groups, based on similarity? [heatmap] X
-- How long did a staff stay in a particular location on a particular day? [map] X
-- Were there any staff who exhibited similar movement patterns? [map] X
-- [visnetwork] Which location connects the individuals
+- How many visitors went to location A, B, C and D? Who are they?
+- What is the visit frequency of a specific staff to a particular location? 
+- Can either the staff or the locations be clustered into groups, based on similarity? 
+- How long did a staff stay in a particular location on a particular day? 
+- Are there any staff who exhibited similar movement patterns? 
+- Which location connects the individuals?
 
 
 # Review of Existing Techniques
@@ -52,18 +55,21 @@ Understanding relationships between sets is a common visual challenge that many 
 ![Figure 1: A Venn Diagram showing the use of ‘Venn’ R package to show the intersections of 7 sets)](venn.png)
 
 
-To overcome this problem, we can adopt the visualisation technique using ‘UpSetR’ package. This will help us breakdown the information into parts: i) visualising the total set size and ii) visualising the intersect size. 
+To overcome this problem, we can adopt the visualisation technique using UpSetR package. This will help us breakdown the information into parts: i) visualising the total set size and ii) visualising the intersect size. 
 
 ## Spatial Map
-[Zaki to input]
+The use of a map has been mentioned to be among the most persuasive visualisations because the space they map is the same one we think we live in, and maps may show more than otherwise seen (@bivand2013). The availability of geographic data allows for the study of spatial relationships between locations, boundaries, and objects. By leveraging on a geographic information system (GIS), a greater comprehension of the geography can be sought, beyond traditional visualisations. Geographical features, coupled with tabular data, are manipulated, queries and visualized into GIS layers. These GIS layers, either in the form of points, lines, polygons, or raster, are then overlaid on a map. Adding to traditional interactive functions of zooming, these layers add another level of map interactivity.
+
+GIS has traditionally been limited to customized GIS software such as the ubiquitous ESRI ArcGIS (Figure 2) platform and the open-source QGIS. Only recently has R added GIS packages, to complement its powerful array of statistical computing and graphics packages. These GIS packages cover both the geospatial manipulation (sp and sf packages) as well as the map visualization (leaflet and tmap packages). This is especially appealing, since the whole process of data import, manipulation, conversion to GIS formats and subsequent enhancements can now all reside within the R environment. The same process is not as seamless in customized GIS software, and thus rely heavily on external software such as Excel or statistical tools, to manipulate traditional data formats.
+
+![Figure 2: Visualising GIS layers - ESRI’s ArcGIS Census Data Model](gis.png)
 
 ## Network Graph
-Leveraging visuals such as scatterplots, histograms and bubble charts, relationships between entities in datasets can be fleshed out. These charts allow for a quick overview and identification of relationship patterns. In addition, statistical methods such as correlation, can denote the strength of relationships between quantitative variables. Specifically, using Cohen’s d to measure the difference in standard deviation between two groups in a population, and Pearson’s r to measure the strength of a linear association (Price, 2012). As an example, the scatterplot below shows the moderately negative relationship between temperature against elevation using Pearson’s r.
+Leveraging visuals such as scatterplots, histograms and bubble charts, relationships between entities in datasets can be fleshed out. These charts allow for a quick overview and identification of relationship patterns. In addition, statistical methods such as correlation, can denote the strength of relationships between quantitative variables. Specifically, using Cohen’s d to measure the difference in standard deviation between two groups in a population, and Pearson’s r to measure the strength of a linear association (@price2012). As an example, the scatterplot below shows the moderately negative relationship between temperature against elevation using Pearson’s r.
 
-![Figure 2: Correlation between temperature vs. elevation, r = -0.6 (SAS , n.d.)](temp_elevation.png)
+![Figure 3: Correlation between temperature vs. elevation, r = -0.6 (SAS , n.d.)](temp_elevation.png)
 
-
-While these methods are useful, they are not sufficient to visualise complex relationships between elements. To thoroughly visualise and investigate relationships, Network Graphs should be used. Network Graphs are powered by graph theory, that transforms the entities and connections within datasets (@Carlson2020) to nodes and edges respectively. These graphs can flesh out i) relationships between all the entities within the dataset; ii) number of connections each entity has; and iii) importance of relationships that connect the entities. In addition to visualisation, Network Graphs can be statistically analysed to highlight underlying relationships using methods such as, i) degree centrality – the number of ties to a node, and ii) eigenvector centrality – the node’s importance within the network (@Rdrrio2020). Network Graphs are often used to analyse transportation and social media networks.
+While these methods are useful, they are not sufficient to visualise complex relationships between elements. To thoroughly visualise and investigate relationships, Network Graphs should be used. Network Graphs are powered by graph theory, that transforms the entities and connections within datasets (@carlson2020) to nodes and edges respectively. These graphs can flesh out i) relationships between all the entities within the dataset; ii) number of connections each entity has; and iii) importance of relationships that connect the entities. In addition to visualisation, Network Graphs can be statistically analysed to highlight underlying relationships using methods such as, i) degree centrality – the number of ties to a node, and ii) eigenvector centrality – the node’s importance within the network (@rdrr2020). Network Graphs are often used to analyse transportation and social media networks.
 
 
 # Data 
@@ -73,14 +79,9 @@ Our data was obtained from Mini-Challenge 2 within the annual IEEE Visual Analyt
 # The Application
 
 ## System Architecture
-FIA is an interactive tool developed using Shiny, an R package used to build interactive web apps and various R packages. We used Shiny to deploy the plots as its open-source nature ensures a modularized and reproducible workflow that can distributed easily. The reactive programming model in Shiny allows users to interact with customisable widgets and view the changes to the visualizations from their input change.
+FIA is an interactive tool developed using Shiny, an R package used to build interactive web apps and various R packages. We used RShiny client-server architecture to deploy the plots as its open-source nature ensures a modularised and reproducible work flow that can distributed easily cross different environments. 
 
-The design of the Shiny web app flowed from the key questions of the data:
-i) First tab – 
-ii) Second tab – 
-iii) Third tab – 
-iv)  
-v) 
+The dashboards within the FIA app were designed to show specific visualisations: i) ANOVA, ii) UpSet Plot, iii) Dendrogram Heatmap, iv) Spatial Map, and v) Network Graph. Reactive programming model in Shiny allows users to interact with customisable widgets and view the changes to the visualisations when users modify the input. This enables users to explore the dataset and derive insights efficiently.   
 
 ## Data Visualisation
 
@@ -110,22 +111,30 @@ In R, the visNetwork package provides the dexterity to customize the Network Gra
 The final interactive plots in the published web application, and an illustration of the potentially wide range of insights that can be gleaned from the application are briefly described below.
 
 ## ANOVA
-We demonstrate the testing of difference in mean spend across locations and credit card users using the ANOVA plot. 
+We demonstrate the testing of difference in mean spend across locations and credit card users using the ANOVA plot. User can select the locations of interest from the main panel after exploring the data in the ‘EDA’ tab. ‘Brew’ve Been Served’, ‘Jack’s Magical Beans’, Kalami Kafenion’ and ‘Guy’s Gyros’ are selected by default. If the univariate distributions from the histograms reveal skewedness, the user can make judgement to select a non-parametric test. The visualization automatically picks a Kruskal-Wallis test at 95% confidence level. The ANOVA results shows that there are significant differences between the spend across the locations (p <0.01). The Dunn test is the automatically selected as the post-hoc pairwise test, which displays significant comparisons on the chart. Of which, results show that ‘Brew’ve Been Served’ and ‘Guy’s Gyros’ have significantly different spend (p < 0.01). This provides evidence for the users to support the claim that these locations are of different nature.
 
-![Fig _. Interactive ANOVA. User can select the locations of interest from the main panel after exploring the data in the ‘EDA’ tab. ‘Brew’ve Been Served’, ‘Jack’s Magical Beans’, Kalami Kafenion’ and ‘Guy’s Gyros’ are selected by default. If the univariate distributions from the histograms reveal skewedness, the user can make judgement to select a non-parametric test. The visualization automatically picks a Kruskal-Wallis test at 95% confidence level. The ANOVA results shows that there are significant differences between the spend across the locations (p <0.01). The Dunn test is the automatically selected as the post-hoc pairwise test, which displays significant comparisons on the chart. Of which, results show that ‘Brew’ve Been Served’ and ‘Guy’s Gyros’ have significantly different spend (p < 0.01). This provides evidence for the users to support the claim that these locations are of different nature.](ANOVA.png)
+![Fig 4. Interactive ANOVA. ](anova.png)
 
 ## UpSet Plot 
-Next, we demonstrate the exploration of co-location of individuals via UpSet plot.
+Users can explore the co-location of individuals within various time windows via UpSet plot. The UpSet plot allows user to – at a glance – gather information about the number of visitors to a location and how the size varies when intersecting with other locations. For example, if a user would like to know how many of the visitors who visited the Golf Course also visited the other retailers, one can select the locations in the side panel and order the intersections by degree. The plot shows that of the 5 individuals who visited ‘Desafio Golf Course’, 1 of them also visited ‘Roberts and Sons’ and ‘Albert’s Fine Clothing’ and 2 other visited Albert’s Fine Clothing and ‘Shopper’s Delight’. The data table will dynamically display the individuals based on the selected locations to allow users to drill down into the members within each intersections.
 
-![Fig _. Interactive UpSet Plot. The UpSet plot allows user to – at a glance – gather information about the number of visitors to a location and how the size varies when intersecting with other locations. For example, if a user would like to know how many of the visitors who visited the Golf Course also visited the other retailers, one can select the locations in the side panel and order the intersections by degree. The plot shows that of the 5 individuals who visited ‘Desafio Golf Course’, 1 of them also visited ‘Roberts and Sons’ and ‘Albert’s Fine Clothing’ and 2 other visited Albert’s Fine Clothing and ‘Shopper’s Delight’. The data table will dynamically display the individuals based on the selected locations to allow users to drill down into the members within each intersections.](upset.png)
+![Fig 5. Interactive UpSet Plot](upset.png)
 
 ## Heatmap Dendrogram
+From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendrograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered together (no surprises there) and on a few occasions, they have visited the homes of GASTech executives.
+
+![Fig 6. Interactive heatmap Dendrogram](heatmap.png)
+
 
 ## Spatial Map
+Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location. For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
+![Fig 7. Interactive Spatial Map.](spatial.png)
+
 
 ## Network Graph
 Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. In addition, inferential statistics analysis is done when the user selects eigen and degree analysis. This highlights the important and popular relationships respectively within the POI’s network. Important relationships include nodes that have few but well-connected connections. The node colours fade in tandem with relationship importance. Popular relationships are nodes with many connections.  
 
+![Fig 8. Interactive Network Graph.](network.png)
 
 # Future Work
 The interactivity and analytical features of FIA prototype can be further enhanced. As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
@@ -140,7 +149,6 @@ The visNetwork could be improved with additional options for analysis. This incl
 
 ---
 references:
-
 - id: goodison2015
   title: Digital Evidence and the U.S. criminal Justice System - Identifying Technology and Other Needs to More Effectively Acquire and Utilize Digital Evidence 
   author: 
@@ -150,18 +158,12 @@ references:
     given: C. Davis
   - family: Brian
     given: A. Jackson
-  container-title:
   volume: 890
   URL: ‘https://www.rand.org/pubs/research_reports/RR890.html’
-  DOI: 
-  issue:
   publisher: RAND Corporation
-  page: 
   type: article-journal
   issued:
-    year: 2015
-    month: 
-
+    year: 2015    
 - id: garfinkel2010
   title: Digital Forensics Research - The Next 10 Years
   author: 
@@ -175,51 +177,58 @@ references:
   issued:
     year: 2010
     month: August
-
-
-- id: Price2012
-  title: Psychology Research Methods: Core Skills and Concepts (v. 1.0)
+- id: price2012
+  title: Psychology Research Methods - Core Skills and Concepts (v. 1.0)
   author: 
   - family: Price
     given: Paul C.
-  type: Web site
+  type: book
   publisher: Lard Bucket
   URL: ‘https://2012books.lardbucket.org/books/’
   issued:
     year: 2012
-    
-
-- id: Carlson2020
+- id: carlson2020
   title: Graph theory
-  author: Carlson, Stephan C.
-  type: Web site
+  author: 
+  - family: Carlson
+    given: Stephan C.
+  type: article-journal
   publisher: Britannica
   URL: ‘https://www.britannica.com/topic/graph-theory’
+  issued:
     year: 2020
     month: November  
-    
-- id: Rdrr2020
+- id: rdrr2020
   title: Tidy Graph Centrality
-  type: Web site
+  type: web site
   publisher: rdrr.io
   URL: ‘https://rdrr.io/cran/tidygraph/man/centrality.html’
-     year: 2020
+  issued:
+    year: 2020
     month: July  
-
-- id: Sasjmp
+- id: sasjmp
   title: Statistical Knowledge - What is Correlation
   type: Web site
   publisher: SAS
-  URL: ‘https://www.jmp.com/en_ch/statistics-knowledge-portal/
-  what-is-correlation.html’
-  
-
-- id: Beniot2019
+  URL: ‘https://www.jmp.com/en_ch/statistics-knowledge-portal/what-is-correlation.html’
+- id: thieurmel2019
   title: Network Visualization using 'vis.js' Library
-  author: Thieurmel, Benoit
+  author: 
+  - family Thieurmel
+  given: Benoit
   URL: ‘https://cran.r-project.org/web/packages/visNetwork/visNetwork.pdf’
   type: Web site
-  year: 2019
-  month: December
- 
+  issued:
+    year: 2019
+    month: December
+- id: bivand2013
+  title: Applied spatial data analysis with R (2nd ed)
+  author: 
+  - family: Bivand
+  given: Roger S.
+  type: book
+  publisher: Springer
+  issued:
+    year: 2013
+
 ...
