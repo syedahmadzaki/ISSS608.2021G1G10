@@ -140,7 +140,7 @@ In addition, inferential statistics analysis is done when the user selects eigen
 ![Interactive Network Graph.](vis.png)
 
 # Future Work
-As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualisation. This would reduce the time from the uncertainty on how to process the data before uploading them into the application. 
+As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualisation. This would reduce the time taken and eliminate the for investigators to learn how to process the data before uploading them into the application. 
 
 The interactivity and analytical features of FIA prototype can also be further enhanced based on the common needs of investigators. We suggest the app can incrementally address:
 
@@ -149,7 +149,7 @@ The interactivity and analytical features of FIA prototype can also be further e
 - Enable the exploration of other metadata by including brushing-and-linking of different types of charts and embed drill-downs to provide details on demand.
 - Expand the scope of the app to include other digital data such as weblogs
 
-To ensure that insights from the tool is reliable and can be admissible in court, the app should also be validated by forensic investigation specialists. It should also undergo a period of user testing to prove that it is error-free and can operate in all environment. 
+To ensure that insights from the tool is reliable and can be admissible in court, the app needs to be validated by forensic investigation specialists before distribution. It should also undergo a period of user testing to prove that it is error-free and can operate in all environment, including being hosted on private clouds or on-premise servers. 
 
 # References
 
