@@ -147,7 +147,7 @@ The interactivity and analytical features of FIA prototype can also be further e
 - Allow investigators to explore the surroundings of locations within a single app. This includes enhancing the tmap package to link up to actual images of road and environment (e.g. Google Street Map).
 - The Network Graph could be improved with additional options for analysis. For example, including community detection analysis that will reveal hidden relations among the nodes to investigators. In addition, closeness analysis could be included to understand the average number of hops required to reach every other node in the network. Investigators could use this information to narrow down suspects.
 - Enable the exploration of other metadata by including brushing-and-linking of different types of charts and embed drill-downs to provide details on demand.
-- Expand the scope of the app to include other digital data such as weblogs
+- Expand the scope of the app to include other digital data such as weblogs.
 
 To ensure that insights from the tool is reliable and can be admissible in court, the app needs to be validated by forensic investigation specialists before distribution. It should also undergo a period of user testing to prove that it is error-free and can operate in all environment, including being hosted on private clouds or on-premise servers. 
 
