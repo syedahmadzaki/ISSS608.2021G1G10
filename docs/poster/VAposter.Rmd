@@ -129,7 +129,7 @@ knitr::include_graphics("vis.png")
 ```
 \vspace{-100pt}
 
-# Future Works
+# Future Work
 (1) The application could allow investigators to explore the surroundings of locations within a single app. This includes enhancing the tmap package to link up to actual images of road and environment
 
 (2) In addition, the Network Graph could have additional options for analysis, such as, community detection that will reveal hidden relations among the nodes to investigators.
