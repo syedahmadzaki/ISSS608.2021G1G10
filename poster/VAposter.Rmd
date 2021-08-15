@@ -109,7 +109,6 @@ knitr::include_graphics("upset.png")
 **Interactive Spatial Map **<br>
 The *tmap* package was used to build the spatial map.From the movement lines and the table, the user can see the path taken by the staff, locations visited, and duration stayed in each visited location. For example, the user would be able to tell who frequent the same locations together, and that if staff drove in a wayward manner.
 \vspace{-100pt}
-
 ```{r pressure4, echo=FALSE, out.width = '100%'}
 knitr::include_graphics("spatial.png")
 ```
@@ -126,17 +125,17 @@ knitr::include_graphics("heatmap.png")
 **Interactive Network Graph - Eigenvector & Degree Analysis**<br>
 The *visNetwork* package was used to generate the UI for the Network Graph. Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. The eigen analysis highlights important relationships within an individual's network, degree analysis highlights popular relationships (nodes with many connections) 
 \vspace{-100pt}
-```{r pressure6, echo=FALSE, out.width = '100%'}
+```{r pressure6, echo=FALSE, out.width = '80%'}
 knitr::include_graphics("vis.png")
 ```
 \vspace{-100pt}
 
 # FUTURE WORKS
-(1) The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
+(1) The application could allow investigators to explore the surroundings of locations within a single app. This includes enhancing the tmap package to link up to actual images of road and environment
 
-(2) In addition, *tmap* package can be enhanced to link up to actual images of road and environment.
+(2) In addition, the Network Graph could have additional options for analysis, such as, community detection that will reveal hidden relations among the nodes to investigators.
 
-(3) Lastly, the Network Graph could have additional options for analysis, such as, community detection.
+(3) Lastly, expand the scope of the app to include other digital data such as weblogs.
 
 ```{r echo=FALSE, eval=FALSE}
 library(pagedown)
