@@ -13,8 +13,8 @@
       "title": "Application with Guide",
       "author": [],
       "date": "`r Sys.Date()`",
-      "contents": "\r\nRShiny application and guide: Forensic Investigation App.\r\nGitHub: Project GitHub.\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-08-15T12:50:58+08:00"
+      "contents": "\r\nRShiny application and guide: Forensic Investigation App\r\nGitHub: Project GitHub\r\nForensic Investigation App Prototype\r\n\r\n\r\n",
+      "last_modified": "2021-08-15T14:09:20+08:00"
     },
     {
       "path": "index.html",
