@@ -28,27 +28,27 @@ Google fonts api stuff
 
 <style>
 @page {
-size: 45in 38in;
+size: 594mm 841mm;
 margin: 0;
 padding: 0;
 }
 body {
 margin: 0;
-font-size: 45px;
-width: 45in;
-height: 38in;
+font-size: 22pt;
+width: 594mm;
+height: 841mm;
 padding: 0;
 text-align: justify;
 font-family: Palatino;
 }
 .poster_wrap {
-width: 45in;
-height: 38in;
+width: 594mm;
+height: 841mm;
 padding: 0cm;
 }
 .title_container {
-width: 45in;
-height: calc(38in * 0.15);
+width: 594mm;
+height: calc(841mm * 0.15);
 overflow: hidden;
 background-color: #0b4545;
 border: 0 solid #0b4545;
@@ -136,15 +136,15 @@ border: 0;
 font-weight: normal;
 }
 .poster_body_wrap{
-width: calc(45in + 0 + 0);
-height: calc(38in * 0.83);
-padding-top: calc(38in * 0.005);
-padding-bottom: calc(38in * 0.01);
+width: calc(594mm + 0 + 0);
+height: calc(841mm * 0.83);
+padding-top: calc(841mm * 0.005);
+padding-bottom: calc(841mm * 0.01);
 background-color: #ffffff;
 }
 .poster_title h3 {
 color: #ffffff;
-font-size: 45pt;
+font-size: 30pt;
 margin: 0;
 border: 0;
 font-weight: normal;
@@ -279,7 +279,6 @@ font-size: 20pt;
 <div class="title_container">
 <!-- Left Logo  -->
 <div class="logo_left">
-<img src= 'https://raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png' style="width: 80%">
 </div>
 <!-- Poster Title -->
 <div class= "poster_title">
@@ -289,7 +288,6 @@ font-size: 20pt;
 </div>
 <!-- Right Logo  -->
 <div class="logo_right">
-<img src=smu_logo.png style="width: 80%">
 </div>
 </div>
 
@@ -299,9 +297,9 @@ font-size: 20pt;
 <div id="introduction-and-motivation" class="section level1">
 <h1>Introduction and Motivation</h1>
 <p><strong>Background</strong><br>
-Forensic Analysis has proliferated digital forensics which involves transforming data into insightful information to aid investigations. Searching through data such as credit card and travel data, law enforcement agencies can quickly seek out anormalies and identify suspects.By creating forensic tools with interactive visualization and automated analysis techniques, digital data can be presented in meaningful ways.</p>
+Forensic Analysis has proliferated digital forensics which involves transforming data into insightful information to aid investigations. Searching through data such as credit card and travel data, law enforcement agencies can quickly seek out anormalies and identify suspects. By creating forensic tools with interactive visualization and automated analysis techniques, digital data can be presented in meaningful ways.</p>
 <p><strong>Objective</strong><br>
-Designe and develop a Forensic Investigation App (FIA), an interactive dashboard that allows law enforcement agents to conduct investigative analysis of GPS and merchant card data. The application is built on VAST Mini Challenge 2’s task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars.</p>
+Design and develop a Forensic Investigation App (FIA), an interactive dashboard that allows law enforcement agents to conduct investigative analysis of GPS and merchant card data. The application is built on VAST Mini Challenge 2’s task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars.</p>
 <p><strong>Design Principles</strong><br></p>
 <ul>
 <li><u>Simplicity and Clarity</u> - Aesthetically clean, easy to configure visuals and seamless user experience.</li>
@@ -318,7 +316,19 @@ The interactive tool aims to address the following analysis requirements:
 (4) Did any staff exhibit similar or wayward movement patterns?
 (5) Which are the locations of importance within the staff networks?</p>
 <p><strong>Application Overview</strong><br>
-FIA is an interactive tool developed using Shiny and various R packages ggplot2,tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.</p>
+FIA is an interactive tool developed using Shiny and various R packages ggplot2, tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></p>
 </div>
 <div id="analysis-and-insights" class="section level1">
 <h1>Analysis and Insights</h1>
@@ -345,7 +355,7 @@ The <em>heatmaply</em> package was used to build the heat map with dendrogram. F
 <p><strong>Interactive Network Graph - Eigenvector &amp; Degree Analysis</strong><br>
 The <em>visNetwork</em> package was used to generate the UI for the Network Graph. Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. The eigen analysis highlights important relationships within an individual’s network, degree analysis highlights popular relationships (nodes with many connections)
 
-<img src="vis.png" width="80%" height="20%" />
+<img src="vis.png" width="100%" />
 </p>
 </div>
 </div>
@@ -353,8 +363,8 @@ The <em>visNetwork</em> package was used to generate the UI for the Network Grap
 <h1>FUTURE WORKS</h1>
 <ol style="list-style-type: decimal">
 <li><p>The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.</p></li>
-<li><p>In addition, tmap package can be enhanced to link up to actual images of road and environment.</p></li>
-<li><p>Lastly, visNetwork could have additional options for analysis, such as, community detection.</p></li>
+<li><p>In addition, <em>tmap</em> package can be enhanced to link up to actual images of road and environment.</p></li>
+<li><p>Lastly, the Network Graph could have additional options for analysis, such as, community detection.</p></li>
 </ol>
 </div>
 </div>

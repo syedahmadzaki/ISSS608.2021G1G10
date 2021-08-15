@@ -2,7 +2,7 @@
 # Title Box
 title: Forensic Investigation - Interactive Visual Analysis with R Shiny <br>
 title_textsize: "70pt"
-author_textsize: "45pt"
+author_textsize: "30pt"
 affiliation_textsize: "45pt"
 author:
   - name: <br>Kelly Koh Kia Woon 
@@ -21,15 +21,19 @@ affiliation:
   - num: 
     address: School of Computing and Information Systems, Singapore Management University
     
-logoleft_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png
-logoright_name: smu_logo.png
+# Body
+poster_height: 841mm 
+poster_width: 594mm
+column_numbers: 3
+body_textsize: "22pt"
 
 output: 
   posterdown::posterdown_html:
+  #posterdown::posterdown_betterland:
+  #posterdown::posterdown_betterport:
     self_contained: false
 bibliography: packages.bib
 ---
-
 
 
 ---
@@ -41,10 +45,10 @@ knitr::opts_chunk$set(echo = FALSE)
 # Introduction and Motivation
 
 **Background**<br>
-  Forensic Analysis has proliferated digital forensics which involves transforming data into insightful information to aid investigations. Searching through data such as credit card and travel data, law enforcement agencies can quickly seek out anormalies and identify suspects.By creating forensic tools with interactive visualization and automated analysis techniques, digital data can be presented in meaningful ways. 
+Forensic Analysis has proliferated digital forensics which involves transforming data into insightful information to aid investigations. Searching through data such as credit card and travel data, law enforcement agencies can quickly seek out anormalies and identify suspects. By creating forensic tools with interactive visualization and automated analysis techniques, digital data can be presented in meaningful ways. 
 
 **Objective**<br>
-  Designe and develop a Forensic Investigation App (FIA), an interactive dashboard that allows law enforcement agents to conduct investigative analysis of GPS and merchant card data. The application is built on VAST Mini Challenge 2's task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars. 
+Design and develop a Forensic Investigation App (FIA), an interactive dashboard that allows law enforcement agents to conduct investigative analysis of GPS and merchant card data. The application is built on VAST Mini Challenge 2's task to find unusual patterns in GASTech employees credit card records and GPS tracking records of their cars. 
 
 **Design Principles**<br>
 
@@ -66,8 +70,21 @@ The interactive tool aims to address the following analysis requirements:
 (5)	Which are the locations of importance within the staff networks?
 
 **Application Overview**<br>
-FIA is an interactive tool developed using Shiny and various R packages ggplot2,tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.
-
+FIA is an interactive tool developed using Shiny and various R packages ggplot2, tidyverse and heatmaply, to build interactive web apps. Users are able to customise visualisations and within the application. The application is reproducible, and can distributed easily.
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ 
+ 
 # Analysis and Insights
 \vspace{-100pt}
 #### Case Study: VAST Mini Challenge 2
@@ -109,7 +126,7 @@ knitr::include_graphics("heatmap.png")
 **Interactive Network Graph - Eigenvector & Degree Analysis**<br>
 The *visNetwork* package was used to generate the UI for the Network Graph. Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. The eigen analysis highlights important relationships within an individual's network, degree analysis highlights popular relationships (nodes with many connections) 
 \vspace{-100pt}
-```{r pressure6, echo=FALSE, out.width = '80%', out.height='20%'}
+```{r pressure6, echo=FALSE, out.width = '100%'}
 knitr::include_graphics("vis.png")
 ```
 \vspace{-100pt}
@@ -117,14 +134,16 @@ knitr::include_graphics("vis.png")
 # FUTURE WORKS
 (1) The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
 
-(2) In addition, tmap package can be enhanced to link up to actual images of road and environment.
+(2) In addition, *tmap* package can be enhanced to link up to actual images of road and environment.
 
-(3) Lastly, visNetwork could have additional options for analysis, such as, community detection.
+(3) Lastly, the Network Graph could have additional options for analysis, such as, community detection.
 
 ```{r echo=FALSE, eval=FALSE}
 library(pagedown)
 
-pagedown::chrome_print("Poster.html")
+pagedown::chrome_print("VAposter.html")
+
+
 
 ```
 
