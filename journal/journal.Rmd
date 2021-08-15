@@ -145,7 +145,7 @@ As digital data from different devices can be represented in different formats, 
 The interactivity and analytical features of FIA prototype can also be further enhanced based on the common needs of investigators. We suggest the app can incrementally address:
 
 - Allow investigators to explore the surroundings of locations within a single app. This includes enhancing the tmap package to link up to actual images of road and environment (e.g. Google Street Map).
-- Improve the visNetwork network package with additional options for analysis. This includes centrality analysis options such as betweenness and community detection.
+- The Network Graph could be improved with additional options for analysis. For example, including community detection analysis that will reveal hidden relations among the nodes to investigators. In addition, closeness analysis could be included to understand the average number of hops required to reach every other node in the network. Investigators could use this information to narrow down suspects.
 - Enable the exploration of other metadata by including brushing-and-linking of different types of charts and embed drill-downs to provide details on demand.
 - Expand the scope of the app to include other digital data such as weblogs
 
