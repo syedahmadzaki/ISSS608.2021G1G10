@@ -331,24 +331,22 @@ FIA is an interactive tool developed using Shiny and various R packages ggplot2,
 <div id="case-study-vast-mini-challenge-2" class="section level4">
 <h4>Case Study: VAST Mini Challenge 2</h4>
 <p><strong>Interactive ANOVA</strong><br>
-The <em>timetk</em> package was used to provide diagnostic plots to study trends, seasonality and
-remainder, anomalies and lag if present in the time-series.
+The <em>ggbetweenstats</em> function from <em>ggstatsplot</em> package was used to visualise the output of ANOVA tests. The function supports the most common types of hypothesis tests, including Welch’s one-way ANOVA for parametric data, Kruskal–Wallis one-way ANOVA for non-parametric, Fisher’s ANOVA for Bayes Factor.
 </p>
 <p><strong>Interactive Upset Plot</strong><br>
-The focus here is to allow users to compare and assess the performance of the predictive models
-provided. The tool allows the user to explore and compare models available for predictive time-series analysis. The tool also allows advanced users to change more advanced parameters.
-</p>
-<p><strong>Interactive Heat Map with Dendrogram</strong><br>
-The scatterplot from <em>ggstatsplot</em> package was chosen for the statistical tests conducted on the variables.
+UpSet plots provide a novel way to view set data by the size of their intersections. It focuses on communicating the size and properties of the set aggregates and interactions with bar charts. The <em>UpSetR</em> package was used to build the Upset plot. This package requires the dataset to be in binary matrix format, with the columns representing the universe of sets. Users can change visualization attributes to explore the intersections between the sets.
 </p>
 <p><strong>Interactive Spatial Map </strong><br>
-The <em>ggplot2</em> package was used to generate the funnel plot, which is more appropriate for death rate analysis.
+The <em>tmap</em> package was used to build the spatial map.From the movement lines and the table, the user can see the path taken by the staff, locations visited, and duration stayed in each visited location. For example, the user would be able to tell who frequent the same locations together, and that if staff drove in a wayward manner.
+</p>
+<p><strong>Interactive Heat Map with Dendrogram</strong><br>
+The <em>heatmaply</em> package was used to build the heat map with dendrogram. From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered together (no surprises there!) and on a few occasions, they have visited the homes of GasTech executives.
 </p>
 <p><strong>Interactive Network Graph - Eigenvector Analysis</strong><br>
-The <em>olsrr</em> package was used to generate the UI for the multivariate analysis, which is more appropriate for exploring relationships with multiple independent variables.
+The <em>visNetwork</em> package was used to generate the UI for the Network Graph. The datasets must be carefully prepared into nodes and edges data. Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. The eigen analysis highlights important relationships within an individual’s network, including other credit card expenditures and locations that may have few but strong connections.
 </p>
 <p><strong>Interactive Network Graph - Degree Analysis</strong><br>
-The <em>olsrr</em> package was used to generate the UI for the multivariate analysis, which is more appropriate for exploring relationships with multiple independent variables.
+Similar to eigenvector analysis, degree analysis was done using the <em>visNetwork</em> package. Degree analysis highlights popular relationships (nodes with many connections). Users can seek out different popular locations within a credit card network to understand the individual’s patterns and detect anomaly behaviour.
 </p>
 </div>
 </div>
