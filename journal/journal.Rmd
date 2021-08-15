@@ -12,9 +12,9 @@ author:
     affiliation: Singapore Management University
     
 abstract: |
+  This is the abstract.
 
-
-  
+  It consists of two paragraphs.
 bibliography: sigproc.bib
 csl: acm-sig-proceedings.csl
 output: rticles::acm_article
@@ -22,7 +22,7 @@ output: rticles::acm_article
 
 # Introduction 
 
-Almost every action leaves a digital trail. Major technological shifts in the past decade have made the collection of digital evidence, such as GPS records and payment transactions, a significant tool in criminal and civil investigations[@goodison2015]. It is crucial that law enforcement agencies could use and transform the ample data into insightful information to aid their investigations. The growth in volume and variety of digital data increases the time and resources needed to analyse them. Furthermore, cases increasingly the analysis of multiple devices followed by the correlation of the found evidence.
+Almost every action leaves a digital trail. Major technological shifts in the past decade have made the collection of digital evidence, such as GPS records and payment transactions, a significant tool in criminal and civil investigations(@goodison2015). It is crucial that law enforcement agencies could use and transform the ample data into insightful information to aid their investigations. The growth in volume and variety of digital data increases the time and resources needed to analyse them. Furthermore, cases increasingly the analysis of multiple devices followed by the correlation of the found evidence.
 
 However, most law enforcement personnel lack training in data science. Without effective data analysis, investigators will struggle to find relevant information for their cases. And the results of the digital evidence analysis can be challenged in court when not well-represented.
 
@@ -111,30 +111,33 @@ In R, the visNetwork package provides the dexterity to customize the Network Gra
 The final interactive plots in the published web application, and an illustration of the potentially wide range of insights that can be gleaned from the application are briefly described below.
 
 ## ANOVA
-We demonstrate the testing of difference in mean spend across locations and credit card users using the ANOVA plot. User can select the locations of interest from the main panel after exploring the data in the ‘EDA’ tab. ‘Brew’ve Been Served’, ‘Jack’s Magical Beans’, Kalami Kafenion’ and ‘Guy’s Gyros’ are selected by default. If the univariate distributions from the histograms reveal skewedness, the user can make judgement to select a non-parametric test. The visualization automatically picks a Kruskal-Wallis test at 95% confidence level. The ANOVA results shows that there are significant differences between the spend across the locations (p <0.01). The Dunn test is the automatically selected as the post-hoc pairwise test, which displays significant comparisons on the chart. Of which, results show that ‘Brew’ve Been Served’ and ‘Guy’s Gyros’ have significantly different spend (p < 0.01). This provides evidence for the users to support the claim that these locations are of different nature.
+We demonstrate the testing of difference in mean spend across locations and credit card users using the ANOVA plot (Figure 4). User can select the locations of interest from the main panel after exploring the data in the ‘EDA’ tab. ‘Brew’ve Been Served’, ‘Jack’s Magical Beans’, Kalami Kafenion’ and ‘Guy’s Gyros’ are selected by default. If the univariate distributions from the histograms reveal skewedness, the user can make judgement to select a non-parametric test. The visualization automatically picks a Kruskal-Wallis test at 95% confidence level. The ANOVA results shows that there are significant differences between the spend across the locations (p <0.01). The Dunn test is the automatically selected as the post-hoc pairwise test, which displays significant comparisons on the chart. Of which, results show that ‘Brew’ve Been Served’ and ‘Guy’s Gyros’ have significantly different spend (p < 0.01). This provides evidence for the users to support the claim that these locations are of different nature.
 
 ![Fig 4. Interactive ANOVA. ](anova.png)
 
 ## UpSet Plot 
-Users can explore the co-location of individuals within various time windows via UpSet plot. The UpSet plot allows user to – at a glance – gather information about the number of visitors to a location and how the size varies when intersecting with other locations. For example, if a user would like to know how many of the visitors who visited the Golf Course also visited the other retailers, one can select the locations in the side panel and order the intersections by degree. The plot shows that of the 5 individuals who visited ‘Desafio Golf Course’, 1 of them also visited ‘Roberts and Sons’ and ‘Albert’s Fine Clothing’ and 2 other visited Albert’s Fine Clothing and ‘Shopper’s Delight’. The data table will dynamically display the individuals based on the selected locations to allow users to drill down into the members within each intersections.
+Users can explore the co-location of individuals within various time windows via UpSet plot. The UpSet plot allows user to – at a glance – gather information about the number of visitors to a location and how the size varies when intersecting with other locations. For example, Figure 5 shows that if a user would like to know how many of the visitors who visited the Golf Course also visited the other retailers during the whole observation period, one can select the locations in the side panel and order the intersections by degree. The plot shows that of the 5 individuals who visited ‘Desafio Golf Course’, 1 of them also visited ‘Roberts and Sons’ and ‘Albert’s Fine Clothing’ and 2 other visited Albert’s Fine Clothing and ‘Shopper’s Delight’. The data table will dynamically display the individuals based on the selected locations to allow users to drill down into the members within each intersections.
 
 ![Fig 5. Interactive UpSet Plot](upset.png)
 
 ## Heatmap Dendrogram
-From the colour intensity within the heatmap, the user can discern the frequency of visit of each staff to a location. The dendrograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered together (no surprises there) and on a few occasions, they have visited the homes of GASTech executives.
+Users can select the From the colour intensity within the heatmap (Figure 6), the user can discern the frequency of visit of each staff to a location. The dendrograms for both the row and columns cluster similar staff and locations respectively based on similarity. For example, the user would be able to tell that the movements of security staff are clustered together (no surprises there) and on a few occasions, they have visited the homes of GASTech executives.
 
 ![Fig 6. Interactive heatmap Dendrogram](heatmap.png)
 
 
 ## Spatial Map
-Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location. For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
+Users can select the date of interest and compare the routes taken by three employees from the settings on the side bar panel. From the movement lines and the table, the user can see the path taken by the employees, locations visited, and duration stayed in each visited location (Figure 7). For example, the user would be able to tell that Drill Technician Elsa (blue dashed line) and Brand (red dotted line) frequent the same locations together, and that Drill Technician Isande (black solid line) drove in a wayward manner
+
 ![Fig 7. Interactive Spatial Map.](spatial.png)
 
 
 ## Network Graph
-Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. In addition, inferential statistics analysis is done when the user selects eigen and degree analysis. This highlights the important and popular relationships respectively within the POI’s network. Important relationships include nodes that have few but well-connected connections. The node colours fade in tandem with relationship importance. Popular relationships are nodes with many connections.  
+Thicker lines and nodes clustered close to each other indicate popular locations and closer relationships. Selecting a node highlights immediate relationships, from which the user can further explore secondary relationships and connection paths. Users can seek out specific networks by searching credit card, loyalty card and location POI. Selecting a POI fleshes out related nodes within the network. This would provide a sense of informal relationships within a network by location. 
 
-![Fig 8. Interactive Network Graph.](network.png)
+In addition, inferential statistics analysis is done when the user selects eigen and degree analysis. This highlights the important and popular relationships respectively within the POI’s network. Important relationships include nodes that have few but well-connected connections. The node colours fade in tandem with relationship importance. Popular relationships are nodes with many connections.  
+
+![Fig 7. Interactive Network Graph.](vis.png)
 
 # Future Work
 The interactivity and analytical features of FIA prototype can be further enhanced. As digital data from different devices can be represented in different formats, there is a need to guide users on the steps to process the raw data files. The application could provide users an interface to upload, clean and step-by-step guide to transform data files into appropriate format for each visualization.
@@ -230,5 +233,4 @@ references:
   publisher: Springer
   issued:
     year: 2013
-
 ...

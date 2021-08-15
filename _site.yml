@@ -11,8 +11,6 @@ navbar:
       href: poster/VAposter.pdf
     - text: "Research Paper"
       href: journal/journal.pdf
-    #- text: "Research Paper"
-      #href: research_paper.html
     - text: "Application With Guide"
       href: app_guide.html
       
